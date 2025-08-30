@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User account</title>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="css/user-account-styles.css">
+</head>
+<body class="d-flex flex-column justify-content-center align-items-center">
+    <div id="container">
+        <div id="bg-card-img"></div>
+        
+        <div id="profile-display">
+            <div class="profile-grid">
+                <div class="d-flex flex-column justify-content-center gap-2 fade-in">
+                    <label for="select-file-input" class="img-perfil d-flex justify-content-center align-items-center">
+                        <img src="imgs/profile-img-default.jpg"
+                             alt="Perfil sem foto" id="profile-image">
+
+                        <p id="change-img-msg" class="text-center">
+                            Mudar foto de perfil
+                        </p>
+                    </label>
+
+                    <input onchange="manipulateFile(event)" id="select-file-input" type="file" accept="image/*" style="display: none;">
+
+                    <h3 id="account-name" class="text-center">
+                        Juliana
+                    </h3>
+                </div>
+            
+                <div id="bio-descryption" class="d-flex flex-column bg-white gap-3 fade-in">
+                    <div class="bio-item">
+                        <p>Nome:</p>
+                        <h5 id="name-profile" class="profile-info"></h5>
+                        <input 
+                            type="text" 
+                            id="new-name" 
+                            class="edit-input"
+                            placeholder="Digite um novo nome"
+                        >
+                    </div>                    
+                    <div class="bio-item">
+                        <p>Email: </p>
+                        <h5 id="email-profile" class="profile-info"></h5>
+                        <input 
+                            type="text" 
+                            id="new-email" 
+                            class="edit-input"
+                            placeholder="Digite um novo email"
+                        >
+                    </div>                    
+                    <div class="bio-item">
+                        <p>Senha: </p>
+
+                        <div class="d-flex align-items-center gap-1">
+                            <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
+                            
+                            <!-- <label onclick="passwordVisible()">
+                                <i id="visible-icon" class="fa-solid fa-eye"></i>
+                                <i id="not-visible-icon" class="fa-solid fa-eye-slash" style="display: none;"></i>
+                            </label>    -->
+                        </div>
+
+                        <input 
+                            type="text" 
+                            id="new-password" 
+                            class="edit-input"
+                            placeholder="Digite sua nova senha"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <div id="account-options" class="d-flex flex-column gap-3 active">
+                    <div id="row-buttons" class="d-flex justify-content-between gap-3">
+                        <button onclick="toggleEditOption()" class="btn btn-light fade-in">
+                            Editar informações
+                        </button>
+                        <button onclick="openSettings()" class="btn btn-light fade-in">
+                            Configurações
+                        </button>
+                    </div>
+
+                    <button onclick="logout()" class="btn btn-light fade-in-medium">
+                        Sair da conta
+                    </button>
+                </div>
+                <div id="edit-options" class="d-flex flex-column gap-3">
+                    <button onclick="saveChanges()" class="edit-btn btn btn-light fade-in">
+                        Salvar Alterações
+                    </button>
+                    <button onclick="toggleEditOption()" class="btn btn-light fade-in">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings">
+        <button id="close-settings" class="btn p-0">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="themes-grid">
+            <div class="header-settings">
+                <h3>Select Theme</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit non recusandae.
+                </p>
+            </div>
+
+            <!-- Themes section -->
+            <div class="d-flex justify-content-between flex-wrap gap-4">
+                <div class="theme-box selected">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+
+                <div class="theme-box ">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+
+                <div class="theme-box ">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+
+                <div class="theme-box">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+
+                <div class="theme-box ">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+
+                <div class="theme-box ">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete account section -->
+        <div id="account-settings" class="mt-5">
+            <div class="header-settings">
+                <h3>Conta</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                </p>
+            </div>
+
+            <button onclick="removeAccount()" class="btn btn-dark">
+                Excluir conta
+            </button>
+        </div>
+    </div>
+    
+    <script src="./js/user-account.js"></script>
+</body>
+</html>

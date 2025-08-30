@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Register page</title>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Link CSS -->
+     <link rel="stylesheet" href="css/index-styles.css">
+</head>
+<body class="d-flex justify-content-center align-items-center">
+    <div id="main-container" class="">
+        <div id="auth-forms">
+            <div id="login-container" class="active">
+                <div class="header-form text-center">
+                    <h2>Login</h2>
+                    <p class="mb-0">
+                        Please enter your login details in log in.
+                    </p>
+                </div>
+            
+                <div class="inputs d-flex flex-column">
+                    <div class="input-item">
+                        <input 
+                            type="text" 
+                            id="login-email" 
+                            class="input-login"
+                            placeholder="Seu Email"
+                        >
+                        <img class="input-icon" src="imgs/user.png" alt="User icon">
+                    </div>
+    
+                    <div class="input-item">
+                        <input 
+                            type="text" 
+                            id="login-password" 
+                            class="input-login"
+                            placeholder="Sua Senha"
+                        >
+                        <img class="input-icon" src="imgs/lock.png" alt="Lock icon">
+                    </div>
+
+                    <button id="forgot-password">
+                        Forgot password?
+                    </button>
+                </div>
+
+                <button onclick="login()" id="submit-login" class="btn btn-light mb-2">
+                    Login
+                </button>
+
+                <div class="toggle-form-text d-flex justify-content-center gap-1">
+                    <p class="mb-0">Don’t have an account?</p>
+
+                    <button onclick="toggleAuthForm('register')" class="btn-auth-form">Sign up</button>
+                </div>
+            </div>
+            
+            <div id="register-container" class="hidden">
+                <div class="header-form text-center">
+                    <h2>Register</h2>
+                    <p class="mb-0">
+                        Lorem, ipsum dolor sit amet beatae, qun.
+                    </p>
+                </div>
+                
+                <div class="inputs d-flex flex-column">
+                    <div class="input-item">
+                        <div id="user-name-error" class="input-error"></div>
+
+                        <input 
+                            type="text" 
+                            id="register-user-name" 
+                            class="input-register"
+                            placeholder="Seu Nome de Usuário"
+                        >
+                        <img id="user-name-img" class="input-icon" src="imgs/user.png" alt="User icon">
+                    </div>
+                    
+                    <div class="input-item">
+                        <div id="email-error" class="input-error"></div>
+
+                        <input 
+                            type="email" 
+                            id="register-email" 
+                            class="input-register"
+                            placeholder="Seu Email"
+                        >
+                        <img id="email-img" class="input-icon" src="imgs/email.png" alt="Email icon" style="top: 16px;">
+                    </div>
+                    
+                    <div class="input-item" style="position: relative;">
+                        <div id="password-message" class="input-error"></div>
+
+                        <input 
+                            type="password" 
+                            id="register-password" 
+                            class="input-register"
+                            placeholder="Crie sua senha"
+                        >
+                        <img id="password-img" class="input-icon" src="imgs/lock.png" alt="Lock icon">
+                        
+                        <label onclick="passwordVisible()">
+                            <i id="visible-icon" class="fa-solid fa-eye"></i>
+                            <i id="not-visible-icon" class="fa-solid fa-eye-slash" style="display: none;"></i>
+                        </label>
+                        
+                        <ul id="validation" class="p-0">
+                            <li id="lenght" class="default">
+                                <i class="fa-solid fa-lock"></i> Pelo menos 8 caracteres
+                            </li>
+                            <li id="number" class="default">
+                                <i class="fa-solid fa-lock"></i> Pelo menos 1 número
+                            </li>
+                            <li id="uppercase" class="default">
+                                <i class="fa-solid fa-lock"></i> Pelo menos 1 letra maiúscula
+                            </li>
+                            <li id="symbol" class="default">
+                                <i class="fa-solid fa-lock"></i> Pelo menos 1 símbolo (ex: !, @, #, $, %...)
+                            </li>
+                        </ul>
+                    </div>    
+                </div>
+
+                <button onclick="register()" id="submit-register" class="btn btn-light m-0">
+                    Criar conta
+                </button>
+
+                <div class="toggle-form-text d-flex justify-content-center gap-1">
+                    <p class="mb-0">Already have an account?</p>
+
+                    <button onclick="toggleAuthForm('login')" class="btn-auth-form">
+                        Log in
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <img id="cover-img">
+            <img id="florest-cover-lg" src="imgs/florest-cover-5.png" alt="florest">
+            <img id="florest-cover-md" src="imgs/florest-cover-md.png" alt="florest">
+            <img id="florest-cover-mobile" src="imgs/florest-cover-mobile.png" alt="florest">
+        </img>
+    </div>
+
+    <!-- <div id="error-pop-ups">
+        <div class="error-card">
+
+        </div>
+    </div> -->
+
+    <script src="js/index.js"></script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto } from './user.dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { notContains } from 'class-validator';
 
 @Injectable()
 export class UserService {

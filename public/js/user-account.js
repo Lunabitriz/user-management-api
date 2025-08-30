@@ -9,6 +9,10 @@ function toggleEditOption() {
     accountOptions.classList.toggle('active', !isEditing);
 
     profileInfo.forEach(p => p.style.display = isEditing ? 'none' : 'block');
+
+    document.querySelectorAll('.edit-input').forEach(input => {
+        input.value = "";
+    });
 }
 
 function openSettings() {

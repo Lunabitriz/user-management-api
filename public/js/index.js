@@ -5,6 +5,7 @@ function toggleAuthForm(form) {
     const loginInputs = document.querySelectorAll('.input-login');
     const registerInputs = document.querySelectorAll('.input-register');
 
+
     if(form === 'login') {
         loginForm.classList.add('active');
         loginForm.classList.remove('hidden');
@@ -17,6 +18,17 @@ function toggleAuthForm(form) {
         registerForm.classList.add('active');
         registerForm.classList.remove('hidden');
         loginInputs.forEach(input => input.value = '');
+
+        document.querySelectorAll('.input-error').forEach(msg => {
+            msg.innerHTML = '';
+        });
+
+        document.querySelectorAll('.input-register').forEach(input => {
+            input.style.border = '1px solid #d4d4d4';
+        });
+
+        document.getElementById('validation').classList.remove('show');
+        document.getElementById('validation').style.display = 'none';
     }
 }
 
@@ -45,7 +57,7 @@ function passwordVisible() {
 
 const passwordInput = document.getElementById('register-password');
 
-['keyup', 'blur'].forEach(event => {
+['keypress', 'blur'].forEach(event => {
     passwordInput.addEventListener(event, validatePassword);
 });
 
@@ -89,9 +101,10 @@ function validatePassword(event) {
         `;
         showValidations();
     } else {
-        // passwordInput.style.border = '1px solid #85D6A5';
+        passwordInput.style.border = '1px solid #85D6A5';
         passwordInput.style.backgroundColor = '#fff';
         document.getElementById('validation').classList.remove('show');
+        message.innerHTML = "";
     }
 }
 
@@ -126,7 +139,7 @@ function validateUserName(event) {
 
     let value = event.target.value;
     
-    if(value.length < 5) {
+    if(value.length < 6) {
         userNameInput.style.border = '1px solid #FF7070';
         message.innerHTML = `
             <i class="fa-solid fa-circle-exclamation"></i>
@@ -159,18 +172,18 @@ async function login() {
             },
             body: JSON.stringify({ email, senha })
         })
-    
+
         if(response.ok) {
             confirm('Login efetuado com sucesso!');
             const result = await response.json();
 
-            // revisar
             localStorage.setItem('userId', result.userFind.id);
             localStorage.setItem('userName', result.userFind.nome);
             localStorage.setItem('userEmail', result.userFind.email);
             localStorage.setItem('userPhoto', result.userFind.fotoPerfil);
 
             window.location.href = 'user-account.html';
+            
         } else {
             alert('Erro ao fazer login!');
         }

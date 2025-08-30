@@ -51,6 +51,10 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
+document.getElementById('forgot-password').addEventListener('click', () => {
+    showNotification('Função ainda será implementada!', 'warning')
+})
+
 // Show password validations
 function showValidations() {
     document.getElementById('validation').classList.add('show');
@@ -191,7 +195,7 @@ async function login() {
         })
 
         if(response.ok) {
-            showNotification('Login efetuado com sucesso!');
+            showNotification('Login efetuado com sucesso!', 'success');
             const result = await response.json();
 
             localStorage.setItem('userId', result.userFind.id);
@@ -202,10 +206,10 @@ async function login() {
             window.location.href = 'user-account.html';
             
         } else {
-            showNotification('Erro ao fazer login!');
+            showNotification('Erro ao fazer login!', 'warning');
         }
     } catch(error) {
-        showNotification('Erro ao accesar banco de dados!');
+        showNotification('Erro ao accesar banco de dados!', 'danger');
     }            
 }
 
@@ -224,8 +228,8 @@ async function register() {
     })
     
     if(response.ok) {
-        showNotification('Usuário cadastrado com sucesso!');
+        showNotification('Usuário cadastrado com sucesso!', 'success');
     } else {
-        showNotification('Erro ao cadastrar usuário.');
+        showNotification('Erro ao cadastrar usuário.', 'danger');
     }
 }

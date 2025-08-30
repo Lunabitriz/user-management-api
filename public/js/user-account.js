@@ -34,6 +34,12 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
+document.querySelectorAll('.theme-box').forEach(theme => {
+    theme.addEventListener('click', () => {
+        showNotification('Função ainda será implementada', 'warning');
+    })
+})
+
 function openSettings() {
     document.getElementById('settings').style.display = 'block';
     document.getElementById('container').style.display = 'none';

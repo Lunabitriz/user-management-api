@@ -32,6 +32,25 @@ function toggleAuthForm(form) {
     }
 }
 
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if(notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
 // Show password validations
 function showValidations() {
     document.getElementById('validation').classList.add('show');
@@ -89,7 +108,6 @@ function validatePassword(event) {
     lengthAuth.classList.toggle('valid', value.length >= 8);
     upperCaseAuth.classList.toggle('valid', upperCaseRegex);
 
-
     if(!(value.length >= 8) || !numberRegex || !symbolRegex || !upperCaseRegex) {
         passwordInput.style.border = '1px solid #F3D1CE';                    
         message.innerHTML = `
@@ -128,7 +146,6 @@ function validateEmail(event) {
         emailInput.style.border = '1px solid #85D6A5';
         message.innerHTML = '';       
     }
-
 }
 
 // User Name validation
@@ -174,7 +191,7 @@ async function login() {
         })
 
         if(response.ok) {
-            confirm('Login efetuado com sucesso!');
+            showNotification('Login efetuado com sucesso!');
             const result = await response.json();
 
             localStorage.setItem('userId', result.userFind.id);
@@ -185,10 +202,10 @@ async function login() {
             window.location.href = 'user-account.html';
             
         } else {
-            alert('Erro ao fazer login!');
+            showNotification('Erro ao fazer login!');
         }
     } catch(error) {
-        alert('Erro ao accesar banco de dados!');
+        showNotification('Erro ao accesar banco de dados!');
     }            
 }
 
@@ -207,8 +224,8 @@ async function register() {
     })
     
     if(response.ok) {
-        alert('Usuário cadastrado com sucesso!');
+        showNotification('Usuário cadastrado com sucesso!');
     } else {
-        alert('Erro ao cadastrar usuário');
+        showNotification('Erro ao cadastrar usuário.');
     }
 }

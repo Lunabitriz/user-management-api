@@ -15,6 +15,25 @@ function toggleEditOption() {
     });
 }
 
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if(notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
 function openSettings() {
     document.getElementById('settings').style.display = 'block';
     document.getElementById('container').style.display = 'none';
@@ -100,15 +119,20 @@ async function saveChanges() {
     const newEmail = document.getElementById('new-email').value;
     const newPassword = document.getElementById('new-password').value;
 
+    if(!newName.trim() || !newEmail.trim() || !newPassword.trim()) {
+        alert('Insira dados válidos para atualizar!');
+        return;
+    }
+
     const userId = localStorage.getItem('userId');
 
     const updateData = {
         id: parseInt(userId)
     };
 
-    if(newName.trim()) updateData.nome = newName.trim();
-    if(newEmail.trim()) updateData.email = newEmail.trim();
-    if(newPassword.trim()) updateData.senha = newPassword.trim();
+    updateData.nome = newName.trim();
+    updateData.email = newEmail.trim();
+    updateData.senha = newPassword.trim();
 
     const response = await fetch('http://localhost:3000/user', {
         method: 'PUT',
@@ -151,10 +175,9 @@ async function removeAccount() {
         localStorage.removeItem('userName');
         localStorage.removeItem('userEmail');
         
-        alert('Perfil deletado com sucesso!');
-        window.location.href = '/index.html';
+        showNotification('Perfil deletado com sucesso!');
     } else {
-        alert('Erro ao deletar seu perfil!');
+        showNotification('Erro ao deletar seu perfil!');
     }
 }
 
@@ -165,8 +188,11 @@ async function loadUserData() {
     const userPhoto = localStorage.getItem('userPhoto');
 
     if(!userId || !userName || !userEmail) {
-        alert('Usuário não identificado. Faça login novamente!');
-        return;
+        alert('Usuário não identificado. Direcionando para a tela de login!');
+
+        setTimeout(() => {
+            window.location = 'index.html';
+        }, 500);
     }
 
     document.getElementById('account-name').innerText = userName

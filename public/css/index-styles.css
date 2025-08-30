@@ -194,6 +194,10 @@ ul {
     color: green !important;
 }
 
+.fade {
+    animation: fade .3s ease-in-out;
+}
+
 /* Page animations */
 @keyframes fade {
     from {

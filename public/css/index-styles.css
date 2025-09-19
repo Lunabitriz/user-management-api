@@ -125,6 +125,20 @@ ul {
     margin-left: 2px;
 }
 
+.remember-me-container label {
+    color: #757575;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#remember-me {
+    accent-color: #F5903D;
+}
+
+#remember-me:focus {
+    box-shadow: none;
+}
+
 #forgot-password {
     margin-top: -24px;
     align-self: flex-end;
@@ -137,6 +151,13 @@ ul {
     font-weight: 500;
     width: fit-content;
     background-color: transparent;
+    transition: all .2s ease;
+}
+
+.btn-auth-form:hover, 
+#forgot-password:hover {
+    color: #D5660B;
+    transform: scale(1.01);
 }
 
 #submit-register, 

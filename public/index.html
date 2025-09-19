@@ -31,6 +31,8 @@
                             type="text" 
                             id="login-email" 
                             class="input-login"
+                            name="username"
+                            autocomplete="username"
                             placeholder="Seu Email"
                         >
                         <img class="input-icon" src="imgs/user.png" alt="User icon">
@@ -41,21 +43,29 @@
                             type="text" 
                             id="login-password" 
                             class="input-login"
+                            name="password"
+                            autocomplete="current-password"
                             placeholder="Sua Senha"
                         >
                         <img class="input-icon" src="imgs/lock.png" alt="Lock icon">
                     </div>
-
-                    <button id="forgot-password">
-                        Forgot password?
-                    </button>
+                    
+                    <div class="more-actions d-flex justify-content-between">
+                        <div class="remember-me-container d-flex" style="gap: 5px;">
+                            <input id="remember-me" type="checkbox">
+                            <label for="remember-me">Remember-me</label>
+                        </div>
+                        <button id="forgot-password">
+                            Forgot password?
+                        </button>
+                    </div>
                 </div>
 
                 <button onclick="login()" id="submit-login" class="btn btn-light mb-2">
                     Login
                 </button>
 
-                <div class="toggle-form-text d-flex justify-content-center gap-1">
+                <div class="toggle-form-text d-flex justify-content-center">
                     <p class="mb-0">Don’t have an account?</p>
 
                     <button onclick="toggleAuthForm('register')" class="btn-auth-form">Sign up</button>
@@ -155,6 +165,7 @@
         </div>
     </div> -->
 
+    <script src="./js/utilities.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

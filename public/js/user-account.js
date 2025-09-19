@@ -1,8 +1,8 @@
 function toggleEditOption() {
     const bioDescryption = document.getElementById('bio-descryption');
     const accountOptions = document.getElementById('account-options');
-    const editOptions = document.getElementById('edit-options');
     const profileInfo = document.querySelectorAll('.profile-info');
+    const editOptions = document.getElementById('edit-options');
 
     const isEditing = bioDescryption.classList.toggle('active');
     editOptions.classList.toggle('active', isEditing)
@@ -13,25 +13,12 @@ function toggleEditOption() {
     document.querySelectorAll('.edit-input').forEach(input => {
         input.value = "";
     });
-}
 
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
+    resetInfoDisplay();
 
-    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    notification.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        if(notification.parentNode) {
-            notification.remove();
-        }
-    }, 5000);
+    if(!isEditing) {
+        showNotification('Edição cancelada com sucesso!', 'success');
+    }
 }
 
 document.querySelectorAll('.theme-box').forEach(theme => {
@@ -52,6 +39,34 @@ document.getElementById('close-settings').addEventListener('click', () => {
     document.body.classList.remove('shadow-active');
 });
 
+function resetInfoDisplay() {
+    const inputPassword = document.getElementById('new-password');
+    const profilePassword = document.getElementById('password-profile');
+    const invisibleIcon = document.getElementById('not-visible-icon');
+    const visibleIcon = document.getElementById('visible-icon');
+
+    // Reseta os valores ao padrão
+    inputPassword.type = 'password';
+    visibleIcon.style.display = 'flex';
+    invisibleIcon.style.display = 'none';
+    profilePassword.innerText = '••••••••';
+}
+
+function passwordVisible() {
+    const isEditable = document.getElementById('bio-descryption').classList.contains('active');
+    const inputPassword = document.getElementById('new-password');
+    const profilePassword = document.getElementById('password-profile');
+    const invisibleIcon = document.getElementById('not-visible-icon').style;
+    const visibleIcon = document.getElementById('visible-icon').style;
+
+    const userPassword = localStorage.getItem('userPassword');
+
+    invisibleIcon.display =     (visibleIcon.display === 'flex') ? 'flex' : 'none';
+    visibleIcon.display =       (visibleIcon.display === 'flex') ? 'none' : 'flex';
+    inputPassword.type =        (isEditable && visibleIcon.display === 'flex') ? 'password' : 'text';
+    profilePassword.innerText = (!isEditable && invisibleIcon.display === 'flex') ? userPassword : '••••••••';
+}
+
 function convertToBase64(file) {
     return new Promise((resolve, reject) => {
         const fileRead = new FileReader();                
@@ -67,12 +82,12 @@ async function manipulateFile(event) {
     if(file) {
         try {
             if(!file.type.startsWith('image/')) {
-                alert('Selecione uma imagem, por favor!');
+                showNotification('Selecione uma imagem, por favor!', 'warning');
                 return;
             }
 
             if(file.size > 5 * 1024 * 1024) {
-                alert('Selecione uma imagem menor, por favor!');
+                showNotification('Selecione uma imagem menor, por favor!', 'warning');
                 return;
             }
 
@@ -84,7 +99,7 @@ async function manipulateFile(event) {
             document.getElementById('profile-image').src = fileConverted;
             localStorage.setItem('userPhoto', fileConverted);
         } catch(error) {
-            alert('Erro ao processar imagem.');
+            showNotification('Erro ao processar imagem.', 'danger');
         }
     }
 }
@@ -103,9 +118,9 @@ async function saveProfilePhoto(file) {
     });
 
     if(response.ok) {
-        alert('Imagem salva no banco com sucesso!');
+        showNotification('Imagem salva no banco com sucesso!', 'success');
     } else {
-        alert('Erro ao carregar imagem para o banco.');
+        showNotification('Erro ao carregar imagem para o banco.', 'danger');
     }
 }
 
@@ -126,7 +141,7 @@ async function saveChanges() {
     const newPassword = document.getElementById('new-password').value;
 
     if(!newName.trim() || !newEmail.trim() || !newPassword.trim()) {
-        alert('Insira dados válidos para atualizar!');
+        showNotification('Insira dados válidos para atualizar!', 'warning');
         return;
     }
 
@@ -149,9 +164,9 @@ async function saveChanges() {
     });
 
     if(response.ok) {
-        alert('Usuário atualizado com sucesso!');
+        showNotification('Usuário atualizado com sucesso!', 'success');
     } else {
-        alert('Erro ao atualizar usuário.');
+        showNotification('Erro ao atualizar usuário.', 'danger');
     }
 }
 
@@ -165,7 +180,7 @@ async function removeAccount() {
     const userId = localStorage.getItem('userId');
     
     if(!userId) {
-        alert('Usuário não identificado. Faça login novamente!');
+        showNotification('Usuário não identificado. Faça login novamente!', 'warning');
         return;
     }
 
@@ -181,9 +196,9 @@ async function removeAccount() {
         localStorage.removeItem('userName');
         localStorage.removeItem('userEmail');
         
-        showNotification('Perfil deletado com sucesso!');
+        showNotification('Perfil deletado com sucesso!', 'success');
     } else {
-        showNotification('Erro ao deletar seu perfil!');
+        showNotification('Erro ao deletar seu perfil!', 'danger');
     }
 }
 
@@ -194,7 +209,7 @@ async function loadUserData() {
     const userPhoto = localStorage.getItem('userPhoto');
 
     if(!userId || !userName || !userEmail) {
-        alert('Usuário não identificado. Direcionando para a tela de login!');
+        showNotification('Usuário não identificado. Direcionando para a tela de login!', 'warning');
 
         setTimeout(() => {
             window.location = 'index.html';

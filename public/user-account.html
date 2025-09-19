@@ -56,7 +56,8 @@
                             type="text" 
                             id="new-email" 
                             class="edit-input"
-                            autocomplete="off"
+                            name="username"
+                            autocomplete="username"
                             placeholder="Digite um novo email"
                         >
                     </div>                    
@@ -66,14 +67,14 @@
                         <div class="d-flex align-items-center gap-1">
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
                             
-                            <!-- <label onclick="passwordVisible()">
+                            <label onclick="passwordVisible()">
                                 <i id="visible-icon" class="fa-solid fa-eye"></i>
                                 <i id="not-visible-icon" class="fa-solid fa-eye-slash" style="display: none;"></i>
-                            </label>    -->
+                            </label>   
                         </div>
 
                         <input 
-                            type="text" 
+                            type="password" 
                             id="new-password" 
                             class="edit-input"
                             autocomplete="off"
@@ -202,6 +203,7 @@
         </div>
     </div>
     
+    <script src="./js/utilities.js"></script>
     <script src="./js/user-account.js"></script>
 </body>
 </html>

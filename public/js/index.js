@@ -2,6 +2,7 @@
 function toggleAuthForm(form) {
     const loginForm = document.getElementById('login-container');
     const registerForm = document.getElementById('register-container');
+    const rememberMe = document.getElementById('remember-me');
     const loginInputs = document.querySelectorAll('.input-login');
     const registerInputs = document.querySelectorAll('.input-register');
 
@@ -18,6 +19,7 @@ function toggleAuthForm(form) {
         registerForm.classList.add('active');
         registerForm.classList.remove('hidden');
         loginInputs.forEach(input => input.value = '');
+        rememberMe.checked = false;
 
         document.querySelectorAll('.input-error').forEach(msg => {
             msg.innerHTML = '';
@@ -30,25 +32,6 @@ function toggleAuthForm(form) {
         document.getElementById('validation').classList.remove('show');
         document.getElementById('validation').style.display = 'none';
     }
-}
-
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-
-    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    notification.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        if(notification.parentNode) {
-            notification.remove();
-        }
-    }, 5000);
 }
 
 document.getElementById('forgot-password').addEventListener('click', () => {
@@ -171,19 +154,14 @@ function validateUserName(event) {
         `;           
     } else {
         userNameInput.style.border = '1px solid #85D6A5';
-        message.innerHTML = '';                    
-        // message.innerHTML = `
-        //     <span class="valid-message" style="color: #75BD75;">
-        //         Nome de usuário válido.
-        //     </span>
-        // `;           
+        message.innerHTML = '';    
     }
 }
 
 // Login function
 async function login() {
-    const email = document.getElementById('login-email').value;
-    const senha = document.getElementById('login-password').value;
+    let email = document.getElementById('login-email').value;
+    let senha = document.getElementById('login-password').value;
 
     try {
         const response = await fetch('http://localhost:3000/user/login', {
@@ -198,10 +176,16 @@ async function login() {
             showNotification('Login efetuado com sucesso!', 'success');
             const result = await response.json();
 
+            // Saves data to localStorage
             localStorage.setItem('userId', result.userFind.id);
             localStorage.setItem('userName', result.userFind.nome);
             localStorage.setItem('userEmail', result.userFind.email);
             localStorage.setItem('userPhoto', result.userFind.fotoPerfil);
+            localStorage.setItem('userPassword', result.userFind.senha);  // Sim... Eu fiz HAHAHAHKKK 
+            
+            // Clear the input fields
+            email = '';
+            senha = '';
 
             window.location.href = 'user-account.html';
             

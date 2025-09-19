@@ -61,18 +61,18 @@
                             placeholder="Digite um novo email"
                         >
                     </div>                    
-                    <div class="bio-item">
+                    <div class="bio-item position-relative">
                         <p>Senha: </p>
 
                         <div class="d-flex align-items-center gap-1">
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
                             
-                            <label onclick="passwordVisible()">
+                            <label id="password-visibility" onclick="passwordVisible()" style="display: none;">
                                 <i id="visible-icon" class="fa-solid fa-eye"></i>
                                 <i id="not-visible-icon" class="fa-solid fa-eye-slash" style="display: none;"></i>
                             </label>   
                         </div>
-
+                        
                         <input 
                             type="password" 
                             id="new-password" 

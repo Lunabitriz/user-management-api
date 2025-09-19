@@ -181,7 +181,6 @@ async function login() {
             localStorage.setItem('userName', result.userFind.nome);
             localStorage.setItem('userEmail', result.userFind.email);
             localStorage.setItem('userPhoto', result.userFind.fotoPerfil);
-            localStorage.setItem('userPassword', result.userFind.senha);  // Sim... Eu fiz HAHAHAHKKK 
             
             // Clear the input fields
             email = '';

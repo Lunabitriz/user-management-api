@@ -103,6 +103,12 @@ body {
     z-index: 400;
 }
 
+#password-visibility {
+    position: absolute;
+    top: 48px;
+    right: 8px;
+}
+
 .profile-info {
     font-size: 18px;
     font-weight: 600;

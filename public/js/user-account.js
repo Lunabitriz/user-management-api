@@ -1,25 +1,29 @@
 function toggleEditOption() {
     const bioDescryption = document.getElementById('bio-descryption');
+    const visibilityIcon = document.getElementById('password-visibility');
     const accountOptions = document.getElementById('account-options');
     const profileInfo = document.querySelectorAll('.profile-info');
     const editOptions = document.getElementById('edit-options');
 
     const isEditing = bioDescryption.classList.toggle('active');
-    editOptions.classList.toggle('active', isEditing)
     accountOptions.classList.toggle('active', !isEditing);
-
+    editOptions.classList.toggle('active', isEditing)
+    
     profileInfo.forEach(p => p.style.display = isEditing ? 'none' : 'block');
+    visibilityIcon.style.display = isEditing ? 'flex' : 'none'; 
 
     document.querySelectorAll('.edit-input').forEach(input => {
         input.value = "";
     });
 
-    resetInfoDisplay();
+    // resetInfoDisplay();
 
     if(!isEditing) {
         showNotification('Edição cancelada com sucesso!', 'success');
     }
 }
+
+toggleEditOption();
 
 document.querySelectorAll('.theme-box').forEach(theme => {
     theme.addEventListener('click', () => {
@@ -52,19 +56,17 @@ function resetInfoDisplay() {
     profilePassword.innerText = '••••••••';
 }
 
+// Make the password visible
 function passwordVisible() {
-    const isEditable = document.getElementById('bio-descryption').classList.contains('active');
-    const inputPassword = document.getElementById('new-password');
-    const profilePassword = document.getElementById('password-profile');
-    const invisibleIcon = document.getElementById('not-visible-icon').style;
-    const visibleIcon = document.getElementById('visible-icon').style;
+    const password = document.getElementById('new-password');
+    const notVisibleIcon = document.getElementById('not-visible-icon');
+    const visibleIcon = document.getElementById('visible-icon');
 
-    const userPassword = localStorage.getItem('userPassword');
-
-    invisibleIcon.display =     (visibleIcon.display === 'flex') ? 'flex' : 'none';
-    visibleIcon.display =       (visibleIcon.display === 'flex') ? 'none' : 'flex';
-    inputPassword.type =        (isEditable && visibleIcon.display === 'flex') ? 'password' : 'text';
-    profilePassword.innerText = (!isEditable && invisibleIcon.display === 'flex') ? userPassword : '••••••••';
+    const isVisible = visibleIcon.style.display != 'none';
+    
+    password.type = isVisible ? 'text' : 'password';
+    visibleIcon.style.display = isVisible ? 'none' : 'block';
+    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
 }
 
 function convertToBase64(file) {
@@ -91,10 +93,10 @@ async function manipulateFile(event) {
                 return;
             }
 
-            // Enviar o arquivo original para o novo endpoint
+            // Envia o arquivo original para o novo endpoint
             await saveProfilePhoto(file);
             
-            // Converter para base64 apenas para exibição na tela
+            // Converte para base64 apenas para exibição na tela
             const fileConverted = await convertToBase64(file);
             document.getElementById('profile-image').src = fileConverted;
             localStorage.setItem('userPhoto', fileConverted);
@@ -107,7 +109,7 @@ async function manipulateFile(event) {
 async function saveProfilePhoto(file) {
     const userId = parseInt(localStorage.getItem('userId'));
 
-    // Criar FormData para enviar o arquivo
+    // Cria FormData para enviar o arquivo
     const formData = new FormData();
     formData.append('foto', file);
     formData.append('id', parseInt(userId));
@@ -221,7 +223,7 @@ async function loadUserData() {
     document.getElementById('email-profile').innerText = userEmail;
     document.getElementById('password-profile').innerText = '••••••••';
 
-    document.getElementById('profile-image').src = userPhoto;
+    if(!userPhoto) document.getElementById('profile-image').src = userPhoto;
     
     document.getElementById('new-name').placeholder = userName;
     document.getElementById('new-email').placeholder = userEmail;

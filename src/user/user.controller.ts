@@ -33,7 +33,7 @@ export class UserController {
         @UploadedFile(
             new ParseFilePipe({
                 validators: [
-                    new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }), // 5MB
+                    new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
                     new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
                 ],
             }),
@@ -41,14 +41,14 @@ export class UserController {
         file: Express.Multer.File,
         @Body() data: { id: number }
     ) {
-        // Validar se o ID foi fornecido
+        // Valida se o ID foi fornecido
         if (!data.id) {
             throw new Error('ID do usuário é obrigatório');
         }
 
         data.id = Number(data.id);
 
-        // Converter o arquivo para base64
+        // Converte o arquivo para base64
         const base64 = file.buffer.toString('base64');
         const mimeType = file.mimetype;
         const fotoPerfil = `data:${mimeType};base64,${base64}`;
@@ -57,11 +57,6 @@ export class UserController {
             id: data.id,
             fotoPerfil: fotoPerfil
         });
-    }
-
-    @Get('test')
-    async test() {
-        return { message: 'Endpoint de teste funcionando!' };
     }
 
     @Delete(':id')

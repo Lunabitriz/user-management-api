@@ -1,17 +1,20 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto } from './user.dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
     constructor(private prisma: PrismaService) {}
 
     async createUser(userDto: CriarUserDto) {
+        const password = await bcrypt.hash(userDto.senha, 10);
+
         const newUser = await this.prisma.user.create({
             data: {
                 nome: userDto.nome,
                 email: userDto.email,
-                senha: userDto.senha,
+                senha: password,
                 fotoPerfil: userDto.fotoPerfil || null,
             },
             select: {
@@ -45,8 +48,10 @@ export class UserService {
         if(!userFind) {
             throw new UnauthorizedException('Email ou senha incorretos.');
         }
+
+        const isMatch = await bcrypt.compare(userFind.senha, loginUser.senha);
         
-        if(userFind.senha !== loginUser.senha) {
+        if(isMatch) {
             throw new UnauthorizedException('Senha incorreta.');
         }
 
@@ -55,7 +60,7 @@ export class UserService {
             userFind
         }
     }
-
+    
     async listUsers() {
         const userList = await this.prisma.user.findMany({
             select: {

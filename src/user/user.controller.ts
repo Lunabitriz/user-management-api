@@ -1,7 +1,8 @@
-import { Body, Controller, Post, Get, Put, Delete, Param, ParseIntPipe, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
+import { Body, Controller, Post, Get, Put, Delete, Param, ParseIntPipe, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UseGuards } from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto } from './user.dto/user.dto';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -18,16 +19,19 @@ export class UserController {
     }
 
     @Get() 
+    @UseGuards(JwtAuthGuard)
     async list() {
         return this.userService.listUsers();
     }
 
     @Put()
+    @UseGuards(JwtAuthGuard)
     async update(@Body() userDto: AtualizarUserDto) {
         return this.userService.updateUser(userDto);
     }
 
     @Post('upload-foto')
+    @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor('foto'))
     async uploadProfilePhoto(
         @UploadedFile(
@@ -60,6 +64,7 @@ export class UserController {
     }
 
     @Delete(':id')
+    @UseGuards(JwtAuthGuard)
     async delete(@Param('id', ParseIntPipe) id: number) {
         return this.userService.deleteUser(id);
     }

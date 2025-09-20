@@ -16,14 +16,12 @@ function toggleEditOption() {
         input.value = "";
     });
 
-    // resetInfoDisplay();
+    resetInfoDisplay();
 
     if(!isEditing) {
         showNotification('Edição cancelada com sucesso!', 'success');
     }
 }
-
-toggleEditOption();
 
 document.querySelectorAll('.theme-box').forEach(theme => {
     theme.addEventListener('click', () => {
@@ -45,22 +43,20 @@ document.getElementById('close-settings').addEventListener('click', () => {
 
 function resetInfoDisplay() {
     const inputPassword = document.getElementById('new-password');
-    const profilePassword = document.getElementById('password-profile');
     const invisibleIcon = document.getElementById('not-visible-icon');
     const visibleIcon = document.getElementById('visible-icon');
 
-    // Reseta os valores ao padrão
+    // Resets values to default
     inputPassword.type = 'password';
     visibleIcon.style.display = 'flex';
     invisibleIcon.style.display = 'none';
-    profilePassword.innerText = '••••••••';
 }
 
 // Make the password visible
 function passwordVisible() {
     const password = document.getElementById('new-password');
-    const notVisibleIcon = document.getElementById('not-visible-icon');
     const visibleIcon = document.getElementById('visible-icon');
+    const notVisibleIcon = document.getElementById('not-visible-icon');
 
     const isVisible = visibleIcon.style.display != 'none';
     
@@ -116,6 +112,9 @@ async function saveProfilePhoto(file) {
     
     const response = await fetch('http://localhost:3000/user/upload-foto', {
         method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
         body: formData
     });
 
@@ -157,11 +156,8 @@ async function saveChanges() {
     updateData.email = newEmail.trim();
     updateData.senha = newPassword.trim();
 
-    const response = await fetch('http://localhost:3000/user', {
+    const response = await authenticatedFetch('http://localhost:3000/user', {
         method: 'PUT',
-        headers: {
-            'content-type': 'application/json'
-        },
         body: JSON.stringify(updateData)
     });
 
@@ -186,37 +182,81 @@ async function removeAccount() {
         return;
     }
 
-    const response = await fetch(`http://localhost:3000/user/${userId}`, {
-        method: 'DELETE',
-        headers: {
-            'content-type': 'application/json'
-        }
+    const response = await authenticatedFetch(`http://localhost:3000/user/${userId}`, {
+        method: 'DELETE'
     });
 
     if(response.ok) {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userEmail');
-        
-        showNotification('Perfil deletado com sucesso!', 'success');
+        showNotification('Conta excluída com sucesso!', 'success');
+        logout();
     } else {
-        showNotification('Erro ao deletar seu perfil!', 'danger');
+        showNotification('Erro ao deletar sua conta!', 'danger');
     }
 }
 
+// Função para fazer requisições autenticadas
+async function authenticatedFetch(url, options = {}) {
+    const token = localStorage.getItem('access_token');
+    
+    if(!token) {
+        throw new Error('Token de acesso não encontrado. Faça login novamente.');
+    }
+
+    const defaultOptions = {
+        headers: {
+            'Content-Type':  'application/json',
+            'Authorization': `Bearer ${token}`,
+            ...options.headers,
+        },
+    };
+
+    const mergedOptions = { ...defaultOptions, ...options };
+    const response = await fetch(url, mergedOptions);
+    
+    // Remove os dados do localstorage quando o token estiver expirado ou inválido
+    if(response.status === 401) {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPhoto');
+        localStorage.removeItem('access_token');
+        
+        showNotification('Sessão expirada. Faça login novamente.', 'warning');
+        
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 2000);
+        
+        throw new Error('Token expirado');
+    }
+    
+    return response;
+}
+
+// Função para verificar se o usuário está autenticado
+function isAuthenticated() {
+    const token = localStorage.getItem('access_token');
+    const userId = localStorage.getItem('userId');
+    
+    return !!(token && userId);
+}
+
 async function loadUserData() {
+    // Verifica se o usuário está autenticado
+    if(!isAuthenticated()) {
+        showNotification('Usuário não autenticado. Direcionando para a tela de login!', 'warning');
+
+        setTimeout(() => {
+            window.location = 'index.html';
+        }, 650);
+
+        return;
+    }
+
     const userId = localStorage.getItem('userId');
     const userName = localStorage.getItem('userName');
     const userEmail = localStorage.getItem('userEmail');
     const userPhoto = localStorage.getItem('userPhoto');
-
-    if(!userId || !userName || !userEmail) {
-        showNotification('Usuário não identificado. Direcionando para a tela de login!', 'warning');
-
-        setTimeout(() => {
-            window.location = 'index.html';
-        }, 500);
-    }
 
     document.getElementById('account-name').innerText = userName
     document.getElementById('name-profile').innerText = userName;
@@ -230,16 +270,21 @@ async function loadUserData() {
     document.getElementById('new-password').placeholder = '••••••••';
 }
 
-async function logout() {
+async function logoutUser() {
     const confirmation = confirm('Tem certeza que deseja sair da sua conta?');
 
-    if(confirmation) {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userEmail');
+    if(confirmation) logout();
+}
 
-        window.location.href = './index.html';
-    }
+// Função para fazer logout
+function logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userPhoto');
+    
+    window.location.href = 'index.html';
 }
 
 loadUserData();

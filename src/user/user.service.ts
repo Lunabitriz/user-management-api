@@ -31,6 +31,21 @@ export class UserService {
         };
     }
 
+    async findUserByEmail(email: string) {
+        return await this.prisma.user.findUnique({
+            where: {
+                email: email
+            },
+            select: {
+                id: true,
+                nome: true,
+                email: true,
+                senha: true,
+                fotoPerfil: true,
+            }
+        });
+    }
+
     async loginUser(loginUser: UserLoginDto) {
         const userFind = await this.prisma.user.findUnique({
             where: {
@@ -49,9 +64,9 @@ export class UserService {
             throw new UnauthorizedException('Email ou senha incorretos.');
         }
 
-        const isMatch = await bcrypt.compare(userFind.senha, loginUser.senha);
+        const isMatch = await bcrypt.compare(loginUser.senha, userFind.senha);
         
-        if(isMatch) {
+        if(!isMatch) {
             throw new UnauthorizedException('Senha incorreta.');
         }
 

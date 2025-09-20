@@ -139,7 +139,6 @@ function validateEmail(event) {
 function validateUserName(event) {
     const userNameInput = document.getElementById('register-user-name');
     const message = document.getElementById('user-name-error');
-    const icon = document.getElementById('user-name-img');
 
     let value = event.target.value;
     
@@ -164,7 +163,7 @@ async function login() {
     let senha = document.getElementById('login-password').value;
 
     try {
-        const response = await fetch('http://localhost:3000/user/login', {
+        const response = await fetch('http://localhost:3000/auth/login', {
                 method: 'POST',
                 headers: {
                 'content-type': 'application/json'
@@ -176,11 +175,12 @@ async function login() {
             showNotification('Login efetuado com sucesso!', 'success');
             const result = await response.json();
 
-            // Saves data to localStorage
-            localStorage.setItem('userId', result.userFind.id);
-            localStorage.setItem('userName', result.userFind.nome);
-            localStorage.setItem('userEmail', result.userFind.email);
-            localStorage.setItem('userPhoto', result.userFind.fotoPerfil);
+            // Saves data to localStorage and the JWT token
+            localStorage.setItem('userId', result.user.id);
+            localStorage.setItem('userName', result.user.nome);
+            localStorage.setItem('userEmail', result.user.email);
+            localStorage.setItem('userPhoto', result.user.fotoPerfil);
+            localStorage.setItem('access_token', result.access_token);
             
             // Clear the input fields
             email = '';
@@ -198,8 +198,8 @@ async function login() {
 
 // Register function
 async function register() {
-    const nome = document.getElementById('register-user-name').value;
     const email = document.getElementById('register-email').value;
+    const nome = document.getElementById('register-user-name').value;
     const senha = document.getElementById('register-password').value;
     
     const response = await fetch('http://localhost:3000/user', {

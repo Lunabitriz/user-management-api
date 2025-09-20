@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { CriarUserDto, AtualizarUserDto, UserLoginDto } from './user.dto/user.dto';
+import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 
@@ -93,6 +93,23 @@ export class UserService {
         return userList;
     }
 
+    // async findUserMail(userDto: UserMailDto) {
+    //     const userFind = await this.prisma.user.findUnique({
+    //         where: {
+    //             email: userDto.email
+    //         }
+    //     })
+
+    //     if(!userFind) {
+    //         throw new NotFoundException('Usuário não encontrado!');
+    //     }
+
+    //     return {
+    //         message: 'Usuário encontrado!',
+    //         userFind
+    //     }
+    // }
+
     async updateUser(userDto: AtualizarUserDto) {
         const currentUser = await this.prisma.user.findUnique({
             where: {
@@ -125,6 +142,36 @@ export class UserService {
         return {
             message: 'Usuário atualizado com sucesso!',
             updateUser,
+        }
+    }
+
+    async forgotPassword(userDto: AtualizarUserDto) {
+        const userFind = await this.prisma.user.findUnique({
+            where: {email: userDto.email}
+        });
+
+        if(!userFind) {
+            throw new NotFoundException('Usuário não encontrado!');
+        }
+
+        const updatedUser = await this.prisma.user.update({
+            where: {
+                email: userDto.email,
+            },
+            data: {
+                senha: userFind.senha
+            },
+            select: {
+                nome: true,
+                email: true,
+                senha: true,
+                fotoPerfil: true
+            }
+        });
+
+        return {
+            message: 'Senha redefinida com sucesso!',
+            updatedUser
         }
     }
 

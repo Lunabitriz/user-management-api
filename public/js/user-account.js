@@ -263,7 +263,7 @@ async function loadUserData() {
     document.getElementById('email-profile').innerText = userEmail;
     document.getElementById('password-profile').innerText = '••••••••';
 
-    if(!userPhoto) document.getElementById('profile-image').src = userPhoto;
+    if(!!userPhoto) document.getElementById('profile-image').src = userPhoto;
     
     document.getElementById('new-name').placeholder = userName;
     document.getElementById('new-email').placeholder = userEmail;

@@ -33,6 +33,12 @@ export class UserLoginDto {
     senha: string;
 }
 
+export class UserMailDto {
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+}
+
 export class AtualizarUserDto {
     @IsNotEmpty()
     @IsNumber()

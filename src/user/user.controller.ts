@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Get, Put, Delete, Param, ParseIntPipe, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UseGuards } from '@nestjs/common';
-import { CriarUserDto, AtualizarUserDto, UserLoginDto } from './user.dto/user.dto';
+import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -24,11 +24,22 @@ export class UserController {
         return this.userService.listUsers();
     }
 
+    @Get(':email')
+    async findUserMail(@Param('email') email: string) {
+        return this.userService.findUserByEmail(email);
+    }
+
     @Put()
     @UseGuards(JwtAuthGuard)
     async update(@Body() userDto: AtualizarUserDto) {
         return this.userService.updateUser(userDto);
     }
+
+    @Put('redefine-password')
+    @UseGuards(JwtAuthGuard)
+    async updatePassword(@Body() userDto: AtualizarUserDto) {
+        return this.userService.forgotPassword(userDto);
+    }   
 
     @Post('upload-foto')
     @UseGuards(JwtAuthGuard)
@@ -46,7 +57,7 @@ export class UserController {
         @Body() data: { id: number }
     ) {
         // Valida se o ID foi fornecido
-        if (!data.id) {
+        if(!data.id) {
             throw new Error('ID do usuário é obrigatório');
         }
 

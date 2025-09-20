@@ -34,9 +34,15 @@ function toggleAuthForm(form) {
     }
 }
 
-document.getElementById('forgot-password').addEventListener('click', () => {
-    showNotification('Função ainda será implementada!', 'warning')
+const forgotPassword = document.getElementById('forgot-password');
+const rememberMe = document.getElementById('remember-me-label');
+
+[forgotPassword, rememberMe].forEach((input) => {
+    input.addEventListener('click', () => {
+        showNotification('Esta função ainda será implementada!', 'warning')
+    })
 })
+
 
 // Show password validations
 function showValidations() {

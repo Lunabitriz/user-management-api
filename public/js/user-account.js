@@ -17,15 +17,11 @@ function toggleEditOption() {
     });
 
     resetInfoDisplay();
-
-    if(!isEditing) {
-        showNotification('Edição cancelada com sucesso!', 'success');
-    }
 }
 
 document.querySelectorAll('.theme-box').forEach(theme => {
     theme.addEventListener('click', () => {
-        showNotification('Função ainda será implementada', 'warning');
+        showNotification('Esta função ainda será implementada', 'warning');
     })
 })
 

@@ -43,7 +43,6 @@ const rememberMe = document.getElementById('remember-me-label');
     })
 })
 
-
 // Show password validations
 function showValidations() {
     document.getElementById('validation').classList.add('show');

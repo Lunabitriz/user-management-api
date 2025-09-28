@@ -48,17 +48,16 @@ export class UserController {
         @UploadedFile(
             new ParseFilePipe({
                 validators: [
-                    new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
                     new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+                    new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
                 ],
             }),
         )
         file: Express.Multer.File,
         @Body() data: { id: number }
     ) {
-        // Valida se o ID foi fornecido
         if(!data.id) {
-            throw new Error('ID do usuário é obrigatório');
+            throw new Error('O ID do usuário é obrigatório');
         }
 
         data.id = Number(data.id);

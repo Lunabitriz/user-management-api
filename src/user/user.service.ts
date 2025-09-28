@@ -8,6 +8,11 @@ export class UserService {
     constructor(private prisma: PrismaService) {}
 
     async createUser(userDto: CriarUserDto) {
+        const userExists = await this.findUserByEmail(userDto.email);
+        if(userExists) {
+            throw new UnauthorizedException('Usuário já cadastrado no sistema.');
+        }
+
         const password = await bcrypt.hash(userDto.senha, 10);
 
         const newUser = await this.prisma.user.create({
@@ -93,23 +98,6 @@ export class UserService {
         return userList;
     }
 
-    // async findUserMail(userDto: UserMailDto) {
-    //     const userFind = await this.prisma.user.findUnique({
-    //         where: {
-    //             email: userDto.email
-    //         }
-    //     })
-
-    //     if(!userFind) {
-    //         throw new NotFoundException('Usuário não encontrado!');
-    //     }
-
-    //     return {
-    //         message: 'Usuário encontrado!',
-    //         userFind
-    //     }
-    // }
-
     async updateUser(userDto: AtualizarUserDto) {
         const currentUser = await this.prisma.user.findUnique({
             where: {
@@ -146,9 +134,7 @@ export class UserService {
     }
 
     async forgotPassword(userDto: AtualizarUserDto) {
-        const userFind = await this.prisma.user.findUnique({
-            where: {email: userDto.email}
-        });
+        const userFind = await this.findUserByEmail(userDto.email || "");
 
         if(!userFind) {
             throw new NotFoundException('Usuário não encontrado!');

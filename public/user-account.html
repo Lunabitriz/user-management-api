@@ -202,6 +202,128 @@
             </button>
         </div>
     </div>
+
+    <div class="d-flex gap-3">
+        <!-- Deletion Pop-up  -->
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 330px;">
+            <div class="email-ilustration">
+                <img src="./imgs/pop-ups-arts/error-icon.jpg" alt="Error image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3>Error</h3>
+                <p class="mb-0">
+                    Please enter your email to reset your password.
+                </p>
+            </div>
+            <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn text-white my-2 w-100" style="background-color: #FF5C5C;">
+                Confirm
+            </button>
+         </div>
+        
+        <!-- Success Pop-up  -->
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 330px;">
+            <div class="email-ilustration">
+                <img src="./imgs/pop-ups-arts/success-icon.jpg" alt="Error image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3>Success!</h3>
+                <p class="mb-0">
+                    Please enter your email to reset your password.
+                </p>
+            </div>
+            <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn text-white my-2 w-100" style="background-color: #5DA271;">
+                Confirm
+            </button>
+         </div>
+
+        <!-- Database error Pop-up  -->
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 330px;">
+            <div class="email-ilustration">
+                <img src="./imgs/pop-ups-arts/error-database-icon.jpg" alt="Error image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3>Database Error!</h3>
+                <p class="mb-0">
+                    Please enter your email to reset your password.
+                </p>
+            </div>
+            <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn text-white my-2 w-100" style="background-color: #3B97E3;">
+                Confirm
+            </button>
+         </div>
+
+        <!-- Confirm deletion Pop-up  -->
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 420px;">
+            <div class="email-ilustration">
+                <img src="./imgs/pop-ups-arts/delete-icon.jpg" alt="Error image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3>Confirm Delete?</h3>
+
+                <p class="mb-0">
+                    Tem certeza que deseja excluir a sua conta?
+                </p>
+                <p class="fw-semibold mb-0">
+                    Esta ação é permanente e não pode ser desfeita.
+                </p>
+            </div>
+            <div class="d-flex justify-content-between w-100 gap-2 my-2">
+                <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn btn-light w-100">
+                    Cancel
+                </button>
+
+                <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn text-white w-100" style="background-color: #FF5C5C;">
+                    Remover Perfil
+                </button>
+            </div>
+         </div>
+
+        <!-- Confirm Edit Pop-up  -->
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 420px;">
+            <div class="email-ilustration">
+                <img src="./imgs/pop-ups-arts/edit-icon.jpg" alt="Error image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3>Salvar Alterações?</h3>
+
+                <p class="mb-0">
+                    Tem certeza que deseja sair da sua conta?
+                </p>
+            </div>
+            <div class="d-flex justify-content-between w-100 gap-2 my-2">
+                <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn btn-light w-100">
+                    Cancel
+                </button>
+
+                <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn text-white w-100" style="background-color: #F37913;">
+                    Atualizar Dados
+                </button>
+            </div>
+         </div>
+
+        <!-- Confirm Logout Pop-up  -->
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 420px;">
+            <div class="email-ilustration">
+                <img src="./imgs/pop-ups-arts/logout-icon.jpg" alt="Error image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3>Sair da sua conta?</h3>
+
+                <p class="mb-0">
+                    Tem certeza que deseja sair da sua conta?
+                </p>
+            </div>
+            <div class="d-flex justify-content-between w-100 gap-2 my-2">
+                <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn btn-light w-100">
+                    Cancel
+                </button>
+
+                <button onclick="hidePopUp('error-pop-up')" id="error-pop-up" class="btn text-white w-100" style="background-color: #F37913;">
+                    Sair da conta
+                </button>
+            </div>
+         </div>
+    </div>
     
     <script src="./js/utilities.js"></script>
     <script src="./js/user-account.js"></script>

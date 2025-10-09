@@ -5,7 +5,7 @@ document.getElementById('recovery-email').addEventListener('blur', (event) => {
 
 function validateEmail(event) {
     const emailInput = document.getElementById('recovery-email');
-    const message = document.getElementById('email-error');
+    const message = document.getElementById( 'email-error');
 
     let value = event.target.value;
 

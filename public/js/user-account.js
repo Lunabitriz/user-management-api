@@ -37,6 +37,130 @@ document.getElementById('close-settings').addEventListener('click', () => {
     document.body.classList.remove('shadow-active');
 });
 
+// Show messages pop-ups 
+function showMessagePopUp(tipo, titulo, message) {
+    // const container = document.getElementById('pop-up-container');
+
+    const container = document.createElement('div');
+    container.className = 'container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5';
+    container.style.cssText = 'width: 348px;';
+
+    container.innerHTML = `
+        <div class="email-ilustration w-100 d-flex flex-column align-items-center justify-content-center">
+            <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo}
+
+            <div class="header-form text-center">
+                <h3 class="text-center">${titulo}</h3>
+                <p class="mb-0 text-center">
+                    ${message}
+                </p>
+            </div>
+
+            <button onclick="() => {
+                hidePopUp();
+                return 1;
+                }" 
+                id="btn-confirm-message"
+                class="btn text-white my-2 w-100" style="background-color: #FF5C5C;">
+                Confirmar
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(container);
+    localStorage.setItem('popUpActive', container);
+}
+
+// Show confirm or cancel pop-ups
+function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
+    const container = document.getElementById('pop-up-container');
+
+    document.getElementById('overflow').classList.add('active');
+    let popUpColor = (tipo != 'delete') ? '#F37913' : '#FF5C5C';
+    
+    container.innerHTML = `
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 420px;">
+            <div class="${tipo}-ilustration">
+                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3 class="text-center">${titulo}</h3>
+                <p class="mb-0 text-center">
+                    ${message}
+                </p>
+            </div>
+            <div class="d-flex justify-content-between w-100 gap-2 my-2">
+                <button id="popup-cancel-btn" class="btn-popup-confirm btn btn-light w-100">
+                    Cancelar
+                </button>
+
+                <button class="btn-popup-confirm btn text-white w-100" style="background-color: ${popUpColor};">
+                    ${ctaBtn}
+                </button>
+            </div>
+         </div>
+    `;
+
+    document.querySelectorAll("#pop-up-container .btn-popup-confirm").forEach(btn => {
+        btn.addEventListener('click', () => {
+            handleConfirmationOptions(tipo, btn.id);
+        });
+    })
+}
+
+// Utilitie function to handle pop-up options
+function handleConfirmationOptions(tipo, btnValue) {
+    if(btnValue === 'popup-cancel-btn') {
+        hidePopUp();
+        return;
+    }
+
+    if(tipo == 'edit') {
+        saveChanges();
+    } else if(tipo == 'logout') {
+        logout();
+    } else if(tipo == 'delete'){
+        removeAccount();
+    }
+}
+
+// Show pop-up for save edited changes
+document.getElementById('save-changes-btn').addEventListener('click', () => {
+    showConfirmationPopUP(
+        'edit', 
+        'Salvar alterações?', 
+        'Tem certeza que deseja atualizar seus dados?',
+        'Salvar alterações'
+    );
+});
+
+// Show pop-up for account remove
+document.getElementById('remove-account-btn').addEventListener('click', () => {
+    showConfirmationPopUP(
+        'delete', 
+        'Excluir Perfil?', 
+        'Tem certeza que deseja excluir a sua conta?<strong>Esta ação é permanente e não pode ser desfeita.</strong>', 
+        'Excluir perfil'
+    ); 
+});
+
+// Show pop-up for logout
+document.getElementById('logout-btn').addEventListener('click', () => {
+    showConfirmationPopUP(
+        'logout',
+        'Sair do Perfil?',
+        'Tem certeza que deseja sair da sua conta?',
+        'Sair do Perfil'
+    );
+});
+
+// Function for hidden pop-up
+function hidePopUp() {
+    document.getElementById('pop-up-container').innerHTML = "";
+    document.getElementById('overflow').classList.remove('active');
+}
+
+// Function to reset the profile infos to default
 function resetInfoDisplay() {
     const inputPassword = document.getElementById('new-password');
     const invisibleIcon = document.getElementById('not-visible-icon');
@@ -76,12 +200,12 @@ async function manipulateFile(event) {
     if(file) {
         try {
             if(!file.type.startsWith('image/')) {
-                showNotification('Selecione uma imagem, por favor!', 'warning');
+                showMessagePopUp('error', 'Arquivo Inválido', 'Selecione uma imagem, por favor!');
                 return;
             }
 
             if(file.size > 5 * 1024 * 1024) {
-                showNotification('Selecione uma imagem menor, por favor!', 'warning');
+                showMessagePopUp('error', 'Erro ao Carregar', 'Selecione uma imagem menor, por favor!');
                 return;
             }
 
@@ -93,7 +217,7 @@ async function manipulateFile(event) {
             document.getElementById('profile-image').src = fileConverted;
             localStorage.setItem('userPhoto', fileConverted);
         } catch(error) {
-            showNotification('Erro ao processar imagem.', 'danger');
+            showMessagePopUp('error', 'Erro ao Processar', 'Tente novamente mais tarde, por favor|');
         }
     }
 }
@@ -114,14 +238,15 @@ async function saveProfilePhoto(file) {
         body: formData
     });
 
-    if(response.ok) {
-        showNotification('Imagem salva no banco com sucesso!', 'success');
+    if(response.ok) {    
+        showMessagePopUp('success', 'Sucesso ao Atualizar', 'Imagem salva com sucesso!');
     } else {
-        showNotification('Erro ao carregar imagem para o banco.', 'danger');
+        showMessagePopUp('error', 'Erro ao Salvar', 'Erro ao carregar imagem para o banco');
+        // showNotification('Erro ao carregar imagem para o banco.', 'danger');
     }
 }
 
-[ 'new-name', 'new-email', 'new-password'].forEach(id => {
+[ 'new-name', 'new-email'].forEach(id => {
     const input = document.getElementById(id);
 
     input.addEventListener('keydown', (event) => {
@@ -137,8 +262,8 @@ async function saveChanges() {
     const newEmail = document.getElementById('new-email').value;
     const newPassword = document.getElementById('new-password').value;
 
-    if(!newName.trim() || !newEmail.trim() || !newPassword.trim()) {
-        showNotification('Insira dados válidos para atualizar!', 'warning');
+    if(!newName.trim() && !newEmail.trim() && !newPassword.trim()) {
+        showMessagePopUp('error', 'Erro ao Atualizar', 'Insira dados válidos para atualizar!')
         return;
     }
 
@@ -148,9 +273,9 @@ async function saveChanges() {
         id: parseInt(userId)
     };
 
-    updateData.nome = newName.trim();
-    updateData.email = newEmail.trim();
-    updateData.senha = newPassword.trim();
+    updateData.nome = newName.trim() || null;
+    updateData.email = newEmail.trim() || null;
+    updateData.senha = newPassword.trim() || null;
 
     const response = await authenticatedFetch('http://localhost:3000/user', {
         method: 'PUT',
@@ -158,9 +283,17 @@ async function saveChanges() {
     });
 
     if(response.ok) {
-        showNotification('Usuário atualizado com sucesso!', 'success');
+        const confirmation = showMessagePopUp('success', 'Dados Atualizados!', 'Usuário atualizado com sucesso!');
+        
+        const userName = localStorage.getItem('userName');
+        const userEmail = localStorage.getItem('userEmail');
+        
+        localStorage.setItem('userName', (updateData.nome) ? updateData.nome : userName);
+        localStorage.setItem('userEmail', (updateData.email) ? updateData.email : userEmail);
+        loadUserData();
+        
     } else {
-        showNotification('Erro ao atualizar usuário.', 'danger');
+        showMessagePopUp('error', 'Erro ao Atualizar', 'Erro ao salvar as alterações do usuário no banco de dados.');
     }
 }
 
@@ -249,7 +382,6 @@ async function loadUserData() {
         return;
     }
 
-    const userId = localStorage.getItem('userId');
     const userName = localStorage.getItem('userName');
     const userEmail = localStorage.getItem('userEmail');
     const userPhoto = localStorage.getItem('userPhoto');
@@ -264,12 +396,6 @@ async function loadUserData() {
     document.getElementById('new-name').placeholder = userName;
     document.getElementById('new-email').placeholder = userEmail;
     document.getElementById('new-password').placeholder = '••••••••';
-}
-
-async function logoutUser() {
-    const confirmation = confirm('Tem certeza que deseja sair da sua conta?');
-
-    if(confirmation) logout();
 }
 
 // Função para fazer logout

@@ -3,13 +3,14 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { PrismaModule } from '../prisma/prisma.module';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Module({
   imports: [
     PrismaModule,
     MulterModule.register({
       limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB
+        fileSize: 5 * 1024 * 1024,
       },
       fileFilter: (req, file, cb) => {
         if (file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
@@ -21,7 +22,7 @@ import { PrismaModule } from '../prisma/prisma.module';
     }),
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, MailerService],
   exports: [UserService]
 })
 export class UserModule {}

@@ -1,4 +1,19 @@
-import { Body, Controller, Post, Get, Put, Delete, Param, ParseIntPipe, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Post,
+    Get,
+    Put,
+    Delete,
+    Param,
+    ParseIntPipe,
+    UseInterceptors,
+    UploadedFile,
+    ParseFilePipe,
+    MaxFileSizeValidator,
+    FileTypeValidator,
+    UseGuards,
+} from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -16,6 +31,11 @@ export class UserController {
     @Post('login')
     async login(@Body() loginDto: UserLoginDto) {
         return this.userService.loginUser(loginDto);
+    }
+
+    @Post('forgot-password')
+    async forgotPassword(@Body() userMailDto: UserMailDto) {
+        return this.userService.forgotPassword(userMailDto);
     }
 
     @Get() 
@@ -37,7 +57,7 @@ export class UserController {
 
     @Put('redefine-password')
     @UseGuards(JwtAuthGuard)
-    async updatePassword(@Body() userDto: AtualizarUserDto) {
+    async updatePassword(@Body() userDto: UserMailDto) {
         return this.userService.forgotPassword(userDto);
     }   
 

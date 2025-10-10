@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService, 
+        private readonly mailerService: MailerService
+    ) {}
 
     async createUser(userDto: CriarUserDto) {
         const userExists = await this.findUserByEmail(userDto.email);
@@ -133,25 +137,45 @@ export class UserService {
         }
     }
 
-    async forgotPassword(userDto: AtualizarUserDto) {
-        const userFind = await this.findUserByEmail(userDto.email || "");
+    async forgotPassword(userDto: UserMailDto) {
+        const userFind = await this.findUserByEmail(userDto.email.trim());
+        console.log(userFind);
+
+        if(!userFind) {
+            throw new NotAcceptableException('Usuário não encontrado.');
+        }
+
+        const code = await this.mailerService.sendPasswordResetEmail(userDto.email);
+
+        return {
+            message: 'E-mail de redefinição enviado com sucesso!',
+            code
+        };
+    }
+
+    async updatePassword(userDto: AtualizarUserDto) {
+        const userFind = await this.prisma.user.findUnique({
+            where: {
+                id: userDto.id
+            }
+        });
 
         if(!userFind) {
             throw new NotFoundException('Usuário não encontrado!');
         }
 
+        if(!userDto.senha) {
+            throw new NotAcceptableException('Informe uma senha válida para atualizar.');
+        }
+
+        const password = await bcrypt.hash(userDto.senha, 10);
+
         const updatedUser = await this.prisma.user.update({
             where: {
-                email: userDto.email,
+                id: userFind.id
             },
             data: {
-                senha: userFind.senha
-            },
-            select: {
-                nome: true,
-                email: true,
-                senha: true,
-                fotoPerfil: true
+                senha: password
             }
         });
 

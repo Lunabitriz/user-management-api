@@ -34,6 +34,10 @@ function toggleAuthForm(form) {
     }
 }
 
+document.getElementById('forgot-password').addEventListener('click', () => {
+    window.location = 'forgot-password-page.html';
+})
+
 // const forgotPassword = document.getElementById('forgot-password');
 // const rememberMe = document.getElementById('remember-me-label');
 
@@ -43,9 +47,9 @@ function toggleAuthForm(form) {
 //     })
 // })
 
-document.getElementById('forgot-password').addEventListener('click', () => {
-    showNotification('Esta função ainda será implementada!', 'warning');
-})
+// document.getElementById('forgot-password').addEventListener('click', () => {
+//     showNotification('Esta função ainda será implementada!', 'warning');
+// })
 
 // Show password validations
 function showValidations() {

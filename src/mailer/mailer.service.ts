@@ -32,7 +32,7 @@ export class MailerService {
             html: `
                 <h1>Olá, Dev!</h1>
                 <p>Seu código de validação é:</p>
-                <h2>${code}</h2>
+                <h2 style="color: #f37a12; letter-spacing: 1.8px">${code}</h2>
                 <p>Use este código para redefinir sua senha.</p>
             `
         };

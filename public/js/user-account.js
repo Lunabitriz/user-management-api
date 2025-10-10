@@ -10,7 +10,8 @@ function toggleEditOption() {
     editOptions.classList.toggle('active', isEditing)
     
     profileInfo.forEach(p => p.style.display = isEditing ? 'none' : 'block');
-    visibilityIcon.style.display = isEditing ? 'flex' : 'none'; 
+    visibilityIcon.style.display = isEditing ? 'flex' : 'none';
+    showValidationsHtml('profile-edit-password-validations');
 
     document.querySelectorAll('.edit-input').forEach(input => {
         input.value = "";
@@ -19,12 +20,17 @@ function toggleEditOption() {
     resetInfoDisplay();
 }
 
-document.querySelectorAll('.theme-box').forEach(theme => {
-    theme.addEventListener('click', () => {
-        showNotification('Esta função ainda será implementada', 'warning');
-    })
-})
+// Themes Selection 
+const themes = document.querySelectorAll('.theme-box');
 
+themes.forEach(theme => {
+    theme.addEventListener('click', () => {
+        themes.forEach(t => t.classList.remove('selected'));
+        theme.classList.add('selected');
+    })
+});
+
+// Function to open settings 
 function openSettings() {
     document.getElementById('settings').style.display = 'block';
     document.getElementById('container').style.display = 'none';
@@ -36,6 +42,24 @@ document.getElementById('close-settings').addEventListener('click', () => {
     document.getElementById('settings').style.display = 'none';
     document.body.classList.remove('shadow-active');
 });
+
+document.getElementById('new-password').addEventListener('click', () => {
+    document.getElementById('validation').classList.add('show');
+    document.getElementById('validation').style.display = 'block';
+});
+
+// Make the password visible
+function passwordVisible() {
+    const password = document.getElementById('new-password');
+    const visibleIcon = document.getElementById('visible-icon');
+    const notVisibleIcon = document.getElementById('not-visible-icon');
+
+    const isVisible = visibleIcon.style.display != 'none';
+    
+    password.type = isVisible ? 'text' : 'password';
+    visibleIcon.style.display = isVisible ? 'none' : 'block';
+    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
+}
 
 // Show messages pop-ups 
 function showMessagePopUp(tipo, titulo, message) {
@@ -161,19 +185,6 @@ function resetInfoDisplay() {
     inputPassword.type = 'password';
     visibleIcon.style.display = 'flex';
     invisibleIcon.style.display = 'none';
-}
-
-// Make the password visible
-function passwordVisible() {
-    const password = document.getElementById('new-password');
-    const visibleIcon = document.getElementById('visible-icon');
-    const notVisibleIcon = document.getElementById('not-visible-icon');
-
-    const isVisible = visibleIcon.style.display != 'none';
-    
-    password.type = isVisible ? 'text' : 'password';
-    visibleIcon.style.display = isVisible ? 'none' : 'block';
-    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
 }
 
 function convertToBase64(file) {

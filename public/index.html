@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Link CSS -->
-     <link rel="stylesheet" href="css/index-styles.css">
+    <link rel="stylesheet" href="css/index-styles.css">
 </head>
 <body class="d-flex justify-content-center align-items-center">
     <div id="main-container" class="">
@@ -121,21 +121,8 @@
                             <i id="visible-icon" class="fa-solid fa-eye"></i>
                             <i id="not-visible-icon" class="fa-solid fa-eye-slash" style="display: none;"></i>
                         </label>
-                        
-                        <ul id="validation" class="p-0">
-                            <li id="lenght" class="default">
-                                <i class="fa-solid fa-lock"></i> Pelo menos 8 caracteres
-                            </li>
-                            <li id="number" class="default">
-                                <i class="fa-solid fa-lock"></i> Pelo menos 1 número
-                            </li>
-                            <li id="uppercase" class="default">
-                                <i class="fa-solid fa-lock"></i> Pelo menos 1 letra maiúscula
-                            </li>
-                            <li id="symbol" class="default">
-                                <i class="fa-solid fa-lock"></i> Pelo menos 1 símbolo (ex: !, @, #, $, %...)
-                            </li>
-                        </ul>
+
+                        <div id="register-password-validations"></div>
                     </div>    
                 </div>
 
@@ -159,12 +146,6 @@
             <img id="florest-cover-mobile" src="imgs/florest-cover-mobile.png" alt="florest">
         </img>
     </div>
-
-    <!-- <div id="error-pop-ups">
-        <div class="error-card">
-
-        </div>
-    </div> -->
 
     <script src="./js/validations-utils.js"></script>
     <script src="./js/utilities.js"></script>

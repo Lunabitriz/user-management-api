@@ -81,6 +81,8 @@
                             autocomplete="off"
                             placeholder="Digite sua nova senha"
                         >
+
+                        <div id="profile-edit-password-validations"></div>
                     </div>
                 </div>
             </div>
@@ -119,35 +121,15 @@
 
         <div class="themes-grid">
             <div class="header-settings">
-                <h3>Select Theme</h3>
+                <h3>Selecione um Tema</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit non recusandae.
+                    🌿 Personalize seu espaço de trabalho para torná-lo mais confortável!
                 </p>
             </div>
 
             <!-- Themes section -->
             <div class="d-flex justify-content-between flex-wrap gap-4">
                 <div class="theme-box selected">
-                    <div class="theme-image">
-                        <img src="imgs/profile-img-default.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>Light mode</h4>
-                    </div>
-                </div>
-
-                <div class="theme-box ">
-                    <div class="theme-image">
-                        <img src="imgs/profile-img-default.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>Light mode</h4>
-                    </div>
-                </div>
-
-                <div class="theme-box ">
                     <div class="theme-image">
                         <img src="imgs/profile-img-default.jpg" alt="">
                     </div>
@@ -167,7 +149,7 @@
                     </div>
                 </div>
 
-                <div class="theme-box ">
+                <div class="theme-box">
                     <div class="theme-image">
                         <img src="imgs/profile-img-default.jpg" alt="">
                     </div>
@@ -177,7 +159,7 @@
                     </div>
                 </div>
 
-                <div class="theme-box ">
+                <div class="theme-box inactive">
                     <div class="theme-image">
                         <img src="imgs/profile-img-default.jpg" alt="">
                     </div>
@@ -186,6 +168,30 @@
                         <h4>Light mode</h4>
                     </div>
                 </div>
+
+                <div class="theme-box inactive">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+
+                <div class="theme-box inactive">
+                    <div class="theme-image">
+                        <img src="imgs/profile-img-default.jpg" alt="">
+                    </div>
+                    <div class="theme-header d-flex align-items-center">
+                        <div class="circle-theme"></div>
+                        <h4>Light mode</h4>
+                    </div>
+                </div>
+
+                <button id="save-selected-theme" class="btn btn-light mt-1">
+                    Salvar Tema
+                </button>
             </div>
         </div>
 
@@ -194,7 +200,7 @@
             <div class="header-settings">
                 <h3>Conta</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Excluir seu perfil apagará todos os dados. Deseja continuar?
                 </p>
             </div>
 
@@ -206,6 +212,7 @@
 
     <div id="pop-up-container" style="position: absolute; z-index: 1000;"></div>
     
+    <script src="./js/validations-utils.js"></script>
     <script src="./js/utilities.js"></script>
     <script src="./js/user-account.js"></script>
 </body>

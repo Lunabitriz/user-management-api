@@ -18,6 +18,14 @@ input:focus {
     box-shadow: 0 0 2px 1px rgba(220, 112, 4, 0.325);
 }
 
+ul li {
+    list-style: none;
+}
+
+ul {
+    font-size: 14px;
+}
+
 #overflow.active {
     height: 100vh;
     width: 100vw;
@@ -180,9 +188,36 @@ input:focus {
     }
 }
 
+/* Password Validation styles */
+#validation {
+    max-height: 0;
+    display: none;
+    overflow: hidden;
+    transition: max-height .5s ease-in-out;
+}
+
+#validation.show {
+    margin: 20px 0 0 0;
+    max-height: 110px;
+    animation: fade-in .5s ease-in-out;
+}
+
+#validation li.default {
+    color: #898989;
+}
+
+#validation li.invalid-pass {
+    color: #c81414 !important;
+}
+
+#validation li.valid {
+    color: green !important;
+}
+
 .fade-in-medium {
     animation: fade .81s ease-in-out;
 }
+
 .fade-in {
     animation: fade .7s ease-in-out;
 }
@@ -270,6 +305,12 @@ body.shadow-active::after {
     overflow: hidden;
 }
 
+.theme-box.inactive {
+    opacity: 0.5;
+    pointer-events: none;
+    filter: grayscale(1);
+}
+
 .theme-box.selected,
 .theme-box.selected .circle-theme {
     border: 2.9px solid #749bff
@@ -302,3 +343,4 @@ body.shadow-active::after {
     border-radius: 50%;
     border: 3px solid gray;
 }
+

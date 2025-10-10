@@ -44,6 +44,7 @@ function showValidations() {
 }
 
 document.getElementById('register-password').addEventListener('focus', () => {
+    showValidationsHtml('register-password-validations');
     showValidations();
 });
 
@@ -63,17 +64,17 @@ function passwordVisible() {
 // Password Listener Validations
 const passwordInput = document.getElementById('register-password');
 
-['keyup', 'blur'].forEach(eventType => {
+['keyup', 'blur', 'focus'].forEach(eventType => {
     passwordInput.addEventListener(eventType, (event) => {
         const validationState = validatePassword(event);
         const message = document.getElementById('password-message');
 
-        if(!validationState) {
+        if(validationState) {
             message.innerHTML = "";
             passwordInput.style.backgroundColor = '#fff';
             passwordInput.style.border = '1px solid #85D6A5';
             document.getElementById('validation').classList.remove('show');
-        } else if(validationState && eventType === 'blur') {
+        } else if(!validationState && eventType === 'blur') {
             passwordInput.style.border = '1px solid #F3D1CE';                    
             message.innerHTML = `
                 <i class="fa-solid fa-circle-exclamation"></i>
@@ -96,10 +97,10 @@ const emailInput = document.getElementById('register-email');
         const validationState = validateEmail(event);
         const message = document.getElementById('email-error');
 
-        if(!validationState) {
+        if(validationState) {
             emailInput.style.border = '1px solid #85D6A5';
             message.innerHTML = '';
-        } else if(validationState && eventType === 'blur') {
+        } else if(!validationState && eventType === 'blur') {
             emailInput.style.border = '1px solid #FF7070';
             message.innerHTML = `
                 <i class="fa-solid fa-circle-exclamation"></i>
@@ -119,10 +120,10 @@ const userNameInput = document.getElementById('register-user-name');
         const validationState = validateUserName(event);
         const message = document.getElementById('user-name-error');
 
-        if(!validationState) {
+        if(validationState) {
             userNameInput.style.border = '1px solid #85D6A5';
             message.innerHTML = '';   
-        } else if(validationState && eventType === 'blur') {
+        } else if(!validationState && eventType === 'blur') {
             userNameInput.style.border = '1px solid #FF7070';
             message.innerHTML = `
                 <i class="fa-solid fa-circle-exclamation"></i>

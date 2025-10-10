@@ -24,12 +24,9 @@ function validateEmail(event) {
     }
 }
 
-
 // Function to frist validation: email
 async function confirmMail() {
     const emailInput = document.getElementById('recovery-email').value.trim();
-    const enterEmailContainer = document.getElementById('enter-email-container');
-    const codeContainer = document.getElementById('code-container');
 
     let sendTo = document.getElementById('send-to-mail');
 
@@ -47,12 +44,10 @@ async function confirmMail() {
 
             const data = await response.json();
             
+            showNotification('ok', 'success')
             localStorage.setItem('codeReceived', data.hashedCode);
             localStorage.setItem('recoveryEmail', emailInput);
-
-            codeContainer.classList.remove('d-none');
-            enterEmailContainer.style.display = 'none';
-            showNotification('ok', 'success')
+            handleContainersVisibility();
         } else {
             showNotification('Não foi possível encontrar um usuário com esse email. Tente novamente.', 'warning');
             console.log(response)
@@ -64,9 +59,6 @@ async function confirmMail() {
 
 // Function to second validation: code received
 async function confirmSendCode() {
-    const codeContainer = document.getElementById('code-container');
-    const newPasswordContainer = document.getElementById('new-password-container');
-
     const enterCode1 = document.getElementById('forgor-code-1').value.trim();
     const enterCode2 = document.getElementById('forgor-code-2').value.trim();
     const enterCode3 = document.getElementById('forgor-code-3').value.trim();
@@ -91,9 +83,8 @@ async function confirmSendCode() {
 
         if(response.ok) {
             alert('Código validado com sucesso!');
-            codeContainer.classList.add('d-none');
-            newPasswordContainer.classList.remove('d-none');
             localStorage.setItem('enterCode', userCode);
+            handleContainersVisibility();
         }
     } catch(error) {
         console.error(error);
@@ -101,10 +92,8 @@ async function confirmSendCode() {
 }
 
 async function confirmNewPassword() {
-    const confirmContainer = document.getElementById('confirm-container');
-    const newPasswordContainer = document.getElementById('new-password-container');
-    const confirmNewPassword = document.getElementById('confirm-new-password').value;
     const newPassword = document.getElementById('new-password').value;
+    const confirmNewPassword = document.getElementById('confirm-new-password').value;
 
     if(!newPassword || !confirmNewPassword) {
         alert('Preencha os campos obrigatórios!');
@@ -129,9 +118,8 @@ async function confirmNewPassword() {
 
         if(response.ok) {
             alert('Senha redefinida com sucesso!');
-            newPasswordContainer.classList.add('d-none');
-            confirmContainer.classList.remove('d-none');
             localStorage.setItem('passwordRedefined', 'true');
+            handleContainersVisibility();
         }
     } catch(error) {
         console.error(error);
@@ -139,6 +127,10 @@ async function confirmNewPassword() {
 }
 
 function goToInitialPage() {
+    localStorage.removeItem('enterCode');
+    localStorage.removeItem('recoveryEmail');
+    localStorage.removeItem('passwordRedefined');
+
     setTimeout(() => {
         window.location = 'index.html';
     }, 2000);
@@ -146,16 +138,16 @@ function goToInitialPage() {
 
 function handleContainersVisibility() {
     if(localStorage.getItem('recoveryEmail')) {
-        document.getElementById('enter-email-container').classList.add('d-none');
         document.getElementById('code-container').classList.remove('d-none');
+        document.getElementById('enter-email-container').classList.add('d-none');
     }
     if(localStorage.getItem('enterCode')) {
         document.getElementById('code-container').classList.add('d-none');
         document.getElementById('new-password-container').classList.remove('d-none');
     }
     if(localStorage.getItem('passwordRedefined')) {
-        document.getElementById('new-password-container').classList.add('d-none');
         document.getElementById('confirm-container').classList.remove('d-none');
+        document.getElementById('new-password-container').classList.add('d-none');
     }
 }
 

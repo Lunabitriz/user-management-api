@@ -239,6 +239,11 @@ function loadUserLoginData() {
         const userEmail = localStorage.getItem('userEmail');
         document.getElementById('login-email').value = userEmail;
     }
+
+    // Clear localStorage if the "Forgot Password" was accessed
+    localStorage.removeItem('enterCode');
+    localStorage.removeItem('recoveryEmail');
+    localStorage.removeItem('passwordRedefined');
 }
 
 loadUserLoginData();

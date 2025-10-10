@@ -34,13 +34,17 @@ function toggleAuthForm(form) {
     }
 }
 
-const forgotPassword = document.getElementById('forgot-password');
-const rememberMe = document.getElementById('remember-me-label');
+// const forgotPassword = document.getElementById('forgot-password');
+// const rememberMe = document.getElementById('remember-me-label');
 
-[forgotPassword, rememberMe].forEach((input) => {
-    input.addEventListener('click', () => {
-        showNotification('Esta função ainda será implementada!', 'warning')
-    })
+// [forgotPassword, rememberMe].forEach((input) => {
+//     input.addEventListener('click', () => {
+//         showNotification('Esta função ainda será implementada!', 'warning')
+//     })
+// })
+
+document.getElementById('forgot-password').addEventListener('click', () => {
+    showNotification('Esta função ainda será implementada!', 'warning');
 })
 
 // Show password validations
@@ -166,6 +170,7 @@ function validateUserName(event) {
 async function login() {
     let email = document.getElementById('login-email').value;
     let senha = document.getElementById('login-password').value;
+    const rememberMe = document.getElementById('remember-me');
 
     try {
         const response = await fetch('http://localhost:3000/auth/login', {
@@ -186,11 +191,12 @@ async function login() {
             localStorage.setItem('userEmail', result.user.email);
             localStorage.setItem('userPhoto', result.user.fotoPerfil);
             localStorage.setItem('access_token', result.access_token);
+            localStorage.setItem('rememberMe', rememberMe.checked ? 'active' : 'disabled');
             
             // Clear the input fields
             email = '';
             senha = '';
-
+            
             window.location.href = 'user-account.html';
             
         } else {
@@ -221,3 +227,14 @@ async function register() {
         showNotification('Erro ao cadastrar usuário.', 'danger');
     }
 }
+
+function loadUserLoginData() {
+    const rememberMeIsActive = localStorage.getItem('rememberMe');
+    
+    if(rememberMeIsActive === 'active') {
+        const userEmail = localStorage.getItem('userEmail');
+        document.getElementById('login-email').value = userEmail;
+    }
+}
+
+loadUserLoginData();

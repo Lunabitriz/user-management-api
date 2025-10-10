@@ -32,43 +32,34 @@ function openSettings() {
 }
 
 document.getElementById('close-settings').addEventListener('click', () => {
-    document.getElementById('settings').style.display = 'none';
     document.getElementById('container').style.display = 'block';
+    document.getElementById('settings').style.display = 'none';
     document.body.classList.remove('shadow-active');
 });
 
 // Show messages pop-ups 
 function showMessagePopUp(tipo, titulo, message) {
-    // const container = document.getElementById('pop-up-container');
+    const container = document.getElementById('pop-up-container');
+    document.getElementById('overflow').classList.add('active');
 
-    const container = document.createElement('div');
-    container.className = 'container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5';
-    container.style.cssText = 'width: 348px;';
-
-    container.innerHTML = `
-        <div class="email-ilustration w-100 d-flex flex-column align-items-center justify-content-center">
-            <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo}
+    container.innerHTML = `        
+        <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 348px;">
+            <div class="email-ilustration w-100 d-flex flex-column align-items-center justify-content-center">
+                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} icon" class="mb-3">
+            </div>
 
             <div class="header-form text-center">
-                <h3 class="text-center">${titulo}</h3>
-                <p class="mb-0 text-center">
+                <h3>${titulo}</h3>
+                <p class="mb-0">
                     ${message}
                 </p>
             </div>
 
-            <button onclick="() => {
-                hidePopUp();
-                return 1;
-                }" 
-                id="btn-confirm-message"
-                class="btn text-white my-2 w-100" style="background-color: #FF5C5C;">
+            <button onclick="hidePopUp()" id="popup-confirm-btn" class="btn text-white my-2 w-100" style="background-color: #FF5C5C;">
                 Confirmar
             </button>
         </div>
     `;
-
-    document.body.appendChild(container);
-    localStorage.setItem('popUpActive', container);
 }
 
 // Show confirm or cancel pop-ups
@@ -400,11 +391,15 @@ async function loadUserData() {
 
 // Função para fazer logout
 function logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userPhoto');
+    const rememberMeActive = localStorage.getItem('rememberMe');
+
+    if(rememberMeActive === 'disabled') {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPhoto');
+    }
     
     window.location.href = 'index.html';
 }

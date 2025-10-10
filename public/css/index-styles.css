@@ -279,7 +279,7 @@ ul {
     }
 
     #florest-cover-mobile {
-        background: url('../imgs/florest-cover-mobile.png') no-repeat center center;
+        background: url('../imgs/florest-cover-imgs/florest-cover-mobile.png') no-repeat center center;
         position: absolute;
         top: 0;
         min-height: 150px;

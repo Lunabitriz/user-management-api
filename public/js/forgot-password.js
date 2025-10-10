@@ -26,7 +26,7 @@ function validateEmail(event) {
 
 // Function to frist validation: email
 async function confirmMail() {
-    const emailInput = document.getElementById('recovery-email').value.trim();
+    const emailInput = document.getElementById('recovery-email').value.trim().toLowerCase();
 
     let sendTo = document.getElementById('send-to-mail');
 
@@ -40,11 +40,9 @@ async function confirmMail() {
 
         if(response.ok) {
             // Vai para a próxima validação
-            sendTo.innerText = emailInput;
-
-            const data = await response.json();
-            
+            sendTo.innerText = emailInput;            
             localStorage.setItem('recoveryEmail', emailInput);
+
             showNotification('ok', 'success');
             handleContainersVisibility();
         } else {
@@ -100,6 +98,7 @@ async function confirmSendCode() {
 
         if(response.ok) {
             localStorage.setItem('enterCode', userCode);
+
             alert('Código validado com sucesso!');
             handleContainersVisibility();
         }
@@ -134,8 +133,9 @@ async function confirmNewPassword() {
         });
 
         if(response.ok) {
-            alert('Senha redefinida com sucesso!');
             localStorage.setItem('passwordRedefined', 'true');
+
+            alert('Senha redefinida com sucesso!');
             handleContainersVisibility();
         }
     } catch(error) {

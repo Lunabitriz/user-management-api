@@ -20,7 +20,7 @@ function toggleEditOption() {
     resetInfoDisplay();
 }
 
-// Themes Selection 
+// Function to switch selected themes
 const themes = document.querySelectorAll('.theme-box');
 
 themes.forEach(theme => {
@@ -30,6 +30,16 @@ themes.forEach(theme => {
     })
 });
 
+// Function to save and load the selected theme
+document.getElementById('save-selected-theme').addEventListener('click', () => {
+    const themeSelected = document.querySelector('.theme-box.selected');
+    const theme = themeSelected.getAttribute('data-theme');
+    
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme)
+    closeSettings();
+});
+
 // Function to open settings 
 function openSettings() {
     document.getElementById('settings').style.display = 'block';
@@ -37,10 +47,15 @@ function openSettings() {
     document.body.classList.add('shadow-active');
 }
 
-document.getElementById('close-settings').addEventListener('click', () => {
+// Function to close settings 
+function closeSettings() {
     document.getElementById('container').style.display = 'block';
     document.getElementById('settings').style.display = 'none';
     document.body.classList.remove('shadow-active');
+}
+
+document.getElementById('close-settings').addEventListener('click', () => {
+    closeSettings();
 });
 
 document.getElementById('new-password').addEventListener('click', () => {
@@ -398,6 +413,10 @@ async function loadUserData() {
     document.getElementById('new-name').placeholder = userName;
     document.getElementById('new-email').placeholder = userEmail;
     document.getElementById('new-password').placeholder = '••••••••';
+
+    // Load Themes
+    const selectedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', selectedTheme);
 }
 
 // Função para fazer logout

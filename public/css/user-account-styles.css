@@ -1,19 +1,22 @@
-/* ------ Themes Styles ------ */
-/* reduzir atributos desnecessários */
+/* ------ Light Themes Styles ------ */
 :root {
     --primary: #f37913;
     --secondary: #E67137;
     --text-color: #484848;
     --bg-color: #f7f7ff;
-    --bg-profile-card: #ffffff;
-    --input-border: #d4d4d4;
+
     --bg-input: #ffffff;
+    --input-border: #d4d4d4;
     --input-focus-border: rgba(251, 153, 55, 0.853);
     --input-focus-shadow: 0 0 2px 1px rgba(220, 112, 4, 0.325);
+
+    --bg-profile-card: #ffffff;
     --bg-profile: url('../imgs/profile-cover-themes/sunset-theme.png');
+
     --color-p-bio-item: #787878;
     --color-profile-info: #515151;
     --color-p-bio-item-active: #616161;
+
     --profile-img-shadow: 0px 0px 4px 2px rgba(46, 46, 46, 0.567);
     --theme-box-shadow: 0px 0px 3px 1px rgba(255, 149, 42, 0.763);
 }
@@ -24,14 +27,12 @@
     --bg-color: #F4FBFD;
     --text-color: rgba(29, 42, 54, 0.847);
     --bg-profile: url('../imgs/profile-cover-themes/east-blue-theme.jpg');
-    --bg-profile-card: #ffffff;
-    --input-border: #d4d4d4;
-    --bg-input: #ffffff;
+
     --input-focus-border: rgba(10, 190, 255, 0.853);
     --input-focus-shadow: 0 0 2px 1px rgba(0, 180, 245, 0.325);
-    --color-p-bio-item: #787878;
+
     --color-profile-info: rgba(29, 42, 54, 0.756);
-    --color-p-bio-item-active: #616161;
+
     --profile-img-shadow: 0px 0px 4px 2px rgba(0, 23, 32, 0.567);
     --theme-box-shadow: 0px 0px 3px 1px rgba(10, 190, 255, 0.763);
 }
@@ -42,14 +43,12 @@
     --bg-color: #FAF8F3;
     --text-color: rgba(42, 58, 46, 0.877);
     --bg-profile: url('../imgs/profile-cover-themes/kuma-theme.jpg');
-    --bg-profile-card: #ffffff;
-    --input-border: #d4d4d4;
-    --bg-input: #ffffff;
+
     --input-focus-border: rgba(86, 159, 114, 0.903);
     --input-focus-shadow: 0 0 2px 1px rgba(210, 183, 116, 0.566);
-    --color-p-bio-item: #787878;
+
     --color-profile-info: rgba(42, 58, 46, 0.756);
-    --color-p-bio-item-active: #616161;
+
     --profile-img-shadow: 0px 0px 4px 2px rgba(31, 41, 33, 0.703);
     --theme-box-shadow: 0px 0px 3px 1px rgba(86, 159, 114, 0.904);
 }
@@ -404,3 +403,17 @@ body.shadow-active::after {
     font-size: 1rem;
     margin: 0;
 }
+
+/* Buttons Styles */
+/* .btn {
+    background-color: var(--bg-btn);
+    border: 1px solid var(--border-btn);
+    color: var(--text-color);
+    transition: all ease-in .3s;
+}
+
+.btn:hover {
+    background-color: var(--bg-profile-card);
+    border: 1px solid var(--border-btn);
+    color: var(--text-color);
+} */

@@ -27,16 +27,17 @@ themes.forEach(theme => {
     theme.addEventListener('click', () => {
         themes.forEach(t => t.classList.remove('selected'));
         theme.classList.add('selected');
-    })
+    });
 });
 
 // Function to save and load the selected theme
 document.getElementById('save-selected-theme').addEventListener('click', () => {
     const themeSelected = document.querySelector('.theme-box.selected');
     const theme = themeSelected.getAttribute('data-theme');
-    
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme)
+    const themeFormated = theme.slice(0, theme.indexOf('-theme'));
+
+    document.documentElement.setAttribute('data-theme', themeFormated);
+    localStorage.setItem('theme', themeFormated);
     closeSettings();
 });
 

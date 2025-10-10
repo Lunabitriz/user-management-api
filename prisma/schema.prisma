@@ -19,4 +19,16 @@ model User {
   email      String @unique
   senha      String
   fotoPerfil String?
+
+  passwordResets PasswordReset[]
+}
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  codeHash  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
 }

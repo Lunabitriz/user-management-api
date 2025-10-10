@@ -10,13 +10,13 @@ export class MailerService {
 
     constructor() {
         this.transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-        port: Number(process.env.EMAIL_PORT) || 465,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
+            host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+            port: Number(process.env.EMAIL_PORT) || 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
         });
     }
 
@@ -24,9 +24,7 @@ export class MailerService {
         return Math.floor(1000 + Math.random() * 9000).toString();
     }
 
-    async sendPasswordResetEmail(email: string): Promise<string> {
-        const code = this.generateRandomCode();
-
+    async sendPasswordResetEmail(email: string, code: string): Promise<void> {
         const mailOptions = {
             from: `${process.env.EMAIL_FROM_NAME || 'Sistema'} <${process.env.EMAIL_USER}>`,
             to: email,
@@ -40,6 +38,11 @@ export class MailerService {
         };
 
         await this.transporter.sendMail(mailOptions);
+    }
+
+    async generateAndSendCode(email: string): Promise<string> {
+        const code = this.generateRandomCode();
+        await this.sendPasswordResetEmail(email, code);
         return code;
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -142,23 +142,62 @@ export class UserService {
         console.log(userFind);
 
         if(!userFind) {
-            throw new NotAcceptableException('Usuário não encontrado.');
+            throw new NotFoundException('Usuário não encontrado.');
         }
 
-        const code = await this.mailerService.sendPasswordResetEmail(userDto.email);
+        const code = await this.mailerService.generateAndSendCode(userDto.email);
 
-        return {
-            message: 'E-mail de redefinição enviado com sucesso!',
-            code
+        const codeHash = await bcrypt.hash(code, 10);
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+        await this.prisma.passwordReset.create({
+            data: {
+                userId: userFind.id,
+                codeHash: codeHash,
+                expiresAt: expiresAt
+            }
+        })
+
+        return { 
+            message: 'E-mail de redefinição enviado com sucesso!'
         };
     }
 
-    async updatePassword(userDto: AtualizarUserDto) {
+    async validateReceivedCode(userMail: UserMailDto) {
         const userFind = await this.prisma.user.findUnique({
             where: {
-                id: userDto.id
+                email: userMail.email
             }
         });
+
+        if(!userFind) {
+            throw new NotFoundException('Usuário não encontrado.');
+        }
+
+        const requestFind = await this.prisma.passwordReset.findFirst({
+            where: {
+                userId: userFind.id
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+
+        if(!requestFind) {
+            throw new BadRequestException('Código inválido ou expirado!');
+        }
+
+        const isValid = await bcrypt.compare(userMail.code || '', requestFind.codeHash);
+
+        if(!isValid || requestFind.expiresAt < new Date()) {
+            throw new BadRequestException('Código inválido ou expirado!') 
+        }
+
+        return { message: 'Código validado com sucesso!' };
+    }
+
+    async redefinePassword(userDto: UserMailDto) {
+        const userFind = await this.findUserByEmail(userDto.email);
 
         if(!userFind) {
             throw new NotFoundException('Usuário não encontrado!');
@@ -170,19 +209,12 @@ export class UserService {
 
         const password = await bcrypt.hash(userDto.senha, 10);
 
-        const updatedUser = await this.prisma.user.update({
-            where: {
-                id: userFind.id
-            },
-            data: {
-                senha: password
-            }
+        await this.prisma.user.update({
+            where: { email: userFind.email },
+            data:  { senha: password }
         });
 
-        return {
-            message: 'Senha redefinida com sucesso!',
-            updatedUser
-        }
+        return { message: 'Senha redefinida com sucesso!' };
     }
 
     async deleteUser(id: number) {

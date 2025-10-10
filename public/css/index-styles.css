@@ -327,3 +327,7 @@ ul {
 .input-forgot::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
+
+.hidden {
+    display: none;
+}

@@ -37,6 +37,20 @@ export class UserMailDto {
     @IsEmail()
     @IsNotEmpty()
     email: string;
+
+    @IsString()
+    @IsOptional()
+    code?: string;
+
+    @IsOptional()
+    @IsStrongPassword({
+        minLength: 8,
+        minNumbers: 1,
+        minUppercase: 1,
+        minLowercase: 0,
+        minSymbols: 1
+    })
+    senha?: string;
 }
 
 export class AtualizarUserDto {

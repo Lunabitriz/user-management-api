@@ -38,6 +38,11 @@ export class UserController {
         return this.userService.forgotPassword(userMailDto);
     }
 
+    @Post('verify-send-code')
+    async validateReceivedCode(@Body() userMailDto: UserMailDto) {
+        return this.userService.validateReceivedCode(userMailDto);
+    }
+
     @Get() 
     @UseGuards(JwtAuthGuard)
     async list() {
@@ -56,9 +61,9 @@ export class UserController {
     }
 
     @Put('redefine-password')
-    @UseGuards(JwtAuthGuard)
-    async updatePassword(@Body() userDto: UserMailDto) {
-        return this.userService.forgotPassword(userDto);
+    // @UseGuards(JwtAuthGuard)
+    async redefinePassword(@Body() userDto: UserMailDto) {
+        return this.userService.redefinePassword(userDto);
     }   
 
     @Post('upload-foto')

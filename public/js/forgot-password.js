@@ -44,9 +44,8 @@ async function confirmMail() {
 
             const data = await response.json();
             
-            showNotification('ok', 'success')
-            localStorage.setItem('codeReceived', data.hashedCode);
             localStorage.setItem('recoveryEmail', emailInput);
+            showNotification('ok', 'success');
             handleContainersVisibility();
         } else {
             showNotification('Não foi possível encontrar um usuário com esse email. Tente novamente.', 'warning');
@@ -56,6 +55,24 @@ async function confirmMail() {
         console.log('Erro: ', error);
     }
 }
+
+const inputs = document.querySelectorAll('[id^="forgor-code-"]');
+
+inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+        const next = inputs[index + 1];
+        if(input.value && next) 
+            next.focus();
+    });
+
+    input.addEventListener('keydown', (event) => {
+        if(event.key === 'Backspace' && !input.value && index > 0) {
+            const prev = inputs[index - 1];
+            prev.focus();
+            prev.value = '';
+        }
+    });
+});
 
 // Function to second validation: code received
 async function confirmSendCode() {
@@ -82,8 +99,8 @@ async function confirmSendCode() {
         });
 
         if(response.ok) {
-            alert('Código validado com sucesso!');
             localStorage.setItem('enterCode', userCode);
+            alert('Código validado com sucesso!');
             handleContainersVisibility();
         }
     } catch(error) {

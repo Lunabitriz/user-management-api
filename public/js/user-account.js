@@ -274,7 +274,7 @@ async function saveChanges() {
     });
 
     if(response.ok) {
-        const confirmation = showMessagePopUp('success', 'Dados Atualizados!', 'Usuário atualizado com sucesso!');
+        showMessagePopUp('success', 'Dados Atualizados!', 'Usuário atualizado com sucesso!');
         
         const userName = localStorage.getItem('userName');
         const userEmail = localStorage.getItem('userEmail');

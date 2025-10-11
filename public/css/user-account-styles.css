@@ -81,6 +81,7 @@ ul {
     font-size: 14px;
 }
 
+/* ------ Overflows Styles ------ */
 #overflow.active {
     height: 100vh;
     width: 100vw;
@@ -89,6 +90,16 @@ ul {
     z-index: 999;
 }
 
+body.shadow-active::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(47, 47, 47, 0.108);
+    z-index: 3;
+}
+
+/* ------ Container Styles ------ */ 
 #container {
     width: 100%;
     max-width: 790px;
@@ -155,6 +166,7 @@ ul {
     opacity: 1;
 }
 
+/* ------ Bio Descryption Styles ------ */
 #bio-descryption {
     width: 100%;
     padding: 20px;
@@ -176,16 +188,10 @@ ul {
 }
 
 .bio-item label i {
+    z-index: 400;
     font-size: 14px;
     cursor: pointer;
     color: var(--text-color);
-    z-index: 400;
-}
-
-#password-visibility {
-    position: absolute;
-    top: 48px;
-    right: 8px;
 }
 
 .profile-info {
@@ -196,54 +202,18 @@ ul {
 
 .profile-grid {
     display: grid;
-    grid-template-columns: 200px 2fr;
     margin-bottom: 2rem;
+    grid-template-columns: 200px 2fr;
     gap: 2.2rem;
 }
 
-@media(max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    #container {
-        padding: 64px;
-    }
-    
-    .profile-grid {
-        grid-template-columns: 1fr;
-    }
-
-    #bg-card-img {
-        height: 174px;
-    }
-
-    .img-perfil img {
-        width: 144px;
-        height: 144px;
-    }
-    
-    #account-options {
-        display: grid;
-        grid-template-columns: 1 fr;
-    }
-
-    #row-buttons {
-        flex-wrap: wrap;
-    }
+#password-visibility {
+    position: absolute;
+    top: 48px;
+    right: 8px;
 }
 
-@media(max-width: 480px) {
-    #container {
-        padding: 36px;
-    }
-
-    #bio-descryption {
-        padding: 20px;
-    }
-}
-
-/* Password Validation styles */
+/* ------ Password Validation styles ------ */
 #validation {
     max-height: 0;
     display: none;
@@ -269,36 +239,7 @@ ul {
     color: green !important;
 }
 
-.fade-in-medium {
-    animation: fade .81s ease-in-out;
-}
-
-.fade-in {
-    animation: fade .7s ease-in-out;
-}
-
-@keyframes fade {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* ------ Profile Options Styles ------ */
 #edit-options button, 
 #account-options button,
 #bio-descryption input {
@@ -313,6 +254,7 @@ ul {
     display: block;
 }
 
+/* ------ Modal Settings Styles ------ */
 #settings {
     width: 100%;
     max-width: 890px;
@@ -324,15 +266,6 @@ ul {
     z-index: 4;
 }
 
-body.shadow-active::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(47, 47, 47, 0.108);
-    z-index: 3;
-}
-
 #close-settings {
     position: absolute;
     top: 48px;
@@ -341,6 +274,7 @@ body.shadow-active::after {
     color: #888888;
 }
 
+/* ------ Theme Section Styles ------ */
 .theme-box {
     height: fit-content;
     max-width: 240px;
@@ -417,3 +351,77 @@ body.shadow-active::after {
     border: 1px solid var(--border-btn);
     color: var(--text-color);
 } */
+
+/* ------ Screen Responsiveness ------ */
+@media(max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #container {
+        padding: 64px;
+    }
+    
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #bg-card-img {
+        height: 174px;
+    }
+
+    .img-perfil img {
+        width: 144px;
+        height: 144px;
+    }
+    
+    #account-options {
+        display: grid;
+        grid-template-columns: 1 fr;
+    }
+
+    #row-buttons {
+        flex-wrap: wrap;
+    }
+}
+
+@media(max-width: 480px) {
+    #container {
+        padding: 36px;
+    }
+
+    #bio-descryption {
+        padding: 20px;
+    }
+}
+
+/* ------ Animations ------ */
+.fade-in-medium {
+    animation: fade .81s ease-in-out;
+}
+
+.fade-in {
+    animation: fade .7s ease-in-out;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

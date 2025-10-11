@@ -77,6 +77,7 @@ function validateUserName(event) {
 // Save functions in global scope
 window.validateEmail = validateEmail;
 window.validatePassword = validatePassword;
-window.validateUserName = validateUserName;
+window.validateUserName = validate
+UserName;
 window.showValidationsHtml = showValidationsHtml;
 window.showNotification = showNotification;

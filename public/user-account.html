@@ -17,6 +17,7 @@
 <body class="d-flex flex-column justify-content-center align-items-center">
     <div id="overflow"></div>
 
+    <!-- Prodile Card Container  -->
     <div id="container">
         <div id="bg-card-img"></div>
         <div id="profile-display">
@@ -27,43 +28,41 @@
                              alt="Perfil sem foto" id="profile-image">
 
                         <p id="change-img-msg" class="text-center">
-                            Mudar foto de perfil
+                            Change profile picture
                         </p>
                     </label>
 
                     <input onchange="manipulateFile(event)" id="select-file-input" type="file" accept="image/*" style="display: none;">
 
-                    <h3 id="account-name" class="text-center">
-                        ---
-                    </h3>
+                    <h3 id="account-name" class="text-center">---</h3>
                 </div>
             
                 <div id="bio-descryption" class="d-flex flex-column bg-white gap-3 fade-in">
                     <div class="bio-item">
-                        <p>Nome:</p>
+                        <p>Username:</p>
                         <h5 id="name-profile" class="profile-info"></h5>
                         <input 
                             type="text" 
                             id="new-name" 
                             class="edit-input"
                             autocomplete="off"
-                            placeholder="Digite um novo nome"
+                            placeholder="New Username"
                         >
                     </div>                    
                     <div class="bio-item">
-                        <p>Email: </p>
+                        <p>E-mail:</p>
                         <h5 id="email-profile" class="profile-info"></h5>
                         <input 
                             type="text" 
                             id="new-email" 
+                            name="email"
                             class="edit-input"
-                            name="username"
-                            autocomplete="username"
-                            placeholder="Digite um novo email"
+                            autocomplete="email"
+                            placeholder="New Email"
                         >
                     </div>                    
                     <div class="bio-item position-relative">
-                        <p>Senha: </p>
+                        <p>Password:</p>
 
                         <div class="d-flex align-items-center gap-1">
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
@@ -81,7 +80,6 @@
                             autocomplete="off"
                             placeholder="Digite sua nova senha"
                         >
-
                         <div id="profile-edit-password-validations"></div>
                     </div>
                 </div>
@@ -91,29 +89,30 @@
                 <div id="account-options" class="d-flex flex-column gap-3 active">
                     <div id="row-buttons" class="d-flex justify-content-between gap-3">
                         <button onclick="toggleEditOption()" class="btn btn-light fade-in">
-                            Editar informações
+                            Edit Profile
                         </button>
                         <button onclick="openSettings()" class="btn btn-light fade-in">
-                            Configurações
+                            Settings
                         </button>
                     </div>
 
                     <button id="logout-btn" class="btn btn-light fade-in-medium">
-                        Sair da conta
+                        Logout
                     </button>
                 </div>
                 <div id="edit-options" class="d-flex flex-column gap-3">
                     <button id="save-changes-btn" class="edit-btn btn btn-light fade-in">
-                        Salvar Alterações
+                        Save Changes
                     </button>
                     <button onclick="toggleEditOption()" class="btn btn-light fade-in">
-                        Cancelar
+                        Cancel
                     </button>
                 </div>
             </div>
         </div>
-    </div>
+    </div> <!-- Ends: Prodile Card Container  -->
 
+    <!-- Modal Settings -->
     <div id="settings">
         <button id="close-settings" class="btn p-0">
             <i class="fa-solid fa-xmark"></i>
@@ -121,9 +120,9 @@
 
         <div class="themes-grid">
             <div class="header-settings">
-                <h3>Selecione um Tema</h3>
+                <h3>Select Theme</h3>
                 <p>
-                    🌿 Personalize seu espaço de trabalho para torná-lo mais confortável!
+                    🌿 Personalize your workspace to make it more comfortable!
                 </p>
             </div>
 
@@ -190,25 +189,24 @@
                 </div>
 
                 <button id="save-selected-theme" class="btn btn-light mt-1">
-                    Salvar Tema
+                    Save Theme
                 </button>
             </div>
-        </div>
+        </div> <!-- Ends: Themes section -->
 
         <!-- Delete account section -->
         <div id="account-settings" class="mt-5">
             <div class="header-settings">
-                <h3>Conta</h3>
+                <h3>Account</h3>
                 <p>
-                    Excluir seu perfil apagará todos os dados. Deseja continuar?
+                    Deleting your account will erase all your data permanently. Are you sure about this?
                 </p>
             </div>
-
             <button id="remove-account-btn" class="btn btn-dark">
-                Excluir conta
+                Delete Account
             </button>
         </div>
-    </div>
+    </div> <!-- Ends: Modal Settings --> 
 
     <div id="pop-up-container" style="position: absolute; z-index: 1000;"></div>
     

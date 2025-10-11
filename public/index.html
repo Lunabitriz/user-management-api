@@ -17,6 +17,7 @@
 <body class="d-flex justify-content-center align-items-center">
     <div id="main-container" class="">
         <div id="auth-forms">
+            <!-- Starts: Login Form -->
             <div id="login-container" class="active">
                 <div class="header-form text-center">
                     <h2>Login</h2>
@@ -33,7 +34,7 @@
                             class="input-login"
                             name="username"
                             autocomplete="username"
-                            placeholder="Seu Email"
+                            placeholder="Your email"
                         >
                         <img class="input-icon" src="imgs/user.png" alt="User icon">
                     </div>
@@ -45,7 +46,7 @@
                             class="input-login"
                             name="password"
                             autocomplete="current-password"
-                            placeholder="Sua Senha"
+                            placeholder="Your password"
                         >
                         <img class="input-icon" src="imgs/lock.png" alt="Lock icon">
                     </div>
@@ -66,17 +67,21 @@
                 </button>
 
                 <div class="toggle-form-text d-flex justify-content-center">
-                    <p class="mb-0">Don’t have an account?</p>
-
-                    <button onclick="toggleAuthForm('register')" class="btn-auth-form">Sign up</button>
+                    <p class="mb-0">
+                        Don’t have an account?
+                    </p>
+                    <button onclick="toggleAuthForm('register')" class="btn-auth-form">
+                        Sign up
+                    </button>
                 </div>
-            </div>
+            </div> <!-- Ends: Login Form -->
             
+            <!-- Registration Form -->
             <div id="register-container" class="hidden">
                 <div class="header-form text-center">
                     <h2>Register</h2>
                     <p class="mb-0">
-                        Lorem, ipsum dolor sit amet beatae, qun.
+                        Create your account to get started!
                     </p>
                 </div>
                 
@@ -88,7 +93,7 @@
                             type="text" 
                             id="register-user-name" 
                             class="input-register"
-                            placeholder="Seu Nome de Usuário"
+                            placeholder="Username"
                         >
                         <img id="user-name-img" class="input-icon" src="imgs/user.png" alt="User icon">
                     </div>
@@ -100,7 +105,7 @@
                             type="email" 
                             id="register-email" 
                             class="input-register"
-                            placeholder="Seu Email"
+                            placeholder="Enter your email"
                         >
                         <img id="email-img" class="input-icon" src="imgs/email.png" alt="Email icon" style="top: 16px;">
                     </div>
@@ -112,7 +117,7 @@
                             type="password" 
                             id="register-password" 
                             class="input-register"
-                            placeholder="Crie sua senha"
+                            placeholder="Create a password"
                             autocomplete="off"
                         >
                         <img id="password-img" class="input-icon" src="imgs/lock.png" alt="Lock icon">
@@ -138,8 +143,9 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> <!-- Ends: Registration Form -->
 
+        <!-- Cover Images -->
         <img id="cover-img">
             <img id="florest-cover-lg" src="imgs/florest-cover-imgs/florest-cover-5.png" alt="florest">
             <img id="florest-cover-md" src="imgs/florest-cover-imgs/florest-cover-md.png" alt="florest">

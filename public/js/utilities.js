@@ -108,14 +108,105 @@ function validatePassworConfirmation(valueConfirmation, password) {
     return (!password || valueConfirmation !== password) ? 0 : 1;
 }
 
+// Return a custom error message
+function getErrorMensage(message, inputId) {
+    return `
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        <label class="input-label" for="${inputId}">
+            ${message} 
+        </label>
+    `;
+}
+
+// Show messages pop-ups 
+function showMessagePopUp(tipo, titulo, message) {
+    const container = document.getElementById('pop-up-container');
+    document.getElementById('overflow').classList.add('active');
+
+    container.innerHTML = `        
+        <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 348px;">
+            <div class="email-ilustration w-100 d-flex flex-column align-items-center justify-content-center">
+                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} icon" class="mb-3">
+            </div>
+
+            <div class="header-form text-center">
+                <h3>${titulo}</h3>
+                <p class="mb-0">
+                    ${message}
+                </p>
+            </div>
+
+            <button onclick="hidePopUp()" id="popup-confirm-btn" class="btn text-white my-2 w-100" style="background-color: #FF5C5C;">
+                Confirmar
+            </button>
+        </div>
+    `;
+}
+
+// Show confirm or cancel pop-ups
+function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
+    const container = document.getElementById('pop-up-container');
+
+    document.getElementById('overflow').classList.add('active');
+    let popUpColor = (tipo != 'delete') ? '#F37913' : '#FF5C5C';
+    
+    container.innerHTML = `
+         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 420px;">
+            <div class="${tipo}-ilustration">
+                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} image" width="193px">
+            </div>
+            <div class="header-form text-center">
+                <h3 class="text-center">${titulo}</h3>
+                <p class="mb-0 text-center">
+                    ${message}
+                </p>
+            </div>
+            <div class="d-flex justify-content-between w-100 gap-2 my-2">
+                <button id="popup-cancel-btn" class="btn-popup-confirm btn btn-light w-100">
+                    Cancelar
+                </button>
+
+                <button class="btn-popup-confirm btn text-white w-100" style="background-color: ${popUpColor};">
+                    ${ctaBtn}
+                </button>
+            </div>
+         </div>
+    `;
+
+    document.querySelectorAll("#pop-up-container .btn-popup-confirm").forEach(btn => {
+        btn.addEventListener('click', () => {
+            handleConfirmationOptions(tipo, btn.id);
+        });
+    })
+}
+
+// Utilitie function to handle pop-up options
+function handleConfirmationOptions(tipo, btnValue) {
+    if(btnValue === 'popup-cancel-btn') {
+        hidePopUp();
+        return;
+    }
+
+    if(tipo == 'edit') {
+        saveChanges();
+    } else if(tipo == 'logout') {
+        logout();
+    } else if(tipo == 'delete'){
+        removeAccount();
+    }
+}
+
 // Validations Listener
 function activateValidationsListener(emailInputId, passwordInputId, userNameInputId) {
-    const emailInput = document.getElementById(emailInputId);
+    const emailInput = document.getElementById(emailInputId) || '';
     const passwordInput = document.getElementById(passwordInputId);
     const userNameInput = document.getElementById(userNameInputId);
 
     // Password Listener Validation
     ['keyup', 'blur', 'focus'].forEach(eventType => {
+        if(!passwordInput) return;
+
         passwordInput.addEventListener(eventType, (event) => {
             const validationState = validatePassword(event);
             const message = document.getElementById('password-message');
@@ -128,13 +219,7 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
                 document.getElementById('validation').style.display = 'none';
             } else if(!validationState && eventType === 'blur') {
                 passwordInput.style.border = '1px solid #FF7070';                    
-                message.innerHTML = `
-                    <i class="fa-solid fa-circle-exclamation"></i>
-
-                    <label class="input-label" for="${passwordInput}">
-                        Please enter a valid password. 
-                    </label>
-                `;
+                message.innerHTML = getErrorMensage('Please enter a valid password.', passwordInput);
                 showValidations();    
             } else {
                 showValidations();   
@@ -144,6 +229,8 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
 
     // Email Listener Validation
     ['keyup', 'blur'].forEach(eventType => {
+        if(!emailInput) return;
+
         emailInput.addEventListener(eventType, (event) => {
             const validationState = validateEmail(event);
             const message = document.getElementById('email-error');
@@ -153,19 +240,15 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
                 message.innerHTML = '';
             } else if(!validationState && eventType === 'blur') {
                 emailInput.style.border = '1px solid #FF7070';
-                message.innerHTML = `
-                    <i class="fa-solid fa-circle-exclamation"></i>
-
-                    <label class="input-label" for="register-email">
-                        Invalid email address.
-                    </label>
-                `;     
+                message.innerHTML = getErrorMensage('Invalid email address.', emailInput);
             }
         });
     });
 
     // User Name Listener Validation
     ['keyup', 'blur'].forEach(eventType => {
+        if(!userNameInput) return;
+
         userNameInput.addEventListener(eventType, (event) => {
             const validationState = validateUserName(event);
             const message = document.getElementById('user-name-error');
@@ -175,13 +258,7 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
                 message.innerHTML = '';   
             } else if(!validationState && eventType === 'blur') {
                 userNameInput.style.border = '1px solid #FF7070';
-                message.innerHTML = `
-                    <i class="fa-solid fa-circle-exclamation"></i>
-
-                    <label class="input-label" for="register-user-name">
-                        Minimum of 6 characters.
-                    </label>
-                `;  
+                message.innerHTML = getErrorMensage('Minimum of 6 characters.', userNameInput);
             }
         });
     });
@@ -191,8 +268,11 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
 window.validateEmail = validateEmail;
 window.passwordVisible = passwordVisible;
 window.showValidations = showValidations;
+window.showMessagePopUp = showMessagePopUp;
 window.validatePassword = validatePassword;
 window.validateUserName = validateUserName;
 window.showNotification = showNotification;
 window.showValidationsHtml = showValidationsHtml;
+window.showConfirmationPopUP = showConfirmationPopUP;
+window.handleConfirmationOptions = handleConfirmationOptions;
 window.activateValidationsListener = activateValidationsListener;

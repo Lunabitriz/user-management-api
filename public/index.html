@@ -39,9 +39,9 @@
                         <img class="input-icon" src="imgs/user.png" alt="User icon">
                     </div>
     
-                    <div class="input-item">
+                    <div id="login-password-container" class="input-item position-relative">
                         <input 
-                            type="text" 
+                            type="password" 
                             id="login-password" 
                             class="input-login"
                             name="password"
@@ -49,6 +49,11 @@
                             placeholder="Your password"
                         >
                         <img class="input-icon" src="imgs/lock.png" alt="Lock icon">
+
+                        <label onclick="passwordVisible('login-password', 'login-password-container')">
+                            <i id="visible-icon" class="visible-icon fa-solid fa-eye"></i>
+                            <i id="not-visible-icon" class="not-visible-icon fa-solid fa-eye-slash" style="display: none;"></i>
+                        </label>
                     </div>
                     
                     <div class="more-actions d-flex justify-content-between">
@@ -110,7 +115,7 @@
                         <img id="email-img" class="input-icon" src="imgs/email.png" alt="Email icon" style="top: 16px;">
                     </div>
                     
-                    <div class="input-item" style="position: relative;">
+                    <div id="register-password-container" class="input-item position-relative">
                         <div id="password-message" class="input-error"></div>
 
                         <input 
@@ -122,9 +127,9 @@
                         >
                         <img id="password-img" class="input-icon" src="imgs/lock.png" alt="Lock icon">
                         
-                        <label onclick="passwordVisible()">
-                            <i id="visible-icon" class="fa-solid fa-eye"></i>
-                            <i id="not-visible-icon" class="fa-solid fa-eye-slash" style="display: none;"></i>
+                        <label onclick="passwordVisible('register-password', 'register-password-container')">
+                            <i id="visible-icon" class="visible-icon fa-solid fa-eye"></i>
+                            <i id="not-visible-icon" class="not-visible-icon fa-solid fa-eye-slash" style="display: none;"></i>
                         </label>
 
                         <div id="register-password-validations"></div>

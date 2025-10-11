@@ -17,6 +17,19 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
+// Make the password visible
+function passwordVisible(idPassword, idContainer) {
+    const password = document.getElementById(idPassword);
+    const notVisibleIcon = document.querySelector(`#${idContainer} .not-visible-icon`);
+    const visibleIcon = document.querySelector(`#${idContainer} .visible-icon`);
+
+    const isVisible = visibleIcon.style.display != 'none';
+    
+    password.type = isVisible ? 'text' : 'password';
+    visibleIcon.style.display = isVisible ? 'none' : 'block';
+    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
+}
+
 // Password validation
 function validatePassword(event) {
     const lengthAuth = document.getElementById('lenght');
@@ -81,3 +94,4 @@ window.validateUserName = validate
 UserName;
 window.showValidationsHtml = showValidationsHtml;
 window.showNotification = showNotification;
+window.passwordVisible = passwordVisible;

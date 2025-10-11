@@ -65,17 +65,17 @@ document.getElementById('new-password').addEventListener('click', () => {
 });
 
 // Make the password visible
-function passwordVisible() {
-    const password = document.getElementById('new-password');
-    const visibleIcon = document.getElementById('visible-icon');
-    const notVisibleIcon = document.getElementById('not-visible-icon');
+// function passwordVisible() {
+//     const password = document.getElementById('new-password');
+//     const visibleIcon = document.getElementById('visible-icon');
+//     const notVisibleIcon = document.getElementById('not-visible-icon');
 
-    const isVisible = visibleIcon.style.display != 'none';
+//     const isVisible = visibleIcon.style.display != 'none';
     
-    password.type = isVisible ? 'text' : 'password';
-    visibleIcon.style.display = isVisible ? 'none' : 'block';
-    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
-}
+//     password.type = isVisible ? 'text' : 'password';
+//     visibleIcon.style.display = isVisible ? 'none' : 'block';
+//     notVisibleIcon.style.display = isVisible ? 'block' : 'none';
+// }
 
 // Show messages pop-ups 
 function showMessagePopUp(tipo, titulo, message) {

@@ -48,19 +48,6 @@ document.getElementById('register-password').addEventListener('focus', () => {
     showValidations();
 });
 
-// Make the password visible
-function passwordVisible() {
-    const password = document.getElementById('register-password');
-    const notVisibleIcon = document.getElementById('not-visible-icon');
-    const visibleIcon = document.getElementById('visible-icon');
-
-    const isVisible = visibleIcon.style.display != 'none';
-    
-    password.type = isVisible ? 'text' : 'password';
-    visibleIcon.style.display = isVisible ? 'none' : 'block';
-    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
-}
-
 // Password Listener Validations
 const passwordInput = document.getElementById('register-password');
 

@@ -75,7 +75,7 @@ const passwordInput = document.getElementById('register-password');
             passwordInput.style.border = '1px solid #85D6A5';
             document.getElementById('validation').classList.remove('show');
         } else if(!validationState && eventType === 'blur') {
-            passwordInput.style.border = '1px solid #F3D1CE';                    
+            passwordInput.style.border = '1px solid #FF7070';                    
             message.innerHTML = `
                 <i class="fa-solid fa-circle-exclamation"></i>
 

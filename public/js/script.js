@@ -201,7 +201,6 @@ async function saveProfilePhoto(file) {
 
 [ 'new-name', 'new-email'].forEach(id => {
     const input = document.getElementById(id);
-
     if(!input) return;
 
     input.addEventListener('keydown', (event) => {
@@ -246,7 +245,6 @@ async function saveChanges() {
         localStorage.setItem('userName', (updateData.nome) ? updateData.nome : userName);
         localStorage.setItem('userEmail', (updateData.email) ? updateData.email : userEmail);
         loadUserData();
-        
     } else {
         showMessagePopUp('error', 'Erro ao Atualizar', 'Erro ao salvar as alterações do usuário no banco de dados.');
     }
@@ -345,7 +343,10 @@ async function loadUserData() {
     document.getElementById('email-profile').innerText = userEmail;
     document.getElementById('password-profile').innerText = '••••••••';
 
-    if(!!userPhoto) document.getElementById('profile-image').src = userPhoto;
+    if(userPhoto != null) {
+        document.getElementById('profile-image').src = userPhoto;
+        console.log('não tem ft')
+    }
     
     document.getElementById('new-name').placeholder = userName;
     document.getElementById('new-email').placeholder = userEmail;
@@ -447,7 +448,7 @@ async function login() {
             localStorage.setItem('userId', result.user.id);
             localStorage.setItem('userName', result.user.nome);
             localStorage.setItem('userEmail', result.user.email);
-            localStorage.setItem('userPhoto', result.user.fotoPerfil);
+            localStorage.setItem('userPhoto', (result.user.fotoPerfil == null) ? './imgs/profile-img-default.jpg' : result.user.fotoPerfil);
             localStorage.setItem('access_token', result.access_token);
             localStorage.setItem('rememberMe', rememberMe.checked ? 'active' : 'disabled');
             
@@ -504,6 +505,7 @@ function loadUserLoginData() {
 if(window.location.href.endsWith('user-account.html')) {
     loadUserData();
     activateValidationsListener('new-email', 'new-password', 'new-name');
+
     console.log('user account acessado!');
 } else if(window.location.href.endsWith('index.html')) {
     loadUserLoginData();

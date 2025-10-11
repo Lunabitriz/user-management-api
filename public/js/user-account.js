@@ -17,6 +17,14 @@ function toggleEditOption() {
         input.value = "";
     });
 
+    document.querySelectorAll('.edit-input-error').forEach(msg => {
+        msg.innerHTML = '';
+    });
+
+    document.querySelectorAll('.edit-input').forEach(input => {
+        input.style.border = 'var(--input-border)';
+    });
+
     resetInfoDisplay();
 }
 
@@ -63,19 +71,6 @@ document.getElementById('new-password').addEventListener('click', () => {
     document.getElementById('validation').classList.add('show');
     document.getElementById('validation').style.display = 'block';
 });
-
-// Make the password visible
-// function passwordVisible() {
-//     const password = document.getElementById('new-password');
-//     const visibleIcon = document.getElementById('visible-icon');
-//     const notVisibleIcon = document.getElementById('not-visible-icon');
-
-//     const isVisible = visibleIcon.style.display != 'none';
-    
-//     password.type = isVisible ? 'text' : 'password';
-//     visibleIcon.style.display = isVisible ? 'none' : 'block';
-//     notVisibleIcon.style.display = isVisible ? 'block' : 'none';
-// }
 
 // Show messages pop-ups 
 function showMessagePopUp(tipo, titulo, message) {
@@ -375,8 +370,7 @@ async function authenticatedFetch(url, options = {}) {
         }, 2000);
         
         throw new Error('Token expirado');
-    }
-    
+    }    
     return response;
 }
 
@@ -391,7 +385,7 @@ function isAuthenticated() {
 async function loadUserData() {
     // Verifica se o usuário está autenticado
     if(!isAuthenticated()) {
-        showNotification('Usuário não autenticado. Direcionando para a tela de login!', 'warning');
+        showNotification('User not authenticated. Redirecting to login page...', 'warning');
 
         setTimeout(() => {
             window.location = 'index.html';
@@ -420,7 +414,7 @@ async function loadUserData() {
     document.documentElement.setAttribute('data-theme', selectedTheme);
 }
 
-// Função para fazer logout
+// Function to logout
 function logout() {
     const rememberMeActive = localStorage.getItem('rememberMe');
 
@@ -435,4 +429,5 @@ function logout() {
     window.location.href = 'index.html';
 }
 
+activateValidationsListener('new-email', 'new-password', 'new-name');
 loadUserData();

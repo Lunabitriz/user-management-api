@@ -25,7 +25,7 @@ function toggleAuthForm(form) {
         });
 
         document.querySelectorAll('.input-register').forEach(input => {
-            input.style.border = '1px solid #d4d4d4';
+            input.style.border = 'var(--input-border)';
         });
 
         document.getElementById('validation').classList.remove('show');
@@ -37,91 +37,12 @@ document.getElementById('forgot-password').addEventListener('click', () => {
     window.location = 'forgot-password-page.html';
 });
 
-// Show password validations
-function showValidations() {
-    document.getElementById('validation').classList.add('show');
-    document.getElementById('validation').style.display = 'block';
-}
-
 document.getElementById('register-password').addEventListener('focus', () => {
     showValidationsHtml('register-password-validations');
     showValidations();
 });
 
-// Password Listener Validations
-const passwordInput = document.getElementById('register-password');
-
-['keyup', 'blur', 'focus'].forEach(eventType => {
-    passwordInput.addEventListener(eventType, (event) => {
-        const validationState = validatePassword(event);
-        const message = document.getElementById('password-message');
-
-        if(validationState) {
-            message.innerHTML = "";
-            passwordInput.style.backgroundColor = '#fff';
-            passwordInput.style.border = '1px solid #85D6A5';
-            document.getElementById('validation').classList.remove('show');
-        } else if(!validationState && eventType === 'blur') {
-            passwordInput.style.border = '1px solid #FF7070';                    
-            message.innerHTML = `
-                <i class="fa-solid fa-circle-exclamation"></i>
-
-                <label class="input-label" for="${passwordInput}">
-                    Digite uma senha válida!
-                </label>
-            `;
-            showValidations();    
-        } else {
-            showValidations();   
-        }
-    });
-});
-
-const emailInput = document.getElementById('register-email');
-
-['keyup', 'blur'].forEach(eventType => {
-    emailInput.addEventListener(eventType, (event) => {
-        const validationState = validateEmail(event);
-        const message = document.getElementById('email-error');
-
-        if(validationState) {
-            emailInput.style.border = '1px solid #85D6A5';
-            message.innerHTML = '';
-        } else if(!validationState && eventType === 'blur') {
-            emailInput.style.border = '1px solid #FF7070';
-            message.innerHTML = `
-                <i class="fa-solid fa-circle-exclamation"></i>
-
-                <label class="input-label" for="register-email">
-                    E-mail inválido.
-                </label>
-            `;     
-        }
-    });
-});
-
-const userNameInput = document.getElementById('register-user-name');
-
-['keyup', 'blur'].forEach(eventType => {
-    userNameInput.addEventListener(eventType, (event) => {
-        const validationState = validateUserName(event);
-        const message = document.getElementById('user-name-error');
-
-        if(validationState) {
-            userNameInput.style.border = '1px solid #85D6A5';
-            message.innerHTML = '';   
-        } else if(!validationState && eventType === 'blur') {
-            userNameInput.style.border = '1px solid #FF7070';
-            message.innerHTML = `
-                <i class="fa-solid fa-circle-exclamation"></i>
-
-                <label class="input-label" for="register-user-name">
-                    Mínimo 6 caracteres.
-                </label>
-            `;  
-        }
-    });
-});
+activateValidationsListener('register-email', 'register-password', 'register-user-name');
 
 // Login function
 async function login() {

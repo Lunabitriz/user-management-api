@@ -168,4 +168,45 @@ function handleContainersVisibility() {
     }
 }
 
+// Show password validations - vou otimizar!
+function showValidations() {
+    document.getElementById('validation').classList.add('show');
+    document.getElementById('validation').style.display = 'block';
+}
+
+document.getElementById('new-password').addEventListener('focus', () => {
+    showValidationsHtml('redefine-password-validations');
+    showValidations();
+});
+
+const confirmPassowordInput = document.getElementById('confirm-new-password');
+
+['keyup', 'blur', 'focus'].forEach(eventType => {
+    confirmPassowordInput.addEventListener(eventType, (event) => {
+        const newPassowordInput = document.getElementById('new-password').value.trim();
+        const message = document.getElementById('confirm-password-message');
+
+        let inputValue = event.target.value;
+        let errorMessage = (!newPassowordInput) ? 'Please fill in the first field.' : 'Passwords must match.'
+        
+        const isValidPassword = !newPassowordInput || inputValue !== newPassowordInput;
+
+        if(!isValidPassword) {
+            message.innerHTML = "";
+            confirmPassowordInput.style.backgroundColor = '#fff';
+            confirmPassowordInput.style.border = '1px solid #85D6A5';
+        } else {
+            confirmPassowordInput.style.border = '1px solid #FF7070';                    
+            message.innerHTML = `
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <label class="input-label" for="${confirmPassowordInput}">
+                    ${errorMessage}
+                </label>
+            `;
+        }
+    });
+});
+
 handleContainersVisibility();
+activateValidationsListener(null, 'new-password', null);

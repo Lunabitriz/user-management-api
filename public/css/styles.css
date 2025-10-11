@@ -194,7 +194,7 @@ body.shadow-active::after {
 
 #bio-descryption.active p {
     font-size: 18px;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     color: var(--color-p-bio-item-active);
 }
 
@@ -267,7 +267,8 @@ body.shadow-active::after {
     fill: var(--validation-li-invalid);
 }
 
-.input-error {
+.input-error,
+.edit-input-error {
     position: absolute;
     top: -8px;
     left: 40px;
@@ -277,6 +278,11 @@ body.shadow-active::after {
     background-color: var(--bg-input);
     color: #D7655B;
     z-index: 10;
+}
+
+.edit-input-error { 
+    left: 8px; 
+    font-size: 0.72rem;
 }
 
 .input-error label {

@@ -42,45 +42,55 @@
                     <div class="bio-item">
                         <p>Username:</p>
                         <h5 id="name-profile" class="profile-info"></h5>
-                        <input 
-                            type="text" 
-                            id="new-name" 
-                            class="edit-input"
-                            autocomplete="off"
-                            placeholder="New Username"
+
+                        <div class="input-item position relative">
+                            <div id="user-name-error" class="edit-input-error"></div>
+                            <input 
+                                type="text" 
+                                id="new-name" 
+                                class="edit-input"
+                                autocomplete="off"
+                                placeholder="New Username"
                         >
+                        </div>
                     </div>                    
                     <div class="bio-item">
                         <p>E-mail:</p>
                         <h5 id="email-profile" class="profile-info"></h5>
-                        <input 
-                            type="text" 
-                            id="new-email" 
-                            name="email"
-                            class="edit-input"
-                            autocomplete="email"
-                            placeholder="New Email"
-                        >
+
+                        <div class="input-item position relative">
+                            <div id="email-error" class="edit-input-error"></div>
+                            <input
+                                type="text"
+                                id="new-email"
+                                name="email"
+                                class="edit-input"
+                                autocomplete="email"
+                                placeholder="New Email"
+                            >
+                        </div>
                     </div>                    
                     <div class="bio-item position-relative">
                         <p>Password:</p>
 
-                        <div id="edit-password-container" class="d-flex align-items-center gap-1">
+                        <div class="d-flex align-items-center gap-1">
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
-                            
-                            <label onclick="passwordVisible('new-password', 'edit-password-container')" id="password-visibility" class="position-absolute" style="display: none;top: 48px; right: 8px;">
-                                <i id="visible-icon" class="visible-icon fa-solid fa-eye"></i>
-                                <i id="not-visible-icon" class="not-visible-icon fa-solid fa-eye-slash" style="display: none;"></i>
-                            </label>   
+
                         </div>
                         
-                        <input
-                            type="password" 
-                            id="new-password" 
-                            class="edit-input"
-                            autocomplete="off"
-                            placeholder="Digite sua nova senha"
-                        >
+                        <div id="edit-password-container"  class="input-item position-relative">
+                            <div id="password-message" class="edit-input-error"></div>
+                            
+                            <input
+                                type="password"
+                                id="new-password"
+                                class="edit-input"
+                                autocomplete="off"
+                                placeholder="Digite sua nova senha"
+                            >
+       
+                            <label onclick="passwordVisible('new-password', 'edit-password-container')" id="password-visibility" class="password-label position-absolute bg-dark" style="display: none; top: 2px; right: 8px;"></label>   
+                        </div>
                         <div id="profile-edit-password-validations"></div>
                     </div>
                 </div>
@@ -212,7 +222,6 @@
 
     <div id="pop-up-container" style="position: absolute; z-index: 1000;"></div>
     
-    <script src="./js/validations-utils.js"></script>
     <script src="./js/utilities.js"></script>
     <script src="./js/user-account.js"></script>
 </body>

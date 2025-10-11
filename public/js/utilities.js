@@ -124,6 +124,16 @@ function showMessagePopUp(tipo, titulo, message) {
     const container = document.getElementById('pop-up-container');
     document.getElementById('overflow').classList.add('active');
 
+    let color = '';
+
+    if(tipo === 'error') {
+        color = '#FF5C5C';
+    } else if(tipo === 'error-database') {
+        color = '#3b97e3';
+    } else {
+        color = '#5da271';
+    }
+
     container.innerHTML = `        
         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 348px;">
             <div class="email-ilustration w-100 d-flex flex-column align-items-center justify-content-center">
@@ -137,7 +147,7 @@ function showMessagePopUp(tipo, titulo, message) {
                 </p>
             </div>
 
-            <button onclick="hidePopUp()" id="popup-confirm-btn" class="btn text-white my-2 w-100" style="background-color: #FF5C5C;">
+            <button onclick="hidePopUp()" id="popup-confirm-btn" class="btn text-white my-2 w-100" style="background-color: ${color};">
                 Confirmar
             </button>
         </div>

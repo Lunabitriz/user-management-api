@@ -87,9 +87,9 @@ if(saveChangesBtn) {
     saveChangesBtn.addEventListener('click', () => {
         showConfirmationPopUP(
             'edit', 
-            'Salvar alterações?', 
-            'Tem certeza que deseja atualizar seus dados?',
-            'Salvar alterações'
+            'Save Changes?', 
+            'Are you sure you want to update your information?',
+            'Save Changes'
         );
     });
 }
@@ -100,9 +100,9 @@ if(removeAccountBtn) {
     removeAccountBtn.addEventListener('click', () => {
         showConfirmationPopUP(
             'delete', 
-            'Excluir Perfil?', 
-            'Tem certeza que deseja excluir a sua conta?<strong>Esta ação é permanente e não pode ser desfeita.</strong>', 
-            'Excluir perfil'
+            'Delete Account?', 
+            'Are you sure you want to delete your account? <strong>Esta ação é permanente e não pode ser desfeita.</strong>', 
+            'Delete Account'
         ); 
     });
 }
@@ -113,9 +113,9 @@ if(logoutBtn) {
     logoutBtn.addEventListener('click', () => {
         showConfirmationPopUP(
             'logout',
-            'Sair do Perfil?',
-            'Tem certeza que deseja sair da sua conta?',
-            'Sair do Perfil'
+            'Sign Out?',
+            'Are you sure you want to sign out?',
+            'Sign Out'
         );
     });
 }
@@ -153,12 +153,12 @@ async function manipulateFile(event) {
     if(file) {
         try {
             if(!file.type.startsWith('image/')) {
-                showMessagePopUp('error', 'Arquivo Inválido', 'Selecione uma imagem, por favor!');
+                showMessagePopUp('error', 'Invalid File', 'Please select an image.');
                 return;
             }
 
             if(file.size > 5 * 1024 * 1024) {
-                showMessagePopUp('error', 'Erro ao Carregar', 'Selecione uma imagem menor, por favor!');
+                showMessagePopUp('error', 'Upload Error', 'Please choose a smaller image.');
                 return;
             }
 
@@ -170,7 +170,7 @@ async function manipulateFile(event) {
             document.getElementById('profile-image').src = fileConverted;
             localStorage.setItem('userPhoto', fileConverted);
         } catch(error) {
-            showMessagePopUp('error', 'Erro ao Processar', 'Tente novamente mais tarde, por favor|');
+            showMessagePopUp('error', 'Processing Error', 'Please try again later.');
         }
     }
 }
@@ -192,9 +192,9 @@ async function saveProfilePhoto(file) {
     });
 
     if(response.ok) {    
-        showMessagePopUp('success', 'Sucesso ao Atualizar', 'Imagem salva com sucesso!');
+        showMessagePopUp('success', 'Update Successful', 'Image saved successfully!');
     } else {
-        showMessagePopUp('error', 'Erro ao Salvar', 'Erro ao carregar imagem para o banco');
+        showMessagePopUp('error', 'Save Error', 'Failed to upload image to the database.');
         // showNotification('Erro ao carregar imagem para o banco.', 'danger');
     }
 }
@@ -217,7 +217,7 @@ async function saveChanges() {
     const newPassword = document.getElementById('new-password').value;
 
     if(!newName.trim() && !newEmail.trim() && !newPassword.trim()) {
-        showMessagePopUp('error', 'Erro ao Atualizar', 'Insira dados válidos para atualizar!')
+        showMessagePopUp('error', 'Update Error', 'Please enter valid data to update.')
         return;
     }
 
@@ -237,7 +237,7 @@ async function saveChanges() {
     });
 
     if(response.ok) {
-        showMessagePopUp('success', 'Dados Atualizados!', 'Usuário atualizado com sucesso!');
+        showMessagePopUp('success', 'Data Updated', 'User information updated successfully.');
         
         const userName = localStorage.getItem('userName');
         const userEmail = localStorage.getItem('userEmail');
@@ -246,7 +246,7 @@ async function saveChanges() {
         localStorage.setItem('userEmail', (updateData.email) ? updateData.email : userEmail);
         loadUserData();
     } else {
-        showMessagePopUp('error', 'Erro ao Atualizar', 'Erro ao salvar as alterações do usuário no banco de dados.');
+        showMessagePopUp('error', 'Update Error', 'Failed to save user changes to the database.');
     }
 }
 
@@ -260,7 +260,7 @@ async function removeAccount() {
     const userId = localStorage.getItem('userId');
     
     if(!userId) {
-        showNotification('Usuário não identificado. Faça login novamente!', 'warning');
+        showNotification('User not identified. Please log in again.', 'warning');
         return;
     }
 
@@ -269,10 +269,10 @@ async function removeAccount() {
     });
 
     if(response.ok) {
-        showNotification('Conta excluída com sucesso!', 'success');
+        showNotification('Account deleted successfully. Redirecting to home...', 'success');
         logout();
     } else {
-        showNotification('Erro ao deletar sua conta!', 'danger');
+        showNotification('Failed to delete your account!', 'danger');
     }
 }
 
@@ -303,7 +303,7 @@ async function authenticatedFetch(url, options = {}) {
         localStorage.removeItem('userPhoto');
         localStorage.removeItem('access_token');
         
-        showNotification('Sessão expirada. Faça login novamente.', 'warning');
+        showNotification('Session expired. Please log in again.', 'warning');
         
         setTimeout(() => {
             window.location.href = 'index.html';
@@ -423,8 +423,6 @@ if(registerPassword) {
     });
 }
 
-activateValidationsListener('register-email', 'register-password', 'register-user-name');
-
 // Login function
 async function login() {
     let email = document.getElementById('login-email').value;
@@ -441,7 +439,7 @@ async function login() {
         })
 
         if(response.ok) {
-            showNotification('Login efetuado com sucesso!', 'success');
+            showNotification('Login successful!', 'success');
             const result = await response.json();
 
             // Saves data to localStorage and the JWT token
@@ -459,10 +457,10 @@ async function login() {
             window.location.href = 'user-account.html';
             
         } else {
-            showNotification('Erro ao fazer login!', 'warning');
+            showNotification('Login failed!', 'warning');
         }
     } catch(error) {
-        showNotification('Erro ao accesar banco de dados!', 'danger');
+        showNotification('Database access error!', 'danger');
     }            
 }
 
@@ -481,9 +479,9 @@ async function register() {
     });
     
     if(response.ok) {
-        showNotification('Usuário cadastrado com sucesso!', 'success');
+        showNotification('Account created successfully. Redirecting to your profile...', 'success');
     } else {
-        showNotification('Erro ao cadastrar usuário.', 'danger');
+        showNotification('Failed to create account.', 'danger');
     }
 }
 
@@ -505,8 +503,8 @@ function loadUserLoginData() {
 if(window.location.href.endsWith('user-account.html')) {
     loadUserData();
     activateValidationsListener('new-email', 'new-password', 'new-name');
-
     console.log('user account acessado!');
 } else if(window.location.href.endsWith('index.html')) {
+    activateValidationsListener('register-email', 'register-password', 'register-user-name');
     loadUserLoginData();
 }

@@ -1,22 +1,30 @@
 /* Font import */
 /* @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap'); */
 
+:root {
+    --text-color: #515151;
+    
+    --border-input: 1px solid #d4d4d4;
+
+    --bg-body: #f7f7ff;
+    --bg-input: #ffffff;
+
+    --main-container-shadow: 2px 7px 8px 2px rgba(61, 13, 0, 0.166);
+}
+
 /* ------ General Styles ------ */
 body {
     /* font-family: 'Manrope', sans-serif; */
-    height: 100vh;
-    color: #515151;
-    background-color: #f7f7ff;
-    padding: 10px;
+    color: var(--text-color);
+    background-color: var(--bg-body);
 }
 
 input {
     padding: 10px 40px;
     border-radius: 8.5px;
-    border: 1px solid #d4d4d4;
-    background-color: #ffffff ;
+    border: var(--border-input);
+    background-color: var(--bg-input);
 }
-
 
 input:focus {
     outline: none;
@@ -24,27 +32,13 @@ input:focus {
     box-shadow: 0 0 2px 1px rgba(220, 112, 4, 0.325);
 }
 
-ul li {
-    list-style: none;
-}
-
-ul {
-    font-size: 14px;
-}
+ul { font-size: 14px; }
+ul li { list-style: none; }
 
 /* ------ Container Styles ------ */
 #main-container {
-    background-color: white;
-    margin: 0;
-    width: 100%;
     max-width: 1250px;
-    border-radius: 28px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 2px 7px 10px 2px #3d0d0030;
-    overflow: hidden;
+    box-shadow: var(--main-container-shadow);
 }
 
 /* ------ Side image cover styles ------ */
@@ -55,13 +49,11 @@ ul {
 
 /* ------ Auth forms styles ------ */
 #auth-forms {
-    width: 100%;
-    padding: 20px;
+    color: #484848;
     max-width: 384px;
     margin-left: 168px;
     font-size: 1.02rem;
     height: fit-content;
-    color: #484848;
     z-index: 2;
 }
 
@@ -72,23 +64,13 @@ ul {
 
 #login-container.active,
 #register-container.active {
+    gap: 36px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 36px;
-} 
-
-.header-form h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 12px;
 }
 
 /* ------ Inputs styles ------ */
-.inputs {
-    gap: 24px;
-}
-
 .input-item {
     width: 100%;
     display: flex;
@@ -109,10 +91,10 @@ ul {
     position: absolute;
     top: -8px;
     left: 40px;
-    background-color: #ffffff;
     padding: 0 4px;
-    font-size: 0.75rem;
     font-weight: 500;
+    font-size: 0.75rem;
+    background-color: #ffffff;
     color: #D7655B;
     z-index: 10;
 }
@@ -123,9 +105,9 @@ ul {
 
 /* ------ Login Options Styles ------ */
 .remember-me-container label {
-    color: #757575;
-    font-weight: 500;
     cursor: pointer;
+    font-weight: 500;
+    color: #757575;
 }
 
 #remember-me {
@@ -168,8 +150,8 @@ ul {
 }
 
 #validation.show {
-    margin: 20px 0 0 0;
     max-height: 110px;
+    margin: 20px 0 0 0;
     animation: fade .5s ease-in-out;
 }
 
@@ -189,8 +171,8 @@ ul {
 .btn-auth-form, 
 #forgot-password {
     border: none;
-    color: #F37913;
     font-weight: 500;
+    color: #F37913;
     width: fit-content;
     background-color: transparent;
     transition: all .2s ease;
@@ -210,7 +192,7 @@ ul {
     font-weight: 500;
     border-radius: 8px;
     background-color: #F37913;
-    color: white;
+    color: #ffffff;
 }
 
 /* ------ Page Animations ------ */
@@ -279,11 +261,11 @@ ul {
     }
 
     #florest-cover-mobile {
-        min-height: 150px;
         position: absolute;
         top: 0;
         width: 100%;
         display: block;
+        min-height: 150px;
         background: url('../imgs/florest-cover-imgs/florest-cover-mobile.png') no-repeat center center;
     }
 

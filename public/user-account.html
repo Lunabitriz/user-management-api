@@ -14,20 +14,21 @@
     <!-- Link CSS -->
     <link rel="stylesheet" href="css/user-account-styles.css">
 </head>
-<body class="d-flex flex-column justify-content-center align-items-center">
+<body class="d-flex flex-column justify-content-center align-items-center vh-100">
     <div id="overflow"></div>
 
     <!-- Prodile Card Container  -->
-    <div id="container">
-        <div id="bg-card-img"></div>
+    <div id="container" class="w-100 mx-auto p-5 position-relative overflow-hidden rounded-4">
+        <div id="bg-card-img" class="w-100 position-absolute"></div>
+        
         <div id="profile-display">
-            <div class="profile-grid">
+            <div class="profile-grid d-grid mb-4">
                 <div class="d-flex flex-column justify-content-center gap-2 fade-in">
-                    <label for="select-file-input" class="img-perfil d-flex justify-content-center align-items-center">
+                    <label for="select-file-input" class="img-perfil d-flex justify-content-center align-items-center mx-auto rounded-circle">
                         <img src="./imgs/profile-img-default.jpg"
-                             alt="Perfil sem foto" id="profile-image">
+                             alt="Perfil sem foto" id="profile-image" class="rounded-circle">
 
-                        <p id="change-img-msg" class="text-center">
+                        <p id="change-img-msg" class="text-center position-absolute w-100 p-3 rounded">
                             Change profile picture
                         </p>
                     </label>
@@ -37,7 +38,7 @@
                     <h3 id="account-name" class="text-center">---</h3>
                 </div>
             
-                <div id="bio-descryption" class="d-flex flex-column bg-white gap-3 fade-in">
+                <div id="bio-descryption" class="d-flex flex-column gap-3 w-100 p-3 rounded fade-in">
                     <div class="bio-item">
                         <p>Username:</p>
                         <h5 id="name-profile" class="profile-info"></h5>
@@ -67,7 +68,7 @@
                         <div class="d-flex align-items-center gap-1">
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
                             
-                            <label id="password-visibility" onclick="passwordVisible()" style="display: none;">
+                            <label onclick="passwordVisible()" id="password-visibility" class="position-absolute" style="display: none;top: 48px; right: 8px;">
                                 <i id="visible-icon" class="fa-solid fa-eye"></i>
                                 <i id="not-visible-icon" class="fa-solid fa-eye-slash" style="display: none;"></i>
                             </label>   
@@ -113,8 +114,8 @@
     </div> <!-- Ends: Prodile Card Container  -->
 
     <!-- Modal Settings -->
-    <div id="settings">
-        <button id="close-settings" class="btn p-0">
+    <div id="settings" class="w-100 p-5 rounded position-relative">
+        <button id="close-settings" class="position-absolute fs-4 btn p-0">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
@@ -128,6 +129,7 @@
 
             <!-- Themes section -->
             <div class="d-flex justify-content-between flex-wrap gap-4">
+                <!-- Themes Options -->
                 <div class="theme-box selected" data-theme="light-theme">
                     <div class="theme-image">
                         <img src="imgs/profile-img-default.jpg" alt="">
@@ -186,7 +188,7 @@
                         <div class="circle-theme"></div>
                         <h4>Dark mode</h4>
                     </div>
-                </div>
+                </div> <!-- Ends: Themes Options -->
 
                 <button id="save-selected-theme" class="btn btn-light mt-1">
                     Save Theme

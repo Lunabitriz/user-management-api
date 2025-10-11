@@ -1,3 +1,4 @@
+// --------------- User account page Scripts ---------------
 function toggleEditOption() {
     const bioDescryption = document.getElementById('bio-descryption');
     const visibilityIcon = document.getElementById('password-visibility');
@@ -39,16 +40,18 @@ themes.forEach(theme => {
 });
 
 // Function to save and load the selected theme
-document.getElementById('save-selected-theme').addEventListener('click', () => {
-    const themeSelected = document.querySelector('.theme-box.selected');
-    const theme = themeSelected.getAttribute('data-theme');
-    const themeFormated = theme.slice(0, theme.indexOf('-theme'));
+const selectedTheme = document.getElementById('save-selected-theme');
+if(selectedTheme) {
+    selectedTheme.addEventListener('click', () => {
+        const themeSelected = document.querySelector('.theme-box.selected');
+        const theme = themeSelected.getAttribute('data-theme');
+        const themeFormated = theme.slice(0, theme.indexOf('-theme'));
 
-    document.documentElement.setAttribute('data-theme', themeFormated);
-    localStorage.setItem('theme', themeFormated);
-    closeSettings();
-});
-
+        document.documentElement.setAttribute('data-theme', themeFormated);
+        localStorage.setItem('theme', themeFormated);
+        closeSettings();
+    });
+}
 // Function to open settings 
 function openSettings() {
     document.getElementById('settings').style.display = 'block';
@@ -63,44 +66,59 @@ function closeSettings() {
     document.body.classList.remove('shadow-active');
 }
 
-document.getElementById('close-settings').addEventListener('click', () => {
-    closeSettings();
-});
+const closeSettingsBtn = document.getElementById('close-settings');
+if(closeSettingsBtn) {
+    closeSettingsBtn.addEventListener('click', () => {
+        closeSettings();
+    });
+}
 
-document.getElementById('new-password').addEventListener('click', () => {
-    document.getElementById('validation').classList.add('show');
-    document.getElementById('validation').style.display = 'block';
-});
+const newPassword = document.getElementById('new-password');
+if(newPassword) {
+    newPassword.addEventListener('click', () => {
+        document.getElementById('validation').classList.add('show');
+        document.getElementById('validation').style.display = 'block';
+    });
+}
 
 // Show pop-up for save edited changes
-document.getElementById('save-changes-btn').addEventListener('click', () => {
-    showConfirmationPopUP(
-        'edit', 
-        'Salvar alterações?', 
-        'Tem certeza que deseja atualizar seus dados?',
-        'Salvar alterações'
-    );
-});
+const saveChangesBtn = document.getElementById('save-changes-btn');
+if(saveChangesBtn) {
+    saveChangesBtn.addEventListener('click', () => {
+        showConfirmationPopUP(
+            'edit', 
+            'Salvar alterações?', 
+            'Tem certeza que deseja atualizar seus dados?',
+            'Salvar alterações'
+        );
+    });
+}
 
 // Show pop-up for account remove
-document.getElementById('remove-account-btn').addEventListener('click', () => {
-    showConfirmationPopUP(
-        'delete', 
-        'Excluir Perfil?', 
-        'Tem certeza que deseja excluir a sua conta?<strong>Esta ação é permanente e não pode ser desfeita.</strong>', 
-        'Excluir perfil'
-    ); 
-});
+const removeAccountBtn = document.getElementById('remove-account-btn');
+if(removeAccountBtn) {
+    removeAccountBtn.addEventListener('click', () => {
+        showConfirmationPopUP(
+            'delete', 
+            'Excluir Perfil?', 
+            'Tem certeza que deseja excluir a sua conta?<strong>Esta ação é permanente e não pode ser desfeita.</strong>', 
+            'Excluir perfil'
+        ); 
+    });
+}
 
 // Show pop-up for logout
-document.getElementById('logout-btn').addEventListener('click', () => {
-    showConfirmationPopUP(
-        'logout',
-        'Sair do Perfil?',
-        'Tem certeza que deseja sair da sua conta?',
-        'Sair do Perfil'
-    );
-});
+const logoutBtn = document.getElementById('logout-btn');
+if(logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        showConfirmationPopUP(
+            'logout',
+            'Sair do Perfil?',
+            'Tem certeza que deseja sair da sua conta?',
+            'Sair do Perfil'
+        );
+    });
+}
 
 // Function for hidden pop-up
 function hidePopUp() {
@@ -183,6 +201,8 @@ async function saveProfilePhoto(file) {
 
 [ 'new-name', 'new-email'].forEach(id => {
     const input = document.getElementById(id);
+
+    if(!input) return;
 
     input.addEventListener('keydown', (event) => {
         if((event.key === 'Backspace' || event.key === 'Tab') && input.value.length <= 0) {
@@ -351,5 +371,140 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-activateValidationsListener('new-email', 'new-password', 'new-name');
-loadUserData();
+// --------------- Index page Scripts ---------------
+// Toggle auth form
+function toggleAuthForm(form) {
+    const loginForm = document.getElementById('login-container');
+    const registerForm = document.getElementById('register-container');
+    const rememberMe = document.getElementById('remember-me');
+    const loginInputs = document.querySelectorAll('.input-login');
+    const registerInputs = document.querySelectorAll('.input-register');
+
+    if(form === 'login') {
+        loginForm.classList.add('active');
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        registerForm.classList.remove('active');
+        registerInputs.forEach(input => input.value = '');
+    } else {
+        loginForm.classList.add('hidden');
+        loginForm.classList.remove('active');
+        registerForm.classList.add('active');
+        registerForm.classList.remove('hidden');
+        loginInputs.forEach(input => input.value = '');
+        rememberMe.checked = false;
+
+        document.querySelectorAll('.input-error').forEach(msg => {
+            msg.innerHTML = '';
+        });
+
+        document.querySelectorAll('.input-register').forEach(input => {
+            input.style.border = 'var(--input-border)';
+        });
+
+        document.getElementById('validation').classList.remove('show');
+        document.getElementById('validation').style.display = 'none';
+    }
+}
+
+const forgotBtn = document.getElementById('forgot-password');
+if(forgotBtn) {
+    forgotBtn.addEventListener('click', () => {
+        window.location = 'forgot-password-page.html';
+    });
+}
+
+const registerPassword = document.getElementById('register-password');
+if(registerPassword) {
+    document.getElementById('register-password').addEventListener('focus', () => {
+        showValidationsHtml('register-password-validations');
+        showValidations();
+    });
+}
+
+activateValidationsListener('register-email', 'register-password', 'register-user-name');
+
+// Login function
+async function login() {
+    let email = document.getElementById('login-email').value;
+    let senha = document.getElementById('login-password').value;
+    const rememberMe = document.getElementById('remember-me');
+
+    try {
+        const response = await fetch('http://localhost:3000/auth/login', {
+                method: 'POST',
+                headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ email, senha })
+        })
+
+        if(response.ok) {
+            showNotification('Login efetuado com sucesso!', 'success');
+            const result = await response.json();
+
+            // Saves data to localStorage and the JWT token
+            localStorage.setItem('userId', result.user.id);
+            localStorage.setItem('userName', result.user.nome);
+            localStorage.setItem('userEmail', result.user.email);
+            localStorage.setItem('userPhoto', result.user.fotoPerfil);
+            localStorage.setItem('access_token', result.access_token);
+            localStorage.setItem('rememberMe', rememberMe.checked ? 'active' : 'disabled');
+            
+            // Clear the input fields
+            email = '';
+            senha = '';
+            
+            window.location.href = 'user-account.html';
+            
+        } else {
+            showNotification('Erro ao fazer login!', 'warning');
+        }
+    } catch(error) {
+        showNotification('Erro ao accesar banco de dados!', 'danger');
+    }            
+}
+
+// Register function
+async function register() {
+    const email = document.getElementById('register-email').value;
+    const nome = document.getElementById('register-user-name').value;
+    const senha = document.getElementById('register-password').value;
+    
+    const response = await fetch('http://localhost:3000/user', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ nome, email, senha })
+    });
+    
+    if(response.ok) {
+        showNotification('Usuário cadastrado com sucesso!', 'success');
+    } else {
+        showNotification('Erro ao cadastrar usuário.', 'danger');
+    }
+}
+
+function loadUserLoginData() {
+    const rememberMeIsActive = localStorage.getItem('rememberMe');
+    
+    if(rememberMeIsActive === 'active') {
+        const userEmail = localStorage.getItem('userEmail');
+        document.getElementById('login-email').value = userEmail;
+    }
+
+    // Clear localStorage if the "Forgot Password" was accessed
+    localStorage.removeItem('enterCode');
+    localStorage.removeItem('recoveryEmail');
+    localStorage.removeItem('passwordRedefined');
+}
+
+// Initializations
+if(window.location.href.endsWith('user-account.html')) {
+    loadUserData();
+    activateValidationsListener('new-email', 'new-password', 'new-name');
+    console.log('user account acessado!');
+} else if(window.location.href.endsWith('index.html')) {
+    loadUserLoginData();
+}

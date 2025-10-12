@@ -403,8 +403,11 @@ function toggleAuthForm(form) {
             input.style.border = 'var(--input-border)';
         });
 
-        document.getElementById('validation').classList.remove('show');
-        document.getElementById('validation').style.display = 'none';
+        const validationsContainer = document.getElementById('validation');
+        if(!validationsContainer) return;
+
+        validationsContainer.classList.remove('show');
+        validationsContainer.style.display = 'none';
     }
 }
 

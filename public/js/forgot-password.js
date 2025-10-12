@@ -28,8 +28,6 @@ async function confirmMail() {
     }
 }
 
-showLoadingSpinner('enter-email-container');
-
 // Function to populate the code container
 function populateCodeInputs() {
     const inputsContainer = document.getElementById('input-item-forgot');

@@ -13,7 +13,7 @@ import { MailerService } from 'src/mailer/mailer.service';
         fileSize: 5 * 1024 * 1024,
       },
       fileFilter: (req, file, cb) => {
-        if (file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
+        if(file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
           cb(null, true);
         } else {
           cb(new Error('Apenas arquivos de imagem são permitidos'), false);

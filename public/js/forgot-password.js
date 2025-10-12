@@ -3,6 +3,7 @@ async function confirmMail() {
     const emailInput = document.getElementById('recovery-email').value.trim().toLowerCase();
 
     let sendTo = document.getElementById('send-to-mail');
+    showLoadingSpinner('enter-email-container');
 
     try {
         const response = await fetch('http://localhost:3000/user/forgot-password', {
@@ -19,13 +20,15 @@ async function confirmMail() {
             populateCodeInputs();
             handleContainersVisibility();
         } else {
-            showNotification('Não foi possível encontrar um usuário com esse email. Tente novamente.', 'warning');
+            showNotification('No account found with this email. Please try again.', 'warning');
             console.log(response)
         }
     } catch(error) {
         console.log('Erro: ', error);
     }
 }
+
+showLoadingSpinner('enter-email-container');
 
 // Function to populate the code container
 function populateCodeInputs() {
@@ -44,7 +47,7 @@ function populateCodeInputs() {
             input.pattern = '[0-9]*';
             input.maxLength = 1;
             input.autocomplete = 'off';
-            input.setAttribute('aria-label', 'Código de verificação');
+            input.setAttribute('aria-label', 'Validation code');
     
             inputsContainer.appendChild(input);
         });
@@ -80,9 +83,17 @@ function timerToExpires() {
     let sec = localStorage.getItem('currentSeconds') || 59;
     let min = localStorage.getItem('currentMinutes') || (maxMinutes - 1);
 
-    expiresText.innerText = `${min}:${sec}`;
+    if(min > 0) expiresText.innerText = `${min}:${sec}`;
+    if(localStorage.getItem('enterCode')) return;
 
     setInterval(() => {
+        if(min <= 0) {
+            expiresText.innerText = 'Expired!';
+            showNotification('Code expired! Redirecting to login...', 'warning');
+            goToInitialPage();
+            return;
+        }
+
         sec--;
 
         sec = (sec >= 10) ? sec : ('0' + sec);
@@ -95,10 +106,6 @@ function timerToExpires() {
             sec = 59;
             min--;
         }
-
-        if(min <= 0) {
-            expiresText.innerText = 'Expirado!';
-        }
     }, 1000);
 }
 
@@ -109,7 +116,7 @@ async function confirmSendCode() {
 
     codeInputs.forEach(code => {
         if(!code.value) {
-            showNotification('Preencha os campos corretamente!', 'danger');
+            showNotification('Please fill in all fields correctly.', 'danger');
             return;
         }
         userCode += code.value;
@@ -132,7 +139,7 @@ async function confirmSendCode() {
             localStorage.setItem('enterCode', userCode);
             handleContainersVisibility();
         } else {
-            showNotification('Código incorreto. Verifique seu email e tente novamente', 'danger');
+            showNotification('Invalid code. Check your email and try again.', 'danger');
         }
     } catch(error) {
         console.error(error);
@@ -167,36 +174,47 @@ async function confirmNewPassword() {
     }
 }
 
-function handleContainersVisibility() {
-    if(localStorage.getItem('recoveryEmail') && !localStorage.getItem('enterCode')) {
-        document.getElementById('code-container').classList.remove('d-none');
-        document.getElementById('enter-email-container').classList.add('d-none');
-        showNotification('Email enviado com sucesso!', 'success');
-        timerToExpires();
-    }
-    if(localStorage.getItem('enterCode') && !localStorage.getItem('passwordRedefined')) {
-        document.getElementById('code-container').classList.add('d-none');
-        document.getElementById('new-password-container').classList.remove('d-none');
-        showNotification('Código validado com sucesso!', 'success');
-    }
-    if(localStorage.getItem('passwordRedefined')) {
-        document.getElementById('enter-email-container').classList.add('d-none');
-        document.getElementById('confirm-container').classList.remove('d-none');
-        document.getElementById('new-password-container').classList.add('d-none');
-        showNotification('Senha redefinida com sucesso! Direcionando para a tela de login...', 'success');
-    }
+function hideValidationsContainers() {
+    const popUpsActives = document.querySelectorAll('.forgot-container');
+
+    popUpsActives.forEach(popUp => {
+        popUp.classList.remove('active');
+    });
 }
 
-function goToInitialPage() {
-    localStorage.removeItem('enterCode');
-    localStorage.removeItem('recoveryEmail');
-    localStorage.removeItem('passwordRedefined');
-    localStorage.removeItem('currentMinutes');
-    localStorage.removeItem('currentSeconds');
+function handleContainersVisibility() {
+    const enterCodeExists = localStorage.getItem('enterCode');
+    const recoveryEmailExists = localStorage.getItem('recoveryEmail');
+    const passwordRedefined = localStorage.getItem('passwordRedefined');
 
-    setTimeout(() => {
-        window.location = 'index.html';
-    }, 2000);
+    const codeContainer = document.getElementById('code-container');
+    const confirmContainer = document.getElementById('confirm-container');
+    const enterEmailContainer = document.getElementById('enter-email-container');
+    const newPasswordContainer = document.getElementById('new-password-container');
+
+    if(!recoveryEmailExists) {
+        enterEmailContainer.classList.add('active');
+        return;
+    }
+
+    hideValidationsContainers();
+
+    if(recoveryEmailExists && !enterCodeExists) {
+        codeContainer.classList.add('active');
+        showNotification('Email sent successfully!', 'success');
+        timerToExpires();
+        return;
+    }
+    if(enterCodeExists && !passwordRedefined) {
+        newPasswordContainer.classList.add('active');
+        showNotification('Code verified successfully!', 'success');
+        return;
+    }
+    if(passwordRedefined) {
+        confirmContainer.classList.add('active');
+        showNotification('Password reset successfully! Redirecting to login...', 'success');
+        return;
+    }
 }
 
 // Show password validations - vou otimizar!
@@ -232,6 +250,12 @@ const confirmPassowordInput = document.getElementById('confirm-new-password');
         }
     });
 });
+
+function goToInitialPage() {
+    setTimeout(() => {
+        window.location = 'index.html';
+    }, 1600);
+}
 
 handleContainersVisibility();
 activateValidationsListener('recovery-email', 'new-password', null);

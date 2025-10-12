@@ -655,6 +655,16 @@ body.shadow-active::after {
 /* ------ Page: Forgot Password | Styles ------ */
 .forgot-container {
     box-shadow: 0 7px 10px 0 rgba(130, 130, 130, 0.16);
+    transition: padding-bottom .6s ease-in;
+    display: none;
+}
+
+.forgot-container.active {
+    display: flex;
+}
+
+.forgot-container:has(.loading-container) {
+    padding-bottom: 100px !important;
 }
 
 #input-item-forgot .input-forgot {
@@ -673,3 +683,43 @@ body.shadow-active::after {
 }
 
 .hidden { display: none; }
+
+/* ------ Loading Spinner Style ------ */
+.loading-container {
+    display: none;
+}
+
+.loading-container.active {
+    display: flex;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(196, 196, 196, 0.436);
+    border-top: 4px solid rgba(213, 102, 11, 0.918);
+    animation: spinner 0.9s linear infinite;
+}
+
+.loading-container p {
+    animation: colorVisible 4s ease;
+}
+
+.loading-container span {
+    letter-spacing: 2px;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes colorisibility {
+    from {
+        color: transparent;
+    }
+    to {
+        color: #484848;
+    }
+}

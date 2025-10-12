@@ -497,13 +497,14 @@ function loadUserLoginData() {
     localStorage.removeItem('enterCode');
     localStorage.removeItem('recoveryEmail');
     localStorage.removeItem('passwordRedefined');
+    localStorage.removeItem('currentMinutes');
+    localStorage.removeItem('currentSeconds');
 }
 
 // Initializations
 if(window.location.href.endsWith('user-account.html')) {
     loadUserData();
     activateValidationsListener('new-email', 'new-password', 'new-name');
-    console.log('user account acessado!');
 } else if(window.location.href.endsWith('index.html')) {
     activateValidationsListener('register-email', 'register-password', 'register-user-name');
     loadUserLoginData();

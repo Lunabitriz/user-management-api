@@ -207,6 +207,58 @@ function handleConfirmationOptions(tipo, btnValue) {
     }
 }
 
+// Function to show the loading spinner
+function showLoadingSpinner(containerId) {
+    const container = document.getElementById(containerId);
+
+    const spinner = document.createElement('div');
+    spinner.id = `${containerId}-spinner`;
+    spinner.className = 'loading-container flex-column justify-content-center align-items-center gap-2 position-absolute';
+    spinner.style.bottom = '4px';
+
+    spinner.innerHTML = `
+        <div class="loading-spinner active rounded-circle"></div>
+        <div class="d-flex" style="gap: 2px">
+            <p class="loading-text">Processing</p> <span id="load-points"></span>
+        </div>
+    `;
+
+    container.appendChild(spinner);
+
+    setTimeout(() => {
+        document.getElementById(`${containerId}-spinner`).classList.add('active');
+    }, 600);
+
+    typeEffect('...', 'load-points');
+}
+
+// Function to typing effect on text
+function typeEffect(text, textFieldId) {
+    const textField = document.getElementById(textFieldId);
+    let index = 0;
+
+    const typingInterval = setInterval(() => {
+        if(index < text.length) {
+            textField.innerText += text[index];
+            index++;
+        } else {
+            clearInterval(typingInterval);
+            setTimeout(() => {
+                textField.innerText = '';
+                typeEffect(text, textFieldId);
+            }, 100);
+        }
+    }, 980);
+}
+
+// Function to hide the loading spinner
+function hideLoadingSpinner(containerId) {
+    const spinner = document.getElementById(containerId + '-spinner');
+    if(!spinner) return;
+
+    document.removeChild(spinner);
+}
+
 // Validations Listener
 function activateValidationsListener(emailInputId, passwordInputId, userNameInputId) {
     const emailInput = document.getElementById(emailInputId) || '';
@@ -275,14 +327,14 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
 }
 
 // Save functions in global scope
-window.validateEmail = validateEmail;
-window.passwordVisible = passwordVisible;
-window.showValidations = showValidations;
-window.showMessagePopUp = showMessagePopUp;
-window.validatePassword = validatePassword;
-window.validateUserName = validateUserName;
-window.showNotification = showNotification;
-window.showValidationsHtml = showValidationsHtml;
-window.showConfirmationPopUP = showConfirmationPopUP;
-window.handleConfirmationOptions = handleConfirmationOptions;
-window.activateValidationsListener = activateValidationsListener;
+const functionsToExport = [
+    activateValidationsListener,
+    validateEmail, passwordVisible, showValidations,
+    showMessagePopUp, validatePassword, validateUserName,
+    showNotification, hideLoadingSpinner, showLoadingSpinner,
+    showValidationsHtml, showConfirmationPopUP, handleConfirmationOptions
+];
+
+functionsToExport.forEach(func => {
+    window.func = func;
+});

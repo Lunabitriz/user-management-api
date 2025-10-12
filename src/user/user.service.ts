@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { MailerService } from '../mailer/mailer.service';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class UserService {

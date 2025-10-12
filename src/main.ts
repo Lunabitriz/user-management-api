@@ -38,6 +38,6 @@ async function bootstrap() {
   // Inicializa o NestJS sem chamar app.listen
   await app.init();
 }
-bootstrap();
 
-export default server;
+bootstrap();
+module.exports = server;

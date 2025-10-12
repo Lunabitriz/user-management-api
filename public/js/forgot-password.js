@@ -97,7 +97,7 @@ function timerToExpires() {
         }
 
         if(min <= 0) {
-            expiresText.innerText = 'Expired!';
+            expiresText.innerText = 'Expirado!';
         }
     }, 1000);
 }

@@ -2,6 +2,11 @@
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
 
+    document.querySelectorAll('.alert-notification').forEach(notif => {
+        notif.classList.add('hide');
+        notif.classList.remove('show');
+    });
+
     notification.className = `
         fw-medium
         position-fixed
@@ -298,7 +303,7 @@ function hideLoadingSpinner(containerId) {
     const spinner = document.getElementById(containerId + '-spinner');
     if(!spinner) return;
 
-    document.removeChild(spinner);
+    document.getElementById(containerId).removeChild(spinner);
 }
 
 // Validations Listener

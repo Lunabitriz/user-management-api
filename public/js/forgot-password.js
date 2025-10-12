@@ -21,7 +21,7 @@ async function confirmMail() {
             handleContainersVisibility();
         } else {
             showNotification('No account found with this email. Please try again.', 'warning');
-            console.log(response)
+            hideLoadingSpinner('enter-email-container');
         }
     } catch(error) {
         console.log('Erro: ', error);

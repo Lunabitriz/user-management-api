@@ -195,7 +195,6 @@ async function saveProfilePhoto(file) {
         showMessagePopUp('success', 'Update Successful', 'Image saved successfully!');
     } else {
         showMessagePopUp('error', 'Save Error', 'Failed to upload image to the database.');
-        // showNotification('Erro ao carregar imagem para o banco.', 'danger');
     }
 }
 
@@ -460,7 +459,7 @@ async function login() {
             window.location.href = 'user-account.html';
             
         } else {
-            showNotification('Login failed!', 'warning');
+            showNotification('Login failed! Please check your credentials', 'warning');
         }
     } catch(error) {
         showNotification('Database access error!', 'danger');

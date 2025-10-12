@@ -2,20 +2,70 @@
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
 
-    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    notification.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    notification.className = `
+        fw-medium
+        position-fixed
+        bg-white gap-2 p-2
+        d-flex align-items-center justify-content-between
+        alert-notification alert alert-dismissible fade show
     `;
+
+    notification.style.cssText = `top: 20px; right: 20px;`;
+
+    // Vou melhorar
+    const icons = {
+        info: 'info',
+        danger: 'error',
+        success: 'success',
+        warning: 'warning'
+    };
     
+    const iconImage = icons[type];
+    const color = getColorByType(type);
+    
+    notification.style.borderLeft = `4px solid ${color}`;
+    notification.innerHTML = `
+        <img src="imgs/pop-ups-arts/${iconImage}-icon.jpg" alt="${type} icon" style="width: 70px;">
+
+        <div class="d-flex align-items-center justify-content-between gap-2 w-100">
+            <p class="m-0">${message}</p>
+            <button type="button" class="btn btn-close-notification me-2 fs-4" data-bs-dismiss="alert" aria-label="Close">
+                X
+            </button>
+        </div>
+    `;
+
+    function hideNotification() {
+        notification.classList.remove('show');
+        notification.classList.add('hide');
+        setTimeout(() => notification.remove(), 300);
+    }
+
     document.body.appendChild(notification);
-    
+
+    const closeBtn = notification.querySelector('.btn-close-notification');
+    closeBtn.addEventListener('click', () => hideNotification());
+
     setTimeout(() => {
-        if(notification.parentNode) {
-            notification.remove();
-        }
+        if(notification && notification.parentNode) hideNotification();
     }, 5000);
+}
+
+function getColorByType(type) {
+    const colorByType = {
+        'error': '#FF5C5C',
+        'danger': '#FF5C5C',
+        'delete': '#FF5C5C',
+
+        'info': '#3b97e3',
+        'error-database': '#3b97e3',
+
+        'warning': '#F37913',
+        'logout': '#F37913',
+        'edit': '#F37913',
+    };
+
+    return colorByType[type] || '#5da271';
 }
 
 // Make the password visible
@@ -124,15 +174,7 @@ function showMessagePopUp(tipo, titulo, message) {
     const container = document.getElementById('pop-up-container');
     document.getElementById('overflow').classList.add('active');
 
-    let color = '';
-
-    if(tipo === 'error') {
-        color = '#FF5C5C';
-    } else if(tipo === 'error-database') {
-        color = '#3b97e3';
-    } else {
-        color = '#5da271';
-    }
+    let color = getColorByType(tipo);
 
     container.innerHTML = `        
         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 348px;">
@@ -159,7 +201,7 @@ function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
     const container = document.getElementById('pop-up-container');
 
     document.getElementById('overflow').classList.add('active');
-    let popUpColor = (tipo != 'delete') ? '#F37913' : '#FF5C5C';
+    const popUpColor = getColorByType(tipo);
     
     container.innerHTML = `
          <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 420px;">

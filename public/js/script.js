@@ -101,7 +101,7 @@ if(removeAccountBtn) {
         showConfirmationPopUP(
             'delete', 
             'Delete Account?', 
-            'Are you sure you want to delete your account? <strong>Esta ação é permanente e não pode ser desfeita.</strong>', 
+            'Are you sure you want to delete your account? <br><strong>This action is permanent and cannot be undone.</strong>', 
             'Delete Account'
         ); 
     });

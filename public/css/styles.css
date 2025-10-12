@@ -507,9 +507,29 @@ body.shadow-active::after {
     color: #ffffff;
 }
 
+/* ------ Alert Notifications ------ */
+.alert {
+    width: 490px;
+    visibility: 1;
+    transition: all .9s ease-in;
+    box-shadow: var(--bio-descryption-shadow);
+    z-index: 9999;
+}
+
+.btn-close-notification {
+    transform: scaleX(1.4);
+    transform-origin: right;
+    background-color: var(--bg-profile-card);
+}
+
+.hide {
+    visibility: 0;
+    animation: fade-in .3s ease-in-out;
+}
+
 /* ------ Page Animations ------ */
 .fade {
-    animation: fade ease-in-out .3s;
+    animation: fade .3s ease-in-out;
 }
 
 .fade-in-medium {
@@ -590,9 +610,7 @@ body.shadow-active::after {
         grid-template-columns: 1 fr;
     }
 
-    #row-buttons {
-        flex-wrap: wrap;
-    }
+    #row-buttons { flex-wrap: wrap; }
 }
 
 @media(max-width: 720px) {
@@ -627,9 +645,7 @@ body.shadow-active::after {
         background: url('../imgs/florest-cover-imgs/florest-cover-mobile.png') no-repeat center center;
     }
 
-    #florest-cover-md {
-        display: none;
-    }
+    #florest-cover-md { display: none; }
 }
 
 /* ------ Mobile Responsivity ------ */
@@ -659,9 +675,7 @@ body.shadow-active::after {
     display: none;
 }
 
-.forgot-container.active {
-    display: flex;
-}
+.forgot-container.active { display: flex; }
 
 .forgot-container:has(.loading-container) {
     padding-bottom: 100px !important;
@@ -685,13 +699,8 @@ body.shadow-active::after {
 .hidden { display: none; }
 
 /* ------ Loading Spinner Style ------ */
-.loading-container {
-    display: none;
-}
-
-.loading-container.active {
-    display: flex;
-}
+.loading-container { display: none; }
+.loading-container.active { display: flex; }
 
 .loading-spinner {
     width: 40px;
@@ -701,25 +710,14 @@ body.shadow-active::after {
     animation: spinner 0.9s linear infinite;
 }
 
-.loading-container p {
-    animation: colorVisible 4s ease;
-}
-
-.loading-container span {
-    letter-spacing: 2px;
-}
+.loading-container span { letter-spacing: 2px; }
+.loading-container p { animation: colorVisible 4s ease; }
 
 @keyframes spinner {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 @keyframes colorisibility {
-    from {
-        color: transparent;
-    }
-    to {
-        color: #484848;
-    }
+    from { color: transparent; }
+    to   { color: #484848; }
 }

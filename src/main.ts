@@ -2,10 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
 
+const server = express();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
   // Configurar limites de tamanho para uploads
   app.use(bodyParser.json({ limit: '50mb' }));
@@ -14,21 +17,27 @@ async function bootstrap() {
   // Configurar limite para requisições raw (para uploads de arquivos)
   app.use(bodyParser.raw({ limit: '50mb' }));
 
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    transformOptions: {
-      enableImplicitConversion: true,
-    },
-    whitelist: true,
-    forbidNonWhitelisted: true
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
+  // Configurar CORS
   app.enableCors({
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
-  
-  await app.listen(process.env.PORT ?? 3000);
+
+  // Inicializa o NestJS sem chamar app.listen
+  await app.init();
 }
 bootstrap();
+
+export default server;

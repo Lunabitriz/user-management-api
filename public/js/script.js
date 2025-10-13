@@ -43,9 +43,9 @@ function closeSettings() {
     document.getElementById('settings').style.display = 'none';
     document.getElementById('themes-section').innerHTML = '';
     document.body.classList.remove('shadow-active');
-
 }
 
+// Listener to close settings 
 const closeSettingsBtn = document.getElementById('close-settings');
 if(closeSettingsBtn) {
     closeSettingsBtn.addEventListener('click', () => {
@@ -53,6 +53,7 @@ if(closeSettingsBtn) {
     });
 }
 
+// Function to render themes
 function renderThemes() {
     const themesContainer = document.getElementById('themes-section');
     const pageThemes = ['Sunset', 'East Blue', 'Kuma', 'Dark Mode', 'Dark Mode', 'Dark Mode'];
@@ -128,6 +129,7 @@ function renderThemes() {
     }
 }
 
+// Listener to show password validations
 const newPassword = document.getElementById('new-password');
 if(newPassword) {
     newPassword.addEventListener('click', () => {
@@ -193,6 +195,7 @@ function resetInfoDisplay() {
     invisibleIcon.style.display = 'none';
 }
 
+// Function to convert images to base 64
 function convertToBase64(file) {
     return new Promise((resolve, reject) => {
         const fileRead = new FileReader();                
@@ -202,6 +205,7 @@ function convertToBase64(file) {
     });
 }
 
+// Function to manipulate the select file 
 async function manipulateFile(event) {
     const file = event.target.files[0];
 
@@ -230,6 +234,7 @@ async function manipulateFile(event) {
     }
 }
 
+// Function to save profile photo
 async function saveProfilePhoto(file) {
     const userId = parseInt(localStorage.getItem('userId'));
 
@@ -253,7 +258,8 @@ async function saveProfilePhoto(file) {
     }
 }
 
-[ 'new-name', 'new-email'].forEach(id => {
+// Listener to inputs autocomplete
+['new-name', 'new-email'].forEach(id => {
     const input = document.getElementById(id);
     if(!input) return;
 
@@ -263,8 +269,9 @@ async function saveProfilePhoto(file) {
             event.preventDefault();
         }
     })
-})
+});
 
+// Function to save profile changes
 async function saveChanges() {
     const newName = document.getElementById('new-name').value;
     const newEmail = document.getElementById('new-email').value;
@@ -304,13 +311,8 @@ async function saveChanges() {
     }
 }
 
+// Function to remove account
 async function removeAccount() {
-    const confirmation = confirm('Tem certeza que deseja excluir sua conta?');
-
-    if(!confirmation) {
-        return;
-    }
-
     const userId = localStorage.getItem('userId');
     
     if(!userId) {
@@ -376,8 +378,9 @@ function isAuthenticated() {
     return !!(token && userId);
 }
 
+// Function to load registred user informations
 async function loadUserData() {
-    // Verifica se o usuário está autenticado
+    // Verify if user is autenticate
     if(!isAuthenticated()) {
         showNotification('User not authenticated. Redirecting to login page...', 'warning');
 
@@ -388,17 +391,21 @@ async function loadUserData() {
         return;
     }
 
+    // Get saved data in localStorage
     const userName = localStorage.getItem('userName');
     const userEmail = localStorage.getItem('userEmail');
     const userPhoto = localStorage.getItem('userPhoto');
 
+    // Show informations in profile data fields
     document.getElementById('account-name').innerText = userName
     document.getElementById('name-profile').innerText = userName;
     document.getElementById('email-profile').innerText = userEmail;
     document.getElementById('password-profile').innerText = '••••••••';
 
+    // Load profile photo if is defined
     if(userPhoto != null) document.getElementById('profile-image').src = userPhoto;
     
+    // Show the profile data in placeholders 
     document.getElementById('new-name').placeholder = userName;
     document.getElementById('new-email').placeholder = userEmail;
     document.getElementById('new-password').placeholder = '••••••••';
@@ -515,6 +522,7 @@ async function login() {
         }
     } catch(error) {
         showNotification('Database access error!', 'danger');
+        console.log(error)
     }            
 }
 
@@ -539,6 +547,7 @@ async function register() {
     }
 }
 
+// load user login data
 function loadUserLoginData() {
     const rememberMeIsActive = localStorage.getItem('rememberMe');
     

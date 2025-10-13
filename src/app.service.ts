@@ -2,7 +2,5 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'index.html';
-  }
+  // Removido o método getHello() que retornava "Hello World!"
 }

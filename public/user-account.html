@@ -72,7 +72,6 @@
                     </div>                    
                     <div class="bio-item position-relative">
                         <p>Password:</p>
-
                         <div class="d-flex align-items-center gap-1">
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
 
@@ -129,82 +128,8 @@
             <i class="fa-solid fa-xmark"></i>
         </button>
 
-        <div class="themes-grid">
-            <div class="header-settings">
-                <h3>Select Theme</h3>
-                <p>
-                    🌿 Personalize your workspace to make it more comfortable!
-                </p>
-            </div>
-
-            <!-- Themes section -->
-            <div class="d-flex justify-content-between flex-wrap gap-4">
-                <!-- Themes Options -->
-                <div class="theme-box selected" data-theme="light-theme">
-                    <div class="theme-image">
-                        <img src="imgs/profile-cover-themes/sunset-cover.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>Sunset</h4>
-                    </div>
-                </div>
-
-                <div class="theme-box" data-theme="east-blue-theme">
-                    <div class="theme-image">
-                        <img src="imgs/profile-cover-themes/east-blue-cover.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>East Blue</h4>
-                    </div>
-                </div>
-
-                <div class="theme-box" data-theme="kuma-theme">
-                    <div class="theme-image">
-                        <img src="imgs/profile-cover-themes/kuma-cover.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>Kuma</h4>
-                    </div>
-                </div>
-
-                <div class="theme-box inactive">
-                    <div class="theme-image">
-                        <img src="imgs/profile-img-default.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>Dark mode</h4>
-                    </div>
-                </div>
-
-                <div class="theme-box inactive">
-                    <div class="theme-image">
-                        <img src="imgs/profile-img-default.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>Dark mode</h4>
-                    </div>
-                </div>
-
-                <div class="theme-box inactive">
-                    <div class="theme-image">
-                        <img src="imgs/profile-img-default.jpg" alt="">
-                    </div>
-                    <div class="theme-header d-flex align-items-center">
-                        <div class="circle-theme"></div>
-                        <h4>Dark mode</h4>
-                    </div>
-                </div> <!-- Ends: Themes Options -->
-
-                <button id="save-selected-theme" class="btn btn-light mt-1">
-                    Save Theme
-                </button>
-            </div>
-        </div> <!-- Ends: Themes section -->
+        <!-- Themes section -->
+        <div id="themes-section" class="themes-grid"></div>
 
         <!-- Delete account section -->
         <div id="account-settings" class="mt-5">

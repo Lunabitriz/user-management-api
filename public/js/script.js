@@ -29,41 +29,21 @@ function toggleEditOption() {
     resetInfoDisplay();
 }
 
-// Function to switch selected themes
-const themes = document.querySelectorAll('.theme-box');
-
-themes.forEach(theme => {
-    theme.addEventListener('click', () => {
-        themes.forEach(t => t.classList.remove('selected'));
-        theme.classList.add('selected');
-    });
-});
-
-// Function to save and load the selected theme
-const selectedTheme = document.getElementById('save-selected-theme');
-if(selectedTheme) {
-    selectedTheme.addEventListener('click', () => {
-        const themeSelected = document.querySelector('.theme-box.selected');
-        const theme = themeSelected.getAttribute('data-theme');
-        const themeFormated = theme.slice(0, theme.indexOf('-theme'));
-
-        document.documentElement.setAttribute('data-theme', themeFormated);
-        localStorage.setItem('theme', themeFormated);
-        closeSettings();
-    });
-}
 // Function to open settings 
 function openSettings() {
     document.getElementById('settings').style.display = 'block';
     document.getElementById('container').style.display = 'none';
     document.body.classList.add('shadow-active');
+    renderThemes();
 }
 
 // Function to close settings 
 function closeSettings() {
     document.getElementById('container').style.display = 'block';
     document.getElementById('settings').style.display = 'none';
+    document.getElementById('themes-section').innerHTML = '';
     document.body.classList.remove('shadow-active');
+
 }
 
 const closeSettingsBtn = document.getElementById('close-settings');
@@ -71,6 +51,81 @@ if(closeSettingsBtn) {
     closeSettingsBtn.addEventListener('click', () => {
         closeSettings();
     });
+}
+
+function renderThemes() {
+    const themesContainer = document.getElementById('themes-section');
+    const pageThemes = ['Sunset', 'East Blue', 'Kuma', 'Dark Mode', 'Dark Mode', 'Dark Mode'];
+
+    const themesHtml = pageThemes.map(theme => {        
+        const themeDefined = theme == 'Dark Mode' ? 'inactive' : '';
+        const themeFormated = theme.toLowerCase().replace(' ', '-');
+
+        const themeImage = theme == 'Dark Mode' 
+            ? 'profile-img-default'
+            : `profile-cover-themes/${themeFormated}-cover`;
+
+        return `
+            <div class="theme-box ${themeDefined}" data-theme="${themeFormated}-theme">
+                <div class="theme-image">
+                    <img src="imgs/${themeImage}.jpg" alt="">
+                </div>
+
+                <div class="theme-header d-flex align-items-center">
+                    <div class="circle-theme"></div>
+                    <h4>${theme}</h4>
+                </div>
+            </div>
+        `
+    }).join('');
+
+    themesContainer.innerHTML = `
+        <div class="header-settings">
+            <h3>Select Theme</h3>
+            <p>
+                🌿 Personalize your workspace to make it more comfortable!
+            </p>
+        </div>
+
+        <div class="d-flex justify-content-between flex-wrap gap-4">
+            <!-- Themes Options -->
+            ${themesHtml}
+            <button id="save-selected-theme" class="btn btn-light mt-1">
+                Save Theme
+            </button>
+        </div>
+    `;
+
+    // Function to switch selected themes
+    const themes = document.querySelectorAll('.theme-box');
+    themes.forEach(theme => {
+        theme.addEventListener('click', () => {
+            themes.forEach(t => t.classList.remove('selected'));
+            theme.classList.add('selected');
+        });
+    });
+    
+    // Make the selected theme starts active
+    const themeSaved = (localStorage.getItem('theme') + '-theme');
+    themes.forEach(theme => {
+        theme.getAttribute('data-theme') == themeSaved 
+            ? theme.classList.add('selected')
+            : theme.classList.remove('selected');
+    });
+
+    // Function to save and load the selected theme
+    const selectedTheme = document.getElementById('save-selected-theme');
+    if(selectedTheme) {
+        selectedTheme.addEventListener('click', () => {
+            const themeSelected = document.querySelector('.theme-box.selected');
+            const theme = themeSelected.getAttribute('data-theme');
+            const themeFormated = theme.slice(0, theme.indexOf('-theme'));
+
+            document.documentElement.setAttribute('data-theme', themeFormated);
+            localStorage.setItem('theme', themeFormated);
+            closeSettings();
+        });
+    }
 }
 
 const newPassword = document.getElementById('new-password');
@@ -342,10 +397,7 @@ async function loadUserData() {
     document.getElementById('email-profile').innerText = userEmail;
     document.getElementById('password-profile').innerText = '••••••••';
 
-    if(userPhoto != null) {
-        document.getElementById('profile-image').src = userPhoto;
-        console.log('não tem ft')
-    }
+    if(userPhoto != null) document.getElementById('profile-image').src = userPhoto;
     
     document.getElementById('new-name').placeholder = userName;
     document.getElementById('new-email').placeholder = userEmail;

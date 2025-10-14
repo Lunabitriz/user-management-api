@@ -71,6 +71,12 @@ inputs.forEach((input, index) => {
             prev.value = '';
         }
     });
+
+    if(input.id === 'forgot-code-4') {
+        input.addEventListener('input', () => {
+            confirmSendCode();
+        })
+    }
 });
 
 // Function to show code validation time

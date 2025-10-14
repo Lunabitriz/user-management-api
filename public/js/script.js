@@ -484,6 +484,15 @@ if(registerPassword) {
     });
 }
 
+const loginPassword = document.getElementById('login-password');
+if(registerPassword && loginPassword) {
+    [registerPassword, loginPassword].forEach(input => {
+        input.addEventListener('keypress', (event) => {
+            if(event.key === 'Enter') login();
+        });
+    });
+}
+
 // Login function
 async function login() {
     let email = document.getElementById('login-email').value;

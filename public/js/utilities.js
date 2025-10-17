@@ -43,8 +43,8 @@ function showNotification(message, type = 'info') {
     `;
 
     function hideNotification() {
-        notification.classList.remove('show');
         notification.classList.add('hide');
+        notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
     }
 
@@ -196,7 +196,7 @@ function showMessagePopUp(tipo, titulo, message) {
                 </p>
             </div>
 
-            <button onclick="hidePopUp()" id="popup-confirm-btn" class="text-white py-2 w-full rounded-md shadow-sm" style="background-color: ${color};">
+            <button onclick="hidePopUp()" id="popup-confirm-btn" class="btn text-white w-full" style="background-color: ${color};">
                 Confirm
             </button>
         </div>
@@ -222,11 +222,11 @@ function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
                 </p>
             </div>
             <div class="flex justify-between w-full gap-2 mt-2">
-                <button id="popup-cancel-btn" class="btn-popup-confirm bg-gray-100 hover:bg-gray-200 w-full rounded px-6 py-2">
+                <button id="popup-cancel-btn" class="btn btn-popup-confirm w-full">
                     Cancelar
                 </button>
 
-                <button class="btn-popup-confirm text-white w-full rounded px-6 py-2" style="background-color: ${popUpColor};">
+                <button class="btn btn-popup-confirm text-white w-full" style="background-color: ${popUpColor};">
                     ${ctaBtn}
                 </button>
             </div>

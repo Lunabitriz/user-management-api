@@ -39,8 +39,8 @@ function openSettings() {
 
 // Function to close settings 
 function closeSettings() {
-    document.getElementById('container').style.display = 'block';
     document.getElementById('settings').style.display = 'none';
+    document.getElementById('container').style.display = 'block';
     document.getElementById('themes-section').innerHTML = '';
     document.body.classList.remove('shadow-active');
 }
@@ -91,7 +91,7 @@ function renderThemes() {
         <div class="flex justify-between flex-wrap gap-6">
             <!-- Themes Options -->
             ${themesHtml}
-            <button id="save-selected-theme" class="fade-in bg-gray-100 text-black py-2 px-4 rounded-md shadow-sm hover:bg-gray-200 transition">
+            <button id="save-selected-theme" class="fade-in btn">
                 Save Theme
             </button>
         </div>

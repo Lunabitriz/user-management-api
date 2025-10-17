@@ -474,6 +474,8 @@ body.shadow-active::after {
     border: var(--border-btn);
     background-color: var(--bg-btn);
     transition: all ease-in .3s;
+    border-radius: 8px;
+    padding: 8px 16px;
 }
 
 .btn:hover,

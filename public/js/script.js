@@ -65,6 +65,8 @@ function renderThemes() {
         const themeImage = theme == 'Dark Mode' 
             ? 'profile-img-default'
             : `profile-cover-themes/${themeFormated}-cover`;
+            
+console.log(themeFormated)
 
         return `
             <div class="theme-box ${themeDefined}" data-theme="${themeFormated}-theme">
@@ -72,9 +74,9 @@ function renderThemes() {
                     <img src="imgs/${themeImage}.jpg" alt="">
                 </div>
 
-                <div class="theme-header d-flex align-items-center">
-                    <div class="circle-theme"></div>
-                    <h4>${theme}</h4>
+                <div class="theme-header flex items-center">
+                    <div class="circle-theme rounded-full"></div>
+                    <h4 class="mb-0">${theme}</h4>
                 </div>
             </div>
         `
@@ -83,15 +85,15 @@ function renderThemes() {
     themesContainer.innerHTML = `
         <div class="header-settings">
             <h3>Select Theme</h3>
-            <p>
+            <p class="mb-4">
                 🌿 Personalize your workspace to make it more comfortable!
             </p>
         </div>
 
-        <div class="d-flex justify-content-between flex-wrap gap-4">
+        <div class="flex justify-between flex-wrap gap-6">
             <!-- Themes Options -->
             ${themesHtml}
-            <button id="save-selected-theme" class="btn btn-light mt-1">
+            <button id="save-selected-theme" class="fade-in bg-gray-100 text-black py-2 px-4 rounded-md shadow-sm hover:bg-gray-200 transition">
                 Save Theme
             </button>
         </div>

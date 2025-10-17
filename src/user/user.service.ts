@@ -1,8 +1,14 @@
-import { BadRequestException, Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { 
+    Injectable, 
+    NotFoundException, 
+    BadRequestException, 
+    UnauthorizedException, 
+    NotAcceptableException, 
+} from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import * as bcrypt from 'bcrypt';
 import { MailerService } from 'src/mailer/mailer.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -21,9 +27,9 @@ export class UserService {
 
         const newUser = await this.prisma.user.create({
             data: {
+                senha: password,
                 nome: userDto.nome,
                 email: userDto.email,
-                senha: password,
                 fotoPerfil: userDto.fotoPerfil || null,
                 accountTheme: userDto.accountTheme || 'sunset',
             },
@@ -164,27 +170,6 @@ export class UserService {
             updateUser,
         }
     }
-
-    // async updateProfileTheme(userDto: AtualizarUserDto) {
-    //     const userFind = await this.prisma.user.findUnique({
-    //         where: {
-    //             id: userDto.id
-    //         }
-    //     });
-
-    //     if(!userFind) {
-    //         throw new NotFoundException('Usuário não encontrado.');
-    //     }
-
-    //     await this.prisma.user.update({
-    //         where: {
-    //             id: userDto.id
-    //         },
-    //         data: {
-    //             accountTheme: userDto.accountTheme ?? userFind.accountTheme
-    //         }
-    //     });
-    // }
 
     async forgotPassword(userDto: UserMailDto) {
         const userFind = await this.findUserByEmail(userDto.email.trim());

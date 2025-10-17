@@ -42,14 +42,17 @@ function showNotification(message, type = 'info') {
         </div>
     `;
 
+    // Function to hide notification
     function hideNotification() {
         notification.classList.add('hide');
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
     }
 
+    // Add the created notification in the body 
     document.body.appendChild(notification);
 
+    // Listener to close notification
     const closeBtn = notification.querySelector('.btn-close-notification');
     closeBtn.addEventListener('click', () => hideNotification());
 
@@ -58,6 +61,7 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
+// Function to get color by type defined
 function getColorByType(type) {
     const colorByType = {
         'error': '#FF5C5C',
@@ -233,6 +237,7 @@ function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
         </div>
     `;
 
+    // Listener to close pop-up if confirmed
     document.querySelectorAll("#pop-up-container .btn-popup-confirm").forEach(btn => {
         btn.addEventListener('click', () => {
             handleConfirmationOptions(tipo, btn.id);
@@ -260,6 +265,7 @@ function handleConfirmationOptions(tipo, btnValue) {
 function showLoadingSpinner(containerId) {
     const container = document.getElementById(containerId);
 
+    // Create the spinner element
     const spinner = document.createElement('div');
     spinner.id = `${containerId}-spinner`;
     spinner.className = 'loading-container flex-col justify-center items-center gap-2 absolute mb-3';
@@ -272,12 +278,15 @@ function showLoadingSpinner(containerId) {
         </div>
     `;
 
+    // Add the created element in "container"
     container.appendChild(spinner);
 
+    // Activates and displays the spinner in the container
     setTimeout(() => {
         document.getElementById(`${containerId}-spinner`).classList.add('active');
     }, 600);
 
+    // Activates the spinner type effect
     typeEffect('...', 'load-points');
 }
 

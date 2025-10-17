@@ -131,6 +131,7 @@ async function renderThemes() {
     }
 }
 
+// Function to try saves the selected theme in database
 async function saveTheme(selectedTheme) {
     const userId = localStorage.getItem('userId');
     if(!userId || !selectedTheme) return;
@@ -509,6 +510,7 @@ function toggleAuthForm(form) {
     }
 }
 
+// Function to reset inputs in the Register form
 function clearRegisterForm() {
     document.querySelectorAll('.input-register').forEach(input => {
         input.style.border = 'var(--input-border)';
@@ -523,6 +525,7 @@ function clearRegisterForm() {
     });
 }
 
+// Listener to redirect the user to forgot password page
 const forgotBtn = document.getElementById('forgot-password');
 if(forgotBtn) {
     forgotBtn.addEventListener('click', () => {
@@ -530,6 +533,7 @@ if(forgotBtn) {
     });
 }
 
+// Listener to show register password validations
 const registerPassword = document.getElementById('register-password');
 if(registerPassword) {
     document.getElementById('register-password').addEventListener('focus', () => {
@@ -538,6 +542,7 @@ if(registerPassword) {
     });
 }
 
+// Listener to create shortcut for direct login with "Enter"
 const loginPassword = document.getElementById('login-password');
 if(registerPassword && loginPassword) {
     [registerPassword, loginPassword].forEach(input => {
@@ -547,6 +552,7 @@ if(registerPassword && loginPassword) {
     });
 }
 
+// Function to save User ID + User access token
 function savesUserData(result) {
     localStorage.setItem('userId', result.user.id);
     localStorage.setItem('access_token', result.access_token);

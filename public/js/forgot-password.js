@@ -178,6 +178,7 @@ async function confirmNewPassword() {
     }
 }
 
+// Function to hide all validations containers 
 function hideValidationsContainers() {
     const popUpsActives = document.querySelectorAll('.forgot-container');
 
@@ -186,6 +187,7 @@ function hideValidationsContainers() {
     });
 }
 
+// Function to alternate containers visibility
 function handleContainersVisibility() {
     const enterCodeExists = localStorage.getItem('enterCode');
     const recoveryEmailExists = localStorage.getItem('recoveryEmail');
@@ -231,6 +233,7 @@ function showValidations() {
     document.getElementById('validation').style.display = 'block';
 }
 
+// Function to show new password validations
 document.getElementById('new-password').addEventListener('focus', () => {
     showValidationsHtml('redefine-password-validations');
     showValidations();
@@ -238,6 +241,7 @@ document.getElementById('new-password').addEventListener('focus', () => {
 
 const confirmPassowordInput = document.getElementById('confirm-new-password');
 
+// Listener to accompany password validations
 ['keyup', 'blur', 'focus'].forEach(eventType => {
     confirmPassowordInput.addEventListener(eventType, (event) => {
         const newPassowordInput = document.getElementById('new-password').value.trim();
@@ -259,6 +263,7 @@ const confirmPassowordInput = document.getElementById('confirm-new-password');
     });
 });
 
+// Function to redirects user to login/register page
 function goToInitialPage() {
     setTimeout(() => {
         window.location = 'index.html';

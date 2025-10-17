@@ -470,12 +470,12 @@ body.shadow-active::after {
 
 /* ------ Buttons styles ------ */
 .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
     color: var(--text-color);
     border: var(--border-btn);
     background-color: var(--bg-btn);
     transition: all ease-in .3s;
-    border-radius: 8px;
-    padding: 8px 16px;
 }
 
 .btn:hover,
@@ -491,8 +491,8 @@ body.shadow-active::after {
 }
 
 #settings .btn-dark {
-    background-color: #484848;
     color: var(--bg-color);
+    background-color: #484848;
 }
 
 .btn-auth-form, 

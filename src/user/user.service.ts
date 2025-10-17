@@ -25,12 +25,14 @@ export class UserService {
                 email: userDto.email,
                 senha: password,
                 fotoPerfil: userDto.fotoPerfil || null,
+                accountTheme: userDto.accountTheme || 'sunset',
             },
             select: {
                 id: true,
                 nome: true,
                 email: true,
                 fotoPerfil: true,
+                accountTheme: true,
             }
         });
 
@@ -51,6 +53,7 @@ export class UserService {
                 email: true,
                 senha: true,
                 fotoPerfil: true,
+                accountTheme: true,
             }
         });
     }
@@ -66,6 +69,7 @@ export class UserService {
                 email: true,
                 senha: true,
                 fotoPerfil: true,
+                accountTheme: true,
             }
         });
 
@@ -92,6 +96,7 @@ export class UserService {
                 nome: true,
                 email: true,
                 fotoPerfil: true,
+                accountTheme: true,
             }
         });
 
@@ -100,6 +105,27 @@ export class UserService {
         }
 
         return userList;
+    }
+
+    async getUserById(id: number) {
+        const userFind = await this.prisma.user.findUnique({
+            where: { id: id }
+        });
+
+        if(!userFind) {
+            throw new NotFoundException('Usuário não encontrado!');
+        }
+
+        return await this.prisma.user.findUnique({
+            where: { id: id },
+            select: {
+                id: true,
+                nome: true,
+                email: true,
+                fotoPerfil: true,
+                accountTheme: true,
+            }
+        });
     }
 
     async updateUser(userDto: AtualizarUserDto) {
@@ -122,12 +148,14 @@ export class UserService {
                 email: userDto.email ?? currentUser.email,
                 senha: userDto.senha ?? currentUser.senha,
                 fotoPerfil: userDto.fotoPerfil ?? currentUser.fotoPerfil,
+                accountTheme: userDto.accountTheme ?? currentUser.accountTheme,
             },
             select: {
                 nome: true,
                 email: true,
                 senha: true,
                 fotoPerfil: true,
+                accountTheme: true,
             }
         });
 
@@ -136,6 +164,27 @@ export class UserService {
             updateUser,
         }
     }
+
+    // async updateProfileTheme(userDto: AtualizarUserDto) {
+    //     const userFind = await this.prisma.user.findUnique({
+    //         where: {
+    //             id: userDto.id
+    //         }
+    //     });
+
+    //     if(!userFind) {
+    //         throw new NotFoundException('Usuário não encontrado.');
+    //     }
+
+    //     await this.prisma.user.update({
+    //         where: {
+    //             id: userDto.id
+    //         },
+    //         data: {
+    //             accountTheme: userDto.accountTheme ?? userFind.accountTheme
+    //         }
+    //     });
+    // }
 
     async forgotPassword(userDto: UserMailDto) {
         const userFind = await this.findUserByEmail(userDto.email.trim());

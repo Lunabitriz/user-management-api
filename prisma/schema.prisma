@@ -14,11 +14,12 @@ datasource db {
 }
 
 model User {
-  id         Int    @id @default(autoincrement())
-  nome       String
-  email      String @unique
-  senha      String
-  fotoPerfil String?
+  id           Int     @id @default(autoincrement())
+  nome         String
+  email        String  @unique
+  senha        String
+  fotoPerfil   String?
+  accountTheme String?  @default("sunset")
 
   passwordResets PasswordReset[]
 }

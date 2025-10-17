@@ -22,6 +22,10 @@ export class CriarUserDto {
     @IsString()
     @IsOptional()
     fotoPerfil?: string;
+
+    @IsString()
+    @IsOptional()
+    accountTheme?: string;
 }
 
 export class UserLoginDto {
@@ -79,4 +83,8 @@ export class AtualizarUserDto {
     @IsString()
     @IsOptional()
     fotoPerfil?: string;
+
+    @IsString()
+    @IsOptional()
+    accountTheme?: string;
 }

@@ -1,11 +1,11 @@
 import {
     Body,
-    Controller,
     Post,
     Get,
     Put,
-    Delete,
     Param,
+    Delete,
+    Controller,
     ParseIntPipe,
     UseInterceptors,
     UploadedFile,
@@ -15,9 +15,9 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
-import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -47,6 +47,12 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     async list() {
         return this.userService.listUsers();
+    }
+
+    @Get(':id')
+    @UseGuards(JwtAuthGuard)
+    async getUser(@Param('id') id: number) {
+        return this.userService.getUserById(id);
     }
 
     @Get(':email')

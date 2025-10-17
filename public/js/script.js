@@ -54,7 +54,7 @@ if(closeSettingsBtn) {
 }
 
 // Function to render themes
-function renderThemes() {
+async function renderThemes() {
     const themesContainer = document.getElementById('themes-section');
     const pageThemes = ['Sunset', 'East Blue', 'Kuma', 'Dark Mode', 'Dark Mode', 'Dark Mode'];
 
@@ -122,10 +122,38 @@ function renderThemes() {
             const theme = themeSelected.getAttribute('data-theme');
             const themeFormated = theme.slice(0, theme.indexOf('-theme'));
 
+            saveTheme(themeFormated);
+
             document.documentElement.setAttribute('data-theme', themeFormated);
             localStorage.setItem('theme', themeFormated);
             closeSettings();
         });
+    }
+}
+
+async function saveTheme(selectedTheme) {
+    const userId = localStorage.getItem('userId');
+    if(!userId || !selectedTheme) return;
+
+    const userUpdated = {
+        id: parseInt(userId)
+    };
+
+    userUpdated.accountTheme = selectedTheme ?? 'sunset';
+
+    try {
+        const response = await authenticatedFetch('http://localhost:3000/user', {
+            method: 'PUT',
+            body: JSON.stringify(userUpdated)
+        });
+
+        if(response.ok) {
+            console.log('Tema salvo no banco com sucesso!');
+        } else {
+            console.log('Erro ao salvar tema');
+        }
+    } catch(error) {
+        console.error('Erro: ', error);
     }
 }
 
@@ -391,28 +419,42 @@ async function loadUserData() {
         return;
     }
 
-    // Get saved data in localStorage
-    const userName = localStorage.getItem('userName');
-    const userEmail = localStorage.getItem('userEmail');
-    const userPhoto = localStorage.getItem('userPhoto');
+    const userId = localStorage.getItem('userId');
 
-    // Show informations in profile data fields
-    document.getElementById('account-name').innerText = userName
-    document.getElementById('name-profile').innerText = userName;
-    document.getElementById('email-profile').innerText = userEmail;
-    document.getElementById('password-profile').innerText = '••••••••';
+    try {
+        const response = await authenticatedFetch(`http://localhost:3000/user/${userId}`, {
+            method: 'GET'
+        });
 
-    // Load profile photo if is defined
-    if(userPhoto != null) document.getElementById('profile-image').src = userPhoto;
-    
-    // Show the profile data in placeholders 
-    document.getElementById('new-name').placeholder = userName;
-    document.getElementById('new-email').placeholder = userEmail;
-    document.getElementById('new-password').placeholder = '••••••••';
+        if(response.ok) {
+            console.log('Sucesso ao acessar dados do usuário!');
+            const userData = await response.json();
 
-    // Load Themes
-    const selectedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', selectedTheme);
+            const userName = userData.nome;
+            const userEmail = userData.email;
+            const userPhoto = userData.fotoPerfil;
+            const selectedTheme = userData.accountTheme;
+
+            // Show informations in profile data fields
+            document.getElementById('account-name').innerText = userName;
+            document.getElementById('name-profile').innerText = userName;
+            document.getElementById('email-profile').innerText = userEmail;
+            document.getElementById('password-profile').innerText = '••••••••';
+
+            // Load profile photo if is defined
+            if(userPhoto != null) document.getElementById('profile-image').src = userPhoto;
+            
+            // Show the profile data in placeholders 
+            document.getElementById('new-name').placeholder = userName;
+            document.getElementById('new-email').placeholder = userEmail;
+            document.getElementById('new-password').placeholder = '••••••••';
+
+            // Load Themes
+            document.documentElement.setAttribute('data-theme', selectedTheme);
+        }
+    } catch(error) {
+        console.log('Erro: ', error);
+    }
 }
 
 // Function to logout
@@ -433,11 +475,11 @@ function logout() {
 // --------------- Index page Scripts ---------------
 // Toggle auth form
 function toggleAuthForm(form) {
+    const rememberMe = document.getElementById('remember-me');
     const loginForm = document.getElementById('login-container');
     const registerForm = document.getElementById('register-container');
-    const rememberMe = document.getElementById('remember-me');
-    const loginInputs = document.querySelectorAll('.input-login');
     const registerInputs = document.querySelectorAll('.input-register');
+    const loginInputs = document.querySelectorAll('.input-login');
 
     if(form === 'login') {
         loginForm.classList.add('active');
@@ -514,11 +556,11 @@ async function login() {
 
             // Saves data to localStorage and the JWT token
             localStorage.setItem('userId', result.user.id);
-            localStorage.setItem('userName', result.user.nome);
-            localStorage.setItem('userEmail', result.user.email);
-            localStorage.setItem('userPhoto', (result.user.fotoPerfil == null) ? './imgs/profile-img-default.jpg' : result.user.fotoPerfil);
             localStorage.setItem('access_token', result.access_token);
             localStorage.setItem('rememberMe', rememberMe.checked ? 'active' : 'disabled');
+            localStorage.setItem('userPhoto', (result.user.fotoPerfil == null) 
+                                               ? './imgs/profile-img-default.jpg' 
+                                               : result.user.fotoPerfil);
             
             // Clear the input fields
             email = '';

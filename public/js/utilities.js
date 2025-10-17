@@ -3,16 +3,17 @@ function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
 
     document.querySelectorAll('.alert-notification').forEach(notif => {
-        notif.classList.add('hide');
+        notif.classList.add('hidden');
         notif.classList.remove('show');
     });
 
     notification.className = `
-        fw-medium
-        position-fixed
+        fixed
+        shadow
+        font-semibold
         bg-white gap-2 p-2
-        d-flex align-items-center justify-content-between
-        alert-notification alert alert-dismissible fade show
+        flex items-center justify-between
+        alert-notification fade show
     `;
 
     notification.style.cssText = `top: 20px; right: 20px;`;
@@ -32,9 +33,10 @@ function showNotification(message, type = 'info') {
     notification.innerHTML = `
         <img src="imgs/pop-ups-arts/${iconImage}-icon.jpg" alt="${type} icon" style="width: 70px;">
 
-        <div class="d-flex align-items-center justify-content-between gap-2 w-100">
-            <p class="m-0">${message}</p>
-            <button type="button" class="btn btn-close-notification me-2 fs-4" data-bs-dismiss="alert" aria-label="Close">
+        <div class="flex items-center justify-between gap-2 w-full">
+            <p class="m-0 font-semibold">${message}</p>
+
+            <button type="button" class="btn-close-notification mr-2 text-black py-2 px-4 rounded-md shadow-sm" aria-label="Close">
                 X
             </button>
         </div>
@@ -182,20 +184,20 @@ function showMessagePopUp(tipo, titulo, message) {
     let color = getColorByType(tipo);
 
     container.innerHTML = `        
-        <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 348px;">
-            <div class="email-ilustration w-100 d-flex flex-column align-items-center justify-content-center">
-                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} icon" class="mb-3">
+        <div class="max-w-md mx-auto bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12" style="width: 348px;">
+            <div class="email-ilustration w-full flex flex-col items-center justify-center">
+                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} icon" class="mb-4">
             </div>
 
             <div class="header-form text-center">
                 <h3>${titulo}</h3>
-                <p class="mb-0">
+                <p class="mb-3">
                     ${message}
                 </p>
             </div>
 
-            <button onclick="hidePopUp()" id="popup-confirm-btn" class="btn text-white my-2 w-100" style="background-color: ${color};">
-                Confirmar
+            <button onclick="hidePopUp()" id="popup-confirm-btn" class="text-white py-2 w-full rounded-md shadow-sm" style="background-color: ${color};">
+                Confirm
             </button>
         </div>
     `;
@@ -209,7 +211,7 @@ function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
     const popUpColor = getColorByType(tipo);
     
     container.innerHTML = `
-         <div class="container bg-white rounded-4 d-flex flex-column align-items-center justify-content-center gap-2 px-5 py-5" style="width: 420px;">
+        <div class="container bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12" style="width: 420px;">
             <div class="${tipo}-ilustration">
                 <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} image" width="193px">
             </div>
@@ -219,16 +221,16 @@ function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
                     ${message}
                 </p>
             </div>
-            <div class="d-flex justify-content-between w-100 gap-2 my-2">
-                <button id="popup-cancel-btn" class="btn-popup-confirm btn btn-light w-100">
+            <div class="flex justify-between w-full gap-2 mt-2">
+                <button id="popup-cancel-btn" class="btn-popup-confirm bg-gray-100 hover:bg-gray-200 w-full rounded px-6 py-2">
                     Cancelar
                 </button>
 
-                <button class="btn-popup-confirm btn text-white w-100" style="background-color: ${popUpColor};">
+                <button class="btn-popup-confirm text-white w-full rounded px-6 py-2" style="background-color: ${popUpColor};">
                     ${ctaBtn}
                 </button>
             </div>
-         </div>
+        </div>
     `;
 
     document.querySelectorAll("#pop-up-container .btn-popup-confirm").forEach(btn => {
@@ -260,12 +262,12 @@ function showLoadingSpinner(containerId) {
 
     const spinner = document.createElement('div');
     spinner.id = `${containerId}-spinner`;
-    spinner.className = 'loading-container flex-column justify-content-center align-items-center gap-2 position-absolute';
+    spinner.className = 'loading-container flex-col justify-center items-center gap-2 absolute mb-3';
     spinner.style.bottom = '4px';
 
     spinner.innerHTML = `
-        <div class="loading-spinner active rounded-circle"></div>
-        <div class="d-flex" style="gap: 2px">
+        <div class="loading-spinner active rounded-full"></div>
+        <div class="flex" style="gap: 2px">
             <p class="loading-text">Processing</p> <span id="load-points"></span>
         </div>
     `;

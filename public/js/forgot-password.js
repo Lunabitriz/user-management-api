@@ -198,6 +198,7 @@ function handleContainersVisibility() {
 
     if(!recoveryEmailExists) {
         enterEmailContainer.classList.add('active');
+        enterEmailContainer.classList.remove('hidden');
         return;
     }
 
@@ -205,17 +206,20 @@ function handleContainersVisibility() {
 
     if(recoveryEmailExists && !enterCodeExists) {
         codeContainer.classList.add('active');
+        codeContainer.classList.remove('hidden');
         showNotification('Email sent successfully!', 'success');
         timerToExpires();
         return;
     }
     if(enterCodeExists && !passwordRedefined) {
         newPasswordContainer.classList.add('active');
+        newPasswordContainer.classList.remove('hidden');
         showNotification('Code verified successfully!', 'success');
         return;
     }
     if(passwordRedefined) {
         confirmContainer.classList.add('active');
+        confirmContainer.classList.remove('hidden');
         showNotification('Password reset successfully! Redirecting to login...', 'success');
         return;
     }

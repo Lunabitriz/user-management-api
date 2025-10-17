@@ -65,8 +65,6 @@ function renderThemes() {
         const themeImage = theme == 'Dark Mode' 
             ? 'profile-img-default'
             : `profile-cover-themes/${themeFormated}-cover`;
-            
-console.log(themeFormated)
 
         return `
             <div class="theme-box ${themeDefined}" data-theme="${themeFormated}-theme">

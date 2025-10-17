@@ -1,49 +1,49 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User account</title>
 
-    <!-- Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Link CSS -->
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="css/tailwind.output.css">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="d-flex flex-column justify-content-center align-items-center vh-100">
+<body class="flex flex-col justify-center items-center min-h-screen">
     <div id="overflow"></div>
 
     <!-- Prodile Card Container  -->
-    <div id="container" class="w-100 mx-auto p-5 position-relative overflow-hidden rounded-4">
-        <div id="bg-card-img" class="w-100 position-absolute"></div>
+    <div id="container" class="w-full mx-auto p-12 relative overflow-hidden rounded-2xl">
+        <div id="bg-card-img" class="w-full absolute"></div>
         
         <div id="profile-display">
-            <div class="profile-grid d-grid mb-4">
-                <div class="d-flex flex-column justify-content-center gap-2 fade-in">
-                    <label for="select-file-input" class="img-perfil d-flex justify-content-center align-items-center mx-auto rounded-circle">
+            <div class="profile-grid grid mb-4">
+                <div class="flex flex-col justify-center gap-2 fade-in">
+                    <label for="select-file-input" class="img-perfil flex justify-center items-center mx-auto rounded-full relative">
                         <img src="./imgs/profile-img-default.jpg"
-                             alt="Perfil sem foto" id="profile-image" class="rounded-circle">
+                             alt="Perfil sem foto" id="profile-image" class="rounded-full">
 
-                        <p id="change-img-msg" class="text-center position-absolute w-100 p-3 rounded">
+                        <p id="change-img-msg" class="text-center absolute w-full p-4 rounded">
                             Change profile picture
                         </p>
                     </label>
 
                     <input onchange="manipulateFile(event)" id="select-file-input" type="file" accept="image/*" style="display: none;">
 
-                    <h3 id="account-name" class="text-center">---</h3>
+                    <h3 id="account-name" class="text-center font-medium leading-tight mt-0 mb-2" style="font-size: calc(1.3rem + 0.6vw)">---</h3>
                 </div>
             
-                <div id="bio-descryption" class="d-flex flex-column gap-3 w-100 p-3 rounded fade-in">
+                <div id="bio-descryption" class="flex flex-col gap-4 w-full p-4 rounded-md fade-in">
                     <div class="bio-item">
                         <p>Username:</p>
                         <h5 id="name-profile" class="profile-info"></h5>
 
-                        <div class="input-item position relative">
+                        <div class="input-item relative">
                             <div id="user-name-error" class="edit-input-error"></div>
                             <input 
                                 type="text" 
@@ -58,7 +58,7 @@
                         <p>E-mail:</p>
                         <h5 id="email-profile" class="profile-info"></h5>
 
-                        <div class="input-item position relative">
+                        <div class="input-item relative">
                             <div id="email-error" class="edit-input-error"></div>
                             <input
                                 type="text"
@@ -70,14 +70,13 @@
                             >
                         </div>
                     </div>                    
-                    <div class="bio-item position-relative">
+                    <div class="bio-item relative">
                         <p>Password:</p>
-                        <div class="d-flex align-items-center gap-1">
+                        <div class="flex items-center gap-1">
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
-
                         </div>
                         
-                        <div id="edit-password-container"  class="input-item position-relative">
+                        <div id="edit-password-container"  class="input-item relative">
                             <div id="password-message" class="edit-input-error"></div>
                             
                             <input
@@ -88,7 +87,7 @@
                                 placeholder="Digite sua nova senha"
                             >
        
-                            <label onclick="passwordVisible('new-password', 'edit-password-container')" id="password-visibility" class="password-label position-absolute bg-dark" style="display: none; top: 2px; right: 8px;"></label>   
+                            <label onclick="passwordVisible('new-password', 'edit-password-container')" id="password-visibility" class="password-label absolute bg-neutral-900" style="display: none; top: 2px; right: 8px;"></label>   
                         </div>
                         <div id="profile-edit-password-validations"></div>
                     </div>
@@ -96,25 +95,27 @@
             </div>
 
             <div class="profile-actions">
-                <div id="account-options" class="d-flex flex-column gap-3 active">
-                    <div id="row-buttons" class="d-flex justify-content-between gap-3">
-                        <button onclick="toggleEditOption()" class="btn btn-light fade-in">
+                <div id="account-options" class="flex flex-col gap-4 active">
+                    <div id="row-buttons" class="flex justify-between gap-4">
+                        <button onclick="toggleEditOption()" class="fade-in bg-gray-100 text-black py-2 px-4 rounded-md shadow-sm hover:bg-gray-200 transition">
                             Edit Profile
                         </button>
-                        <button onclick="openSettings()" class="btn btn-light fade-in">
+
+                        <button onclick="openSettings()" class="fade-in bg-gray-100 text-black py-2 px-4 rounded-md shadow-sm hover:bg-gray-200 transition">
                             Settings
                         </button>
                     </div>
 
-                    <button id="logout-btn" class="btn btn-light fade-in-medium">
+                    <button id="logout-btn" class="fade-in-medium bg-gray-100 text-black py-2 px-4 rounded-md shadow-sm hover:bg-gray-200 transition">
                         Logout
                     </button>
                 </div>
-                <div id="edit-options" class="d-flex flex-column gap-3">
-                    <button id="save-changes-btn" class="edit-btn btn btn-light fade-in">
+
+                <div id="edit-options" class="flex flex-col gap-4">
+                    <button id="save-changes-btn" class="edit-btn fade-in bg-gray-100 text-black py-2 px-4 rounded-md shadow-sm hover:bg-gray-200 transition">
                         Save Changes
                     </button>
-                    <button onclick="toggleEditOption()" class="btn btn-light fade-in">
+                    <button onclick="toggleEditOption()" class="fade-in bg-gray-100 text-black py-2 px-4 rounded-md shadow-sm hover:bg-gray-200 transition">
                         Cancel
                     </button>
                 </div>
@@ -123,8 +124,8 @@
     </div> <!-- Ends: Prodile Card Container  -->
 
     <!-- Modal Settings -->
-    <div id="settings" class="w-100 p-5 rounded-4 position-relative">
-        <button id="close-settings" class="position-absolute fs-4 btn p-0">
+    <div id="settings" class="w-full p-5 rounded-2xl relative">
+        <button id="close-settings" class="absolute text-xl p-0" style="top: 1rem; right: 1rem;">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
@@ -139,7 +140,8 @@
                     Deleting your account will erase all your data permanently. Are you sure about this?
                 </p>
             </div>
-            <button id="remove-account-btn" class="btn btn-dark">
+            
+            <button id="remove-account-btn" class="bg-neutral-900 text-white py-2 px-4 rounded-md hover:bg-neutral-800 transition">
                 Delete Account
             </button>
         </div>

@@ -69,7 +69,7 @@ async function renderThemes() {
         return `
             <div class="theme-box ${themeDefined}" data-theme="${themeFormated}-theme">
                 <div class="theme-image">
-                    <img src="imgs/${themeImage}.jpg" alt="">
+                    <img src="imgs/${themeImage}.jpg" alt="Theme Image">
                 </div>
 
                 <div class="theme-header flex items-center">
@@ -148,9 +148,9 @@ async function saveTheme(selectedTheme) {
         });
 
         if(response.ok) {
-            console.log('Tema salvo no banco com sucesso!');
+            showMessagePopUp('success', 'Update Successful', 'Theme saved successfully!');
         } else {
-            console.log('Erro ao salvar tema');
+            showMessagePopUp('error', 'Save Error', 'Failed to upload theme to the database.');
         }
     } catch(error) {
         console.error('Erro: ', error);
@@ -441,9 +441,11 @@ async function loadUserData() {
             document.getElementById('email-profile').innerText = userEmail;
             document.getElementById('password-profile').innerText = '••••••••';
 
-            // Load profile photo if is defined
-            if(userPhoto != null) document.getElementById('profile-image').src = userPhoto;
-            
+            // Load profile photo if is exists            
+            document.getElementById('profile-image').src = (userPhoto == null) 
+                                                            ? './imgs/profile-img-default.jpg' 
+                                                            : userPhoto;
+                            
             // Show the profile data in placeholders 
             document.getElementById('new-name').placeholder = userName;
             document.getElementById('new-email').placeholder = userEmail;
@@ -451,6 +453,7 @@ async function loadUserData() {
 
             // Load Themes
             document.documentElement.setAttribute('data-theme', selectedTheme);
+            localStorage.setItem('userTheme', selectedTheme);
         }
     } catch(error) {
         console.log('Erro: ', error);
@@ -467,6 +470,7 @@ function logout() {
         localStorage.removeItem('userName');
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userPhoto');
+        localStorage.removeItem('userTheme');
     }
     
     window.location.href = 'index.html';
@@ -495,13 +499,7 @@ function toggleAuthForm(form) {
         loginInputs.forEach(input => input.value = '');
         rememberMe.checked = false;
 
-        document.querySelectorAll('.input-error').forEach(msg => {
-            msg.innerHTML = '';
-        });
-
-        document.querySelectorAll('.input-register').forEach(input => {
-            input.style.border = 'var(--input-border)';
-        });
+        clearRegisterForm();
 
         const validationsContainer = document.getElementById('validation');
         if(!validationsContainer) return;
@@ -509,6 +507,20 @@ function toggleAuthForm(form) {
         validationsContainer.classList.remove('show');
         validationsContainer.style.display = 'none';
     }
+}
+
+function clearRegisterForm() {
+    document.querySelectorAll('.input-register').forEach(input => {
+        input.style.border = 'var(--input-border)';
+    });
+
+    document.querySelectorAll('.input-register').forEach(input => {
+        input.value = '';
+    });
+
+    document.querySelectorAll('.input-error').forEach(msg => {
+        msg.innerHTML = '';
+    });
 }
 
 const forgotBtn = document.getElementById('forgot-password');
@@ -535,6 +547,11 @@ if(registerPassword && loginPassword) {
     });
 }
 
+function savesUserData(result) {
+    localStorage.setItem('userId', result.user.id);
+    localStorage.setItem('access_token', result.access_token);
+}
+
 // Login function
 async function login() {
     let email = document.getElementById('login-email').value;
@@ -555,19 +572,15 @@ async function login() {
             const result = await response.json();
 
             // Saves data to localStorage and the JWT token
-            localStorage.setItem('userId', result.user.id);
-            localStorage.setItem('access_token', result.access_token);
+            savesUserData(result);
             localStorage.setItem('rememberMe', rememberMe.checked ? 'active' : 'disabled');
-            localStorage.setItem('userPhoto', (result.user.fotoPerfil == null) 
-                                               ? './imgs/profile-img-default.jpg' 
-                                               : result.user.fotoPerfil);
             
             // Clear the input fields
             email = '';
             senha = '';
             
+            // Redirects to the user's account page
             window.location.href = 'user-account.html';
-            
         } else {
             showNotification('Login failed! Please check your credentials', 'warning');
         }
@@ -593,6 +606,12 @@ async function register() {
     
     if(response.ok) {
         showNotification('Account created successfully. Redirecting to your profile...', 'success');
+        const result = await response.json();
+
+        savesUserData(result);
+        clearRegisterForm();
+
+        window.location.href = 'user-account.html';
     } else {
         showNotification('Failed to create account.', 'danger');
     }
@@ -617,8 +636,8 @@ function loadUserLoginData() {
 
 // Initializations
 if(window.location.href.endsWith('user-account.html')) {
-    loadUserData();
     activateValidationsListener('new-email', 'new-password', 'new-name');
+    loadUserData();
 } else if(window.location.href.endsWith('index.html')) {
     activateValidationsListener('register-email', 'register-password', 'register-user-name');
     loadUserLoginData();

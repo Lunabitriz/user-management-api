@@ -1,7 +1,7 @@
 // --------------- User account page Scripts ---------------
 function toggleEditOption() {
     const bioDescryption = document.getElementById('bio-descryption');
-    const visibilityIcon = document.getElementById('password-visibility');
+    const visibilityIcon = document.getElementById('new-password-label');
     const accountOptions = document.getElementById('account-options');
     const profileInfo = document.querySelectorAll('.profile-info');
     const editOptions = document.getElementById('edit-options');
@@ -29,6 +29,15 @@ function toggleEditOption() {
     resetInfoDisplay();
 }
 
+// Listener to toggle editing options
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
+const editProfileBtn = document.getElementById('edit-profile-btn');
+if(cancelEditBtn && editProfileBtn) {
+    [cancelEditBtn, editProfileBtn].forEach(btn => {
+        btn.addEventListener('click', () => toggleEditOption());
+    });
+}
+
 // Function to open settings 
 function openSettings() {
     document.getElementById('settings').style.display = 'block';
@@ -51,6 +60,12 @@ if(closeSettingsBtn) {
     closeSettingsBtn.addEventListener('click', () => {
         closeSettings();
     });
+}
+
+// Listener to open settings
+const openSettingsBtn = document.getElementById('open-settings-btn');
+if(openSettingsBtn) {
+    openSettingsBtn.addEventListener('click', () =>  openSettings());
 }
 
 // Function to render themes
@@ -233,6 +248,12 @@ function convertToBase64(file) {
         fileRead.readAsDataURL(file);
     });
 }
+
+// Listener to manipulate select file
+const selectFileInput = document.getElementById('select-file-input');
+if(selectFileInput) {
+    selectFileInput.addEventListener('change', (event) => manipulateFile(event));
+} 
 
 // Function to manipulate the select file 
 async function manipulateFile(event) {
@@ -525,6 +546,15 @@ function clearRegisterForm() {
     });
 }
 
+// Listener to toggle auth form
+const loginToggleBtn = document.getElementById('login-toggle-btn');
+const registerToggleBtn = document.getElementById('register-toggle-btn');
+if(loginToggleBtn && registerToggleBtn) {
+    [loginToggleBtn, registerToggleBtn].forEach((toggleBtn) => {
+        toggleBtn.addEventListener('click', () => toggleAuthForm(toggleBtn.id.split('-')[0]));
+    });
+}
+
 // Listener to redirect the user to forgot password page
 const forgotBtn = document.getElementById('forgot-password');
 if(forgotBtn) {
@@ -577,6 +607,18 @@ if(registerPassword && loginPassword) {
     });
 }
 
+// Listener to login
+const submitLoginBtn = document.getElementById('submit-login');
+if(submitLoginBtn) {
+    submitLoginBtn.addEventListener('click', () => login());
+}
+
+// Listener to register
+const submitRegisterButton = document.getElementById('submit-register');
+if(submitRegisterButton) {
+    submitRegisterButton.addEventListener('click', () => register());
+}
+
 // Function to save User ID + User access token
 function savesUserData(result) {
     localStorage.setItem('userId', result.user.id);
@@ -596,7 +638,7 @@ async function login() {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ email, senha })
-        })
+        });
 
         if(response.ok) {
             showNotification('Login successful!', 'success');
@@ -617,7 +659,7 @@ async function login() {
         }
     } catch(error) {
         showNotification('Database access error!', 'danger');
-        console.log(error)
+        console.log(error);
     }            
 }
 
@@ -669,9 +711,9 @@ function loadUserLoginData() {
     // Clear localStorage if the "Forgot Password" was accessed
     localStorage.removeItem('enterCode');
     localStorage.removeItem('recoveryEmail');
-    localStorage.removeItem('passwordRedefined');
-    localStorage.removeItem('currentMinutes');
     localStorage.removeItem('currentSeconds');
+    localStorage.removeItem('currentMinutes');
+    localStorage.removeItem('passwordRedefined');
 }
 
 // Initializations

@@ -33,7 +33,7 @@
                         </p>
                     </label>
 
-                    <input onchange="manipulateFile(event)" id="select-file-input" type="file" accept="image/*" style="display: none;">
+                    <input id="select-file-input" type="file" accept="image/*" style="display: none;">
 
                     <h3 id="account-name" class="text-center font-medium leading-tight mt-0 mb-2" style="font-size: calc(1.3rem + 0.6vw)">---</h3>
                 </div>
@@ -76,7 +76,7 @@
                             <h5 id="password-profile" class="profile-info" style="margin-bottom: 0;"></h5>
                         </div>
                         
-                        <div id="edit-password-container"  class="input-item relative">
+                        <div id="new-password-container"  class="input-item relative">
                             <div id="password-message" class="edit-input-error"></div>
                             
                             <input
@@ -87,7 +87,7 @@
                                 placeholder="Digite sua nova senha"
                             >
        
-                            <label onclick="passwordVisible('new-password', 'edit-password-container')" id="password-visibility" class="password-label absolute bg-neutral-900" style="display: none; top: 2px; right: 8px;"></label>   
+                            <label id="new-password-label" class="password-label absolute bg-neutral-900" style="display: none; top: 2px; right: 8px;"></label>   
                         </div>
                         <div id="profile-edit-password-validations"></div>
                     </div>
@@ -97,11 +97,10 @@
             <div class="profile-actions">
                 <div id="account-options" class="flex flex-col gap-4 active">
                     <div id="row-buttons" class="flex justify-between gap-4">
-                        <button onclick="toggleEditOption()" class="fade-in btn">
+                        <button id="edit-profile-btn" class="fade-in btn">
                             Edit Profile
                         </button>
-
-                        <button onclick="openSettings()" class="fade-in btn">
+                        <button id="open-settings-btn" class="fade-in btn">
                             Settings
                         </button>
                     </div>
@@ -115,7 +114,7 @@
                     <button id="save-changes-btn" class="edit-btn fade-in btn">
                         Save Changes
                     </button>
-                    <button onclick="toggleEditOption()" class="fade-in btn">
+                    <button id="cancel-edit-btn" class="fade-in btn">
                         Cancel
                     </button>
                 </div>

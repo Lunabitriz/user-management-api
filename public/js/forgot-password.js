@@ -152,10 +152,13 @@ async function confirmSendCode() {
 
 // Function to redefine password
 async function confirmNewPassword() {
-    const newPassword = document.getElementById('new-password').value;
-    const confirmNewPassword = document.getElementById('confirm-new-password').value;
+    const newPassword = document.getElementById('new-password-redefine').value;
+    const confirmNewPassword = document.getElementById('confirm-password-redefine').value;
 
-    if(!newPassword || !confirmNewPassword || newPassword !== confirmNewPassword) return;
+    if(!newPassword || !confirmNewPassword || newPassword !== confirmNewPassword) {
+        showNotification('Error redefine password! Enter valid data', 'warning');
+        return;
+    }
 
     const email = localStorage.getItem('recoveryEmail');
     if(!email) return;
@@ -176,6 +179,30 @@ async function confirmNewPassword() {
     } catch(error) {
         console.error(error);
     }
+}
+
+// Listener to confirm mail
+const confirmMailBtn = document.getElementById('confirm-mail-btn');
+if(confirmMailBtn) {
+    confirmMailBtn.addEventListener('click', () => confirmMail());
+}
+
+// Listener to confirm send code
+const confirmSendCodeBtn = document.getElementById('confirm-send-code-btn');
+if(confirmSendCodeBtn) {
+    confirmSendCodeBtn.addEventListener('click', () => confirmSendCode());
+}
+
+// Listener to confirm password
+const confirmPasswordBtn = document.getElementById('confirm-password-btn');
+if(confirmPasswordBtn) {
+    confirmPasswordBtn.addEventListener('click', () => confirmNewPassword());
+}
+
+// Listener to confirmation button
+const confirmRedefination = document.getElementById('confirm-btn');
+if(confirmRedefination) {
+    confirmRedefination.addEventListener('click', () => goToInitialPage());
 }
 
 // Function to hide all validations containers 
@@ -234,23 +261,25 @@ function showValidations() {
 }
 
 // Function to show new password validations
-document.getElementById('new-password').addEventListener('focus', () => {
+document.getElementById('new-password-redefine').addEventListener('focus', () => {
     showValidationsHtml('redefine-password-validations');
     showValidations();
 });
 
-const confirmPassowordInput = document.getElementById('confirm-new-password');
+const confirmPassowordInput = document.getElementById('confirm-password-redefine');
 
 // Listener to accompany password validations
 ['keyup', 'blur', 'focus'].forEach(eventType => {
     confirmPassowordInput.addEventListener(eventType, (event) => {
-        const newPassowordInput = document.getElementById('new-password').value.trim();
+        const newPassowordInput = document.getElementById('new-password-redefine').value.trim();
         const message = document.getElementById('confirm-password-message');
 
         let inputValue = event.target.value;
         let errorMessage = (!newPassowordInput) ? 'Please fill in the first field.' : 'Passwords must match.'
         
         const isValidPassword = !newPassowordInput || inputValue !== newPassowordInput;
+
+        if(event.key === 'Enter') confirmNewPassword();
 
         if(!isValidPassword) {
             message.innerHTML = "";
@@ -271,4 +300,4 @@ function goToInitialPage() {
 }
 
 handleContainersVisibility();
-activateValidationsListener('recovery-email', 'new-password', null);
+activateValidationsListener('recovery-email', 'new-password-redefine', null);

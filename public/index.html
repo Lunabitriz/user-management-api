@@ -50,7 +50,7 @@
                         >
                         <img class="input-icon" src="imgs/lock.png" alt="Lock icon">
 
-                        <label onclick="passwordVisible('login-password', 'login-password-container')" class="password-label"></label>
+                        <label id="login-password-label" class="password-label"></label>
                     </div>
                     
                     <div class="more-actions flex justify-between">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <button onclick="login()" id="submit-login" class="mb-2">
+                <button id="submit-login" class="mb-2">
                     Login
                 </button>
 
@@ -72,7 +72,7 @@
                     <p class="mb-0">
                         Don’t have an account?
                     </p>
-                    <button onclick="toggleAuthForm('register')" class="btn-auth-form">
+                    <button id="register-toggle-btn" class="btn-auth-form">
                         Sign up
                     </button>
                 </div>
@@ -124,7 +124,7 @@
                         >
                         <img id="password-img" class="input-icon" src="imgs/lock.png" alt="Lock icon">
                         
-                        <label onclick="passwordVisible('register-password', 'register-password-container')" class="password-label"></label>
+                        <label id="register-password-label" class="password-label"></label>
 
                         <div id="register-password-validations"></div>
                     </div>
@@ -141,18 +141,18 @@
                         >
                         <img id="confirm-password-img" class="input-icon" src="imgs/lock.png" alt="Lock icon">
                         
-                        <label onclick="passwordVisible('confirm-register-password', 'confirm-register-password-container')" class="password-label"></label>
+                        <label id="confirm-register-password-label" class="password-label"></label>
                     </div>    
                 </div>
 
-                <button onclick="register()" id="submit-register" class="m-0">
+                <button id="submit-register" class="m-0">
                     Create Account
                 </button>
 
                 <div class="toggle-form-text flex justify-center gap-1">
                     <p class="mb-0">Already have an account?</p>
 
-                    <button onclick="toggleAuthForm('login')" class="btn-auth-form">
+                    <button id="login-toggle-btn" class="btn-auth-form">
                         Log in
                     </button>
                 </div>

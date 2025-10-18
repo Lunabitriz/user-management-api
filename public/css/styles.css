@@ -521,8 +521,9 @@ body.shadow-active::after {
     transform: scale(1.01);
 }
 
+#submit-login,
 #submit-register, 
-#submit-login {
+.confirmation-btn {
     width: 100%;
     padding: 10px;
     font-size: 16px;

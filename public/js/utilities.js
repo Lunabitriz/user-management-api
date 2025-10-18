@@ -229,7 +229,7 @@ function hideLoadingSpinner(containerId) {
 
 // Make the password visible
 function passwordVisible(idPassword, idContainer) {
-    const password = document.getElementById(idPassword);
+    const password = document.querySelector(`#${idContainer} #${idPassword}`);
     const notVisibleIcon = document.querySelector(`#${idContainer} .not-visible-icon`);
     const visibleIcon = document.querySelector(`#${idContainer} .visible-icon`);
 
@@ -238,6 +238,17 @@ function passwordVisible(idPassword, idContainer) {
     password.type = isVisible ? 'text' : 'password';
     visibleIcon.style.display = isVisible ? 'none' : 'block';
     notVisibleIcon.style.display = isVisible ? 'block' : 'none';
+}
+
+// Listener to toggle inputs password visibility
+const passwordLabels = document.querySelectorAll('.password-label');
+if(passwordLabels) {
+    passwordLabels.forEach(label => {
+        label.addEventListener('click', () => {
+            const formType = label.id.split('-').slice(0, -1).join('-');
+            passwordVisible(formType, formType + '-container');
+        });
+    });
 }
 
 // Show password validations

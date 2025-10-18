@@ -61,125 +61,6 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// Function to get color by type defined
-function getColorByType(type) {
-    const colorByType = {
-        'error': '#FF5C5C',
-        'danger': '#FF5C5C',
-        'delete': '#FF5C5C',
-
-        'info': '#3b97e3',
-        'error-database': '#3b97e3',
-
-        'warning': '#F37913',
-        'logout': '#F37913',
-        'edit': '#F37913',
-    };
-
-    return colorByType[type] || '#5da271';
-}
-
-// Make the password visible
-function passwordVisible(idPassword, idContainer) {
-    const password = document.getElementById(idPassword);
-    const notVisibleIcon = document.querySelector(`#${idContainer} .not-visible-icon`);
-    const visibleIcon = document.querySelector(`#${idContainer} .visible-icon`);
-
-    const isVisible = visibleIcon.style.display != 'none';
-    
-    password.type = isVisible ? 'text' : 'password';
-    visibleIcon.style.display = isVisible ? 'none' : 'block';
-    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
-}
-
-// Password validation
-function validatePassword(event) {
-    const lengthAuth = document.getElementById('lenght');
-    const numberAuth = document.getElementById('number');
-    const symbolAuth = document.getElementById('symbol');
-    const upperCaseAuth = document.getElementById('uppercase');
-    
-    const value = event.target.value;
-
-    const numberRegex = /\d/.test(value);
-    const upperCaseRegex = /[A-Z]/.test(value);
-    const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
-
-    numberAuth.classList.toggle('valid', numberRegex);
-    symbolAuth.classList.toggle('valid', symbolRegex);
-    lengthAuth.classList.toggle('valid', value.length >= 8);
-    upperCaseAuth.classList.toggle('valid', upperCaseRegex);
-
-    return !(value.length >= 8) || !numberRegex || !symbolRegex || !upperCaseRegex ? 0 : 1;
-}
-
-// Show the password validation list   
-function showValidationsHtml(containerId) {
-    const container = document.getElementById(containerId);
-
-    container.innerHTML = `
-        <ul id="validation" class="p-0">
-            <li id="lenght" class="default">
-                <i class="fa-solid fa-lock"></i> At least 8 characters
-            </li>
-            <li id="number" class="default">
-                <i class="fa-solid fa-lock"></i> At least 1 number
-            </li>
-            <li id="uppercase" class="default">
-                <i class="fa-solid fa-lock"></i> At least 1 uppercase letter
-            </li>
-            <li id="symbol" class="default">
-                <i class="fa-solid fa-lock"></i> At least 1 symbol (e.g. !, @, #, $, %...)
-            </li>
-        </ul>
-    `;
-}
-
-// Show password validations
-function showValidations() {
-    document.getElementById('validation').classList.add('show');
-    document.getElementById('validation').style.display = 'block';
-}
-
-// Show password visibility icons
-document.querySelectorAll('.password-label').forEach(label => {
-    label.innerHTML = `
-        <i id="visible-icon" class="visible-icon fa-solid fa-eye"></i>
-        <i id="not-visible-icon" class="not-visible-icon fa-solid fa-eye-slash" style="display: none;"></i>
-    `;
-})
-
-// Email Validation
-function validateEmail(event) {
-    let value = event.target.value;
-    const idealEmailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    return !idealEmailFormat.test(value) ? 0 : 1;
-}
-
-// User Name Validation
-function validateUserName(event) {
-    let value = event.target.value;
-
-    return value.length < 6 ? 0 : 1;
-}
-
-// Password Confirm Validation
-function validatePassworConfirmation(valueConfirmation, password) {
-    return (!password || valueConfirmation !== password) ? 0 : 1;
-}
-
-// Return a custom error message
-function getErrorMensage(message, inputId) {
-    return `
-        <i class="fa-solid fa-circle-exclamation"></i>
-
-        <label class="input-label" for="${inputId}">
-            ${message} 
-        </label>
-    `;
-}
-
 // Show messages pop-ups 
 function showMessagePopUp(tipo, titulo, message) {
     const container = document.getElementById('pop-up-container');
@@ -261,6 +142,35 @@ function handleConfirmationOptions(tipo, btnValue) {
     }
 }
 
+// Return a custom error message
+function getErrorMensage(message, inputId) {
+    return `
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        <label class="input-label" for="${inputId}">
+            ${message} 
+        </label>
+    `;
+}
+
+// Function to get color by type defined
+function getColorByType(type) {
+    const colorByType = {
+        'error': '#FF5C5C',
+        'danger': '#FF5C5C',
+        'delete': '#FF5C5C',
+
+        'info': '#3b97e3',
+        'error-database': '#3b97e3',
+
+        'warning': '#F37913',
+        'logout': '#F37913',
+        'edit': '#F37913',
+    };
+    
+    return colorByType[type] || '#5da271';
+}
+
 // Function to show the loading spinner
 function showLoadingSpinner(containerId) {
     const container = document.getElementById(containerId);
@@ -315,6 +225,96 @@ function hideLoadingSpinner(containerId) {
     if(!spinner) return;
 
     document.getElementById(containerId).removeChild(spinner);
+}
+
+// Make the password visible
+function passwordVisible(idPassword, idContainer) {
+    const password = document.getElementById(idPassword);
+    const notVisibleIcon = document.querySelector(`#${idContainer} .not-visible-icon`);
+    const visibleIcon = document.querySelector(`#${idContainer} .visible-icon`);
+
+    const isVisible = visibleIcon.style.display != 'none';
+    
+    password.type = isVisible ? 'text' : 'password';
+    visibleIcon.style.display = isVisible ? 'none' : 'block';
+    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
+}
+
+// Show password validations
+function showValidations() {
+    document.getElementById('validation').classList.add('show');
+    document.getElementById('validation').style.display = 'block';
+}
+
+// Show the password validation list   
+function showValidationsHtml(containerId) {
+    const container = document.getElementById(containerId);
+
+    container.innerHTML = `
+        <ul id="validation" class="p-0">
+            <li id="lenght" class="default">
+                <i class="fa-solid fa-lock"></i> At least 8 characters
+            </li>
+            <li id="number" class="default">
+                <i class="fa-solid fa-lock"></i> At least 1 number
+            </li>
+            <li id="uppercase" class="default">
+                <i class="fa-solid fa-lock"></i> At least 1 uppercase letter
+            </li>
+            <li id="symbol" class="default">
+                <i class="fa-solid fa-lock"></i> At least 1 symbol (e.g. !, @, #, $, %...)
+            </li>
+        </ul>
+    `;
+}
+
+// Show password visibility icons
+document.querySelectorAll('.password-label').forEach(label => {
+    label.innerHTML = `
+        <i id="visible-icon" class="visible-icon fa-solid fa-eye"></i>
+        <i id="not-visible-icon" class="not-visible-icon fa-solid fa-eye-slash" style="display: none;"></i>
+    `;
+});
+
+// Password validation
+function validatePassword(event) {
+    const lengthAuth = document.getElementById('lenght');
+    const numberAuth = document.getElementById('number');
+    const symbolAuth = document.getElementById('symbol');
+    const upperCaseAuth = document.getElementById('uppercase');
+    
+    const value = event.target.value;
+
+    const numberRegex = /\d/.test(value);
+    const upperCaseRegex = /[A-Z]/.test(value);
+    const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+
+    numberAuth.classList.toggle('valid', numberRegex);
+    symbolAuth.classList.toggle('valid', symbolRegex);
+    lengthAuth.classList.toggle('valid', value.length >= 8);
+    upperCaseAuth.classList.toggle('valid', upperCaseRegex);
+
+    return !(value.length >= 8) || !numberRegex || !symbolRegex || !upperCaseRegex ? 0 : 1;
+}
+
+// Password Confirm Validation
+function validatePassworConfirmation(valueConfirmation, password) {
+    return (!password || valueConfirmation !== password) ? 0 : 1;
+}
+
+// Email Validation
+function validateEmail(event) {
+    let value = event.target.value;
+    const idealEmailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    return !idealEmailFormat.test(value) ? 0 : 1;
+}
+
+// User Name Validation
+function validateUserName(event) {
+    let value = event.target.value;
+
+    return value.length < 6 ? 0 : 1;
 }
 
 // Validations Listener

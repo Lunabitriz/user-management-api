@@ -542,6 +542,29 @@ if(registerPassword) {
     });
 }
 
+// Listener to accompany password validations
+const confirmRegisterPassword = document.getElementById('confirm-register-password');
+['keyup', 'blur', 'focus'].forEach(eventType => {
+    confirmRegisterPassword.addEventListener(eventType, (event) => {
+        const newPassowordInput = document.getElementById('register-password').value.trim();
+        const message = document.getElementById('confirm-password-message');
+
+        let inputValue = event.target.value;
+        let errorMessage = (!newPassowordInput) ? 'Please fill in the first field.' : 'Passwords must match.'
+        
+        const isValidPassword = !newPassowordInput || inputValue !== newPassowordInput;
+
+        if(!isValidPassword) {
+            message.innerHTML = "";
+            confirmRegisterPassword.style.backgroundColor = '#fff';
+            confirmRegisterPassword.style.border = '1px solid #85D6A5';
+        } else {
+            confirmRegisterPassword.style.border = '1px solid #FF7070';                    
+            message.innerHTML = getErrorMensage(errorMessage, confirmRegisterPassword);
+        }
+    });
+});
+
 // Listener to create shortcut for direct login with "Enter"
 const loginPassword = document.getElementById('login-password');
 if(registerPassword && loginPassword) {
@@ -601,6 +624,15 @@ async function register() {
     const email = document.getElementById('register-email').value;
     const nome = document.getElementById('register-user-name').value;
     const senha = document.getElementById('register-password').value;
+    const confirmPassword = document.getElementById('confirm-register-password').value;
+
+    const isPasswordMismatch = senha !== confirmPassword;
+    const inputsAreNotFilled = !email || !nome || !senha || !confirmPassword;
+
+    if(inputsAreNotFilled || isPasswordMismatch) {
+        showNotification('Error registering! Enter valid data', 'warning');
+        return;
+    };
     
     const response = await fetch('http://localhost:3000/user', {
         method: 'POST',

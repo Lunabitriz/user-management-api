@@ -128,6 +128,21 @@
 
                         <div id="register-password-validations"></div>
                     </div>    
+
+                    <div id="confirm-register-password-container" class="input-item relative">
+                        <div id="confirm-password-message" class="input-error"></div>
+
+                        <input 
+                            type="password" 
+                            id="confirm-register-password" 
+                            class="input-register"
+                            placeholder="Confirm password"
+                            autocomplete="off"
+                        >
+                        <img id="password-img" class="input-icon" src="imgs/lock.png" alt="Lock icon">
+                        
+                        <label onclick="passwordVisible('confirm-register-password', 'confirm-register-password-container')" class="password-label"></label>
+                    </div>    
                 </div>
 
                 <button onclick="register()" id="submit-register" class="m-0">

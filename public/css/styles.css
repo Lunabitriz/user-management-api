@@ -281,10 +281,18 @@ body.shadow-active::after {
 .input-icon {
     position: absolute;
     top: 14px;
-    left: 10px;
+    left: 12px;
     width: 18px;
     font-size: 18px;
     fill: var(--validation-li-invalid);
+}
+
+.password-label {
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    width: 18px;
+    font-size: 18px;
 }
 
 .input-error,
@@ -302,7 +310,7 @@ body.shadow-active::after {
 
 .edit-input-error { 
     left: 8px; 
-    font-size: 0.72rem;
+    font-size: 0.8rem;
 }
 
 .input-error label {

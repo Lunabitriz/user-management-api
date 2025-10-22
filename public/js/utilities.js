@@ -123,7 +123,7 @@ function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
         btn.addEventListener('click', () => {
             handleConfirmationOptions(tipo, btn.id);
         });
-    })
+    });
 }
 
 // Utilitie function to handle pop-up options
@@ -171,9 +171,199 @@ function getColorByType(type) {
     return colorByType[type] || '#5da271';
 }
 
+// Inputs configurations
+const inputsConfig = {
+    login: [
+        {
+            id: 'login-email',
+            type: 'text',
+            placeholder: 'Your email',
+            icon: 'imgs/user.png',
+            iconAlt: 'User icon',
+            autocomplete: 'username'
+        },
+        {
+            id: 'login-password',
+            type: 'password',
+            placeholder: 'Your password',
+            icon: 'imgs/lock.png',
+            iconAlt: 'Lock icon',
+            autocomplete: 'current-password',
+            showPasswordToggle: true
+        }
+    ],
+    register: [
+        {
+            id: 'register-user-name',
+            type: 'text',
+            placeholder: 'Username',
+            icon: 'imgs/user.png',
+            iconAlt: 'User icon',
+            errorId: 'user-name-error',
+            iconId: 'user-name-img'
+        },
+        {
+            id: 'register-email',
+            type: 'email',
+            placeholder: 'Enter your email',
+            icon: 'imgs/email.png',
+            iconAlt: 'Email icon',
+            iconClass: 'top-4',
+            errorId: 'email-error',
+            iconId: 'email-img'
+        },
+        {
+            id: 'register-password',
+            type: 'password',
+            placeholder: 'Create a password',
+            icon: 'imgs/lock.png',
+            iconAlt: 'Lock icon',
+            autocomplete: 'off',
+            iconId: 'password-img',
+            errorId: 'password-message',
+            validationsId: 'register-password-validations',
+            showPasswordToggle: true,
+        },
+        {
+            id: 'confirm-register-password',
+            type: 'password',
+            placeholder: 'Confirm password',
+            icon: 'imgs/lock.png',
+            iconAlt: 'Lock icon',
+            autocomplete: 'off',
+            errorId: 'confirm-password-message',
+            iconId: 'confirm-password-img',
+            showPasswordToggle: true,
+        }
+    ]
+};
+
+function generateInputs(inputType) {
+    const {
+        id,
+        type,
+        icon,
+        iconAlt,
+        placeholder,
+        iconId = '',
+        errorId = '',
+        autocomplete = '',
+        validationsId = '',
+        showPasswordToggle = false,
+        inputClass = 'input-login'
+    } = inputType;
+
+    const containerId = showPasswordToggle ? `${id}-container` : '';
+    const containerClass = showPasswordToggle ? 'input-item relative' : 'input-item';
+
+    const inputGenerated =  `
+        <div ${containerId ? `id="${containerId}"` : ''} class="${containerClass}">
+            ${errorId ? `<div id="${errorId}" class="input-error"></div>` : ''}
+
+            <input 
+                type="${type}" 
+                id="${id}" 
+                class="${inputClass}"
+                autocomplete="${autocomplete}"
+                placeholder="${placeholder}"
+            >
+            <img 
+                ${iconId ? `id="${iconId}"` : ''}
+                class="input-icon" src="${icon}" alt="${iconAlt}"
+            >
+
+            ${showPasswordToggle ? `<label id="${id + '-label'}" class="password-label"></label>` : ''}
+
+            ${validationsId ? `<div id="${validationsId}"></div>` : ''}
+        </div>
+    `;
+
+    return inputGenerated;
+}
+
+function getInputsByType(inputType) {
+    const inputs = inputsConfig[inputType];
+    if(!inputs) return;
+
+    const inputClass = inputType === 'register' 
+                       ? 'input-register' 
+                       : 'input-login';
+    
+    return inputs.map(input => 
+        generateInputs({ ...input, inputClass })
+    ).join('\n');
+}
+
+function renderInputs(formType, containerId) {
+    const container = document.getElementById(containerId);
+    if(!container) return;
+
+    container.innerHTML = getInputsByType(formType);
+    
+    // Adicionar ícones de visualizar senha após criar os elementos
+    addPasswordToggleIcons();
+    setupPasswordToggleListeners();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderInputs('login', 'login-inputs-container');
+    renderInputs('register', 'register-inputs-container');
+
+    // Listener to show register password validations
+    const registerPassword = document.getElementById('register-password');
+    if(registerPassword) {
+        document.getElementById('register-password').addEventListener('focus', () => {
+            showValidationsHtml('register-password-validations');
+            showValidations();
+        });
+    }
+
+    // Listener to accompany password validations
+    const confirmRegisterPassword = document.getElementById('confirm-register-password');
+    if(confirmRegisterPassword) {
+        ['keyup', 'blur', 'focus'].forEach(eventType => {
+            confirmRegisterPassword.addEventListener(eventType, (event) => {
+                const newPassowordInput = document.getElementById('register-password').value.trim();
+                const message = document.getElementById('confirm-password-message');
+
+                let inputValue = event.target.value;
+                let errorMessage = (!newPassowordInput) ? 'Please fill in the first field.' : 'Passwords must match.'
+                
+                const isValidPassword = !newPassowordInput || inputValue !== newPassowordInput;
+
+                if(!isValidPassword) {
+                    message.innerHTML = "";
+                    confirmRegisterPassword.style.backgroundColor = '#fff';
+                    confirmRegisterPassword.style.border = '1px solid #85D6A5';
+                } else {
+                    confirmRegisterPassword.style.border = '1px solid #FF7070';                    
+                    message.innerHTML = getErrorMensage(errorMessage, confirmRegisterPassword);
+                }
+            });
+        });
+    }
+
+    // Listener to create shortcut for direct login with "Enter"
+    const loginPassword = document.getElementById('login-password');
+    if(registerPassword && loginPassword) {
+        [registerPassword, loginPassword].forEach(input => {
+            input.addEventListener('keypress', (event) => {
+                if(event.key === 'Enter') login();
+            });
+        });
+    }
+    
+    // Criar validações do password register
+    showValidationsHtml('register-password-validations');
+    
+    activateValidationsListener('register-email', 'register-password', 'register-user-name');
+    activateValidationsListener('new-email', 'new-password', 'new-name');
+})
+
 // Function to show the loading spinner
 function showLoadingSpinner(containerId) {
     const container = document.getElementById(containerId);
+    if(!container) return;
 
     // Create the spinner element
     const spinner = document.createElement('div');
@@ -228,39 +418,34 @@ function hideLoadingSpinner(containerId) {
 }
 
 // Make the password visible
-function passwordVisible(idPassword, idContainer) {
-    const password = document.querySelector(`#${idContainer} #${idPassword}`);
-    const notVisibleIcon = document.querySelector(`#${idContainer} .not-visible-icon`);
-    const visibleIcon = document.querySelector(`#${idContainer} .visible-icon`);
-
-    const isVisible = visibleIcon.style.display != 'none';
+function passwordVisible(inputId, containerId) {
+    const password = document.getElementById(inputId);
+    const visibleIcon = document.getElementById(`${inputId}-visible-icon`);
+    const notVisibleIcon = document.getElementById(`${inputId}-not-visible-icon`);
     
-    password.type = isVisible ? 'text' : 'password';
-    visibleIcon.style.display = isVisible ? 'none' : 'block';
-    notVisibleIcon.style.display = isVisible ? 'block' : 'none';
-}
+    if (!password || !visibleIcon || !notVisibleIcon) return;
 
-// Listener to toggle inputs password visibility
-const passwordLabels = document.querySelectorAll('.password-label');
-if(passwordLabels) {
-    passwordLabels.forEach(label => {
-        label.addEventListener('click', () => {
-            const formType = label.id.split('-').slice(0, -1).join('-');
-            passwordVisible(formType, formType + '-container');
-        });
-    });
+    const isPasswordVisible = password.type === 'text';
+    
+    password.type = isPasswordVisible ? 'password' : 'text';
+    visibleIcon.style.display = isPasswordVisible ? 'block' : 'none';
+    notVisibleIcon.style.display = isPasswordVisible ? 'none' : 'block';
 }
 
 // Show password validations
 function showValidations() {
-    document.getElementById('validation').classList.add('show');
-    document.getElementById('validation').style.display = 'block';
+    const validations = document.getElementById('validation');
+    if(!validations) return;
+
+    validations.classList.add('show');
+    validations.style.display = 'block';
 }
 
 // Show the password validation list   
 function showValidationsHtml(containerId) {
     const container = document.getElementById(containerId);
-
+    if(!container) return;
+    
     container.innerHTML = `
         <ul id="validation" class="p-0">
             <li id="lenght" class="default">
@@ -279,13 +464,26 @@ function showValidationsHtml(containerId) {
     `;
 }
 
-// Show password visibility icons
-document.querySelectorAll('.password-label').forEach(label => {
-    label.innerHTML = `
-        <i id="visible-icon" class="visible-icon fa-solid fa-eye"></i>
-        <i id="not-visible-icon" class="not-visible-icon fa-solid fa-eye-slash" style="display: none;"></i>
-    `;
-});
+// Função para adicionar ícones de visualizar senha
+function addPasswordToggleIcons() {
+    document.querySelectorAll('.password-label').forEach(label => {
+        const inputId = label.id.replace('-label', '');
+        label.innerHTML = `
+            <i id="${inputId}-visible-icon" class="visible-icon fa-solid fa-eye"></i>
+            <i id="${inputId}-not-visible-icon" class="not-visible-icon fa-solid fa-eye-slash" style="display: none;"></i>
+        `;
+    });
+}
+
+// Função para configurar listeners de toggle de senha
+function setupPasswordToggleListeners() {
+    document.querySelectorAll('.password-label').forEach(label => {
+        label.addEventListener('click', () => {
+            const inputId = label.id.replace('-label', '');
+            passwordVisible(inputId, inputId + '-container');
+        });
+    });
+}
 
 // Password validation
 function validatePassword(event) {
@@ -293,6 +491,8 @@ function validatePassword(event) {
     const numberAuth = document.getElementById('number');
     const symbolAuth = document.getElementById('symbol');
     const upperCaseAuth = document.getElementById('uppercase');
+
+    if(!lengthAuth || !numberAuth || !symbolAuth || !upperCaseAuth) return;
     
     const value = event.target.value;
 
@@ -315,7 +515,9 @@ function validatePassworConfirmation(valueConfirmation, password) {
 
 // Email Validation
 function validateEmail(event) {
-    let value = event.target.value;
+    if(!event) return;
+
+    let value = event.target;
     const idealEmailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
     return !idealEmailFormat.test(value) ? 0 : 1;
@@ -323,6 +525,7 @@ function validateEmail(event) {
 
 // User Name Validation
 function validateUserName(event) {
+    if(!event) return;
     let value = event.target.value;
 
     return value.length < 6 ? 0 : 1;
@@ -341,16 +544,21 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
         passwordInput.addEventListener(eventType, (event) => {
             const validationState = validatePassword(event);
             const message = document.getElementById('password-message');
+            const validations = document.getElementById('validation');
+
+            if(!message) return;
 
             if(validationState) {
                 message.innerHTML = "";
                 passwordInput.style.backgroundColor = '#fff';
                 passwordInput.style.border = '1px solid #85D6A5';
-                document.getElementById('validation').classList.remove('show');
-                document.getElementById('validation').style.display = 'none';
+                if(validations) {
+                    validations.classList.remove('show');
+                    validations.style.display = 'none';
+                }
             } else if(!validationState && eventType === 'blur') {
                 passwordInput.style.border = '1px solid #FF7070';                    
-                message.innerHTML = getErrorMensage('Please enter a valid password.', passwordInput);
+                message.innerHTML = getErrorMensage('Please enter a valid password.', passwordInput.id);
                 showValidations();    
             } else {
                 showValidations();   
@@ -366,12 +574,14 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
             const validationState = validateEmail(event);
             const message = document.getElementById('email-error');
 
+            if(!message) return;
+
             if(validationState) {
                 emailInput.style.border = '1px solid #85D6A5';
                 message.innerHTML = '';
             } else if(!validationState && eventType === 'blur') {
                 emailInput.style.border = '1px solid #FF7070';
-                message.innerHTML = getErrorMensage('Invalid email address.', emailInput);
+                message.innerHTML = getErrorMensage('Invalid email address.', emailInput.id);
             }
         });
     });
@@ -384,26 +594,27 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
             const validationState = validateUserName(event);
             const message = document.getElementById('user-name-error');
 
+            if(!message) return;
+
             if(validationState) {
                 userNameInput.style.border = '1px solid #85D6A5';
                 message.innerHTML = '';   
             } else if(!validationState && eventType === 'blur') {
                 userNameInput.style.border = '1px solid #FF7070';
-                message.innerHTML = getErrorMensage('Minimum of 6 characters.', userNameInput);
+                message.innerHTML = getErrorMensage('Minimum of 6 characters.', userNameInput.id);
             }
         });
     });
 }
 
-// Save functions in global scope
-const functionsToExport = [
-    activateValidationsListener,
-    validateEmail, passwordVisible, showValidations,
-    showMessagePopUp, validatePassword, validateUserName,
-    showNotification, hideLoadingSpinner, showLoadingSpinner,
-    showValidationsHtml, showConfirmationPopUP, handleConfirmationOptions
+const functions = [
+    activateValidationsListener, validateEmail, passwordVisible,
+    showValidations, showMessagePopUp, validatePassword,
+    validateUserName, showNotification, hideLoadingSpinner,
+    showLoadingSpinner, showValidationsHtml, showConfirmationPopUP,
+    handleConfirmationOptions, renderInputs, addPasswordToggleIcons,
+    setupPasswordToggleListeners
 ];
 
-functionsToExport.forEach(func => {
-    window.func = func;
-});
+// Save functions in global scope
+functions.forEach(func => window.func = func);

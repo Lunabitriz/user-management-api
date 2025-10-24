@@ -235,7 +235,20 @@ const inputsConfig = {
             iconId: 'confirm-password-img',
             showPasswordToggle: true,
         }
-    ]
+    ],
+    // edit: [
+    //     {
+    //         id: 'new-name',
+    //         type: 'text',
+    //         placeholder: 'Confirm password',
+    //         icon: 'imgs/lock.png',
+    //         iconAlt: 'Lock icon',
+    //         autocomplete: 'off',
+    //         errorId: 'confirm-password-message',
+    //         iconId: 'confirm-password-img',
+    //         showPasswordToggle: true,
+    //     }
+    // ]
 };
 
 function generateInputs(inputType) {
@@ -256,7 +269,7 @@ function generateInputs(inputType) {
     const containerId = showPasswordToggle ? `${id}-container` : '';
     const containerClass = showPasswordToggle ? 'input-item relative' : 'input-item';
 
-    const inputGenerated =  `
+    return `
         <div ${containerId ? `id="${containerId}"` : ''} class="${containerClass}">
             ${errorId ? `<div id="${errorId}" class="input-error"></div>` : ''}
 
@@ -277,8 +290,6 @@ function generateInputs(inputType) {
             ${validationsId ? `<div id="${validationsId}"></div>` : ''}
         </div>
     `;
-
-    return inputGenerated;
 }
 
 function getInputsByType(inputType) {
@@ -318,6 +329,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Listener to login
+    const submitLoginBtn = document.getElementById('submit-login');
+    if(submitLoginBtn) {
+        submitLoginBtn.addEventListener('click', login);
+    }
+
+    // Listener to register
+    const submitRegisterButton = document.getElementById('submit-register');
+    if(submitRegisterButton) {
+        submitRegisterButton.addEventListener('click', register);
+    }
+
     // Listener to accompany password validations
     const confirmRegisterPassword = document.getElementById('confirm-register-password');
     if(confirmRegisterPassword) {
@@ -345,17 +368,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Listener to create shortcut for direct login with "Enter"
     const loginPassword = document.getElementById('login-password');
-    if(registerPassword && loginPassword) {
-        [registerPassword, loginPassword].forEach(input => {
+    if(confirmRegisterPassword && loginPassword) {
+        [confirmRegisterPassword, loginPassword].forEach(input => {
             input.addEventListener('keypress', (event) => {
                 if(event.key === 'Enter') login();
             });
         });
     }
     
-    // Criar validações do password register
+    // Create password register validations
     showValidationsHtml('register-password-validations');
-    
     activateValidationsListener('register-email', 'register-password', 'register-user-name');
     activateValidationsListener('new-email', 'new-password', 'new-name');
 })
@@ -423,7 +445,7 @@ function passwordVisible(inputId, containerId) {
     const visibleIcon = document.getElementById(`${inputId}-visible-icon`);
     const notVisibleIcon = document.getElementById(`${inputId}-not-visible-icon`);
     
-    if (!password || !visibleIcon || !notVisibleIcon) return;
+    if(!password || !visibleIcon || !notVisibleIcon) return;
 
     const isPasswordVisible = password.type === 'text';
     

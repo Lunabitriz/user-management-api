@@ -563,18 +563,6 @@ if(forgotBtn) {
     });
 }
 
-// Listener to login
-const submitLoginBtn = document.getElementById('submit-login');
-if(submitLoginBtn) {
-    submitLoginBtn.addEventListener('click', () => login());
-}
-
-// Listener to register
-const submitRegisterButton = document.getElementById('submit-register');
-if(submitRegisterButton) {
-    submitRegisterButton.addEventListener('click', () => register());
-}
-
 // Function to save User ID + User access token
 function savesUserData(result) {
     localStorage.setItem('userId', result.user.id);

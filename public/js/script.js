@@ -71,7 +71,7 @@ if(openSettingsBtn) {
 // Function to render themes
 async function renderThemes() {
     const themesContainer = document.getElementById('themes-section');
-    const pageThemes = ['Sunset', 'East Blue', 'Kuma', 'Dark Mode', 'Dark Mode', 'Dark Mode'];
+    const pageThemes = ['Sunset', 'East Blue', 'Kuma', 'Autumn', 'Dark Mode', 'Dark Mode'];
 
     const themesHtml = pageThemes.map(theme => {        
         const themeDefined = theme == 'Dark Mode' ? 'inactive' : '';

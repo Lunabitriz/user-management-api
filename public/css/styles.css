@@ -68,7 +68,6 @@
 [data-theme="kuma"] {
     --primary: #4C8C64;
     --secondary: #47855F;
-    --bg-color: #FAF8F3;
     --text-color: rgba(42, 58, 46, 0.877);
     --bg-body: linear-gradient(180deg, #FAF8F3, rgba(243, 239, 226, 0.43));
     --bg-profile: url('../imgs/profile-cover-themes/kuma-theme.jpg');
@@ -87,6 +86,7 @@
     --bio-descryption-shadow: 3px 3px 9px rgba(89, 89, 89, 0.232);
 }
 
+/* 
 [data-theme="autumn"] {
     --primary: #ff825c;
     --secondary: #ff825c;
@@ -96,8 +96,8 @@
     --bg-input: #333333;
 
     --input-border: 1px solid #222222;
-    --input-focus-border: rgba(251, 153, 55, 0.853);
-    --input-focus-shadow: 0 0 2px 1px rgba(220, 112, 4, 0.325);
+    --input-focus-border: rgba(255, 133, 96, 0.853);
+    --input-focus-shadow: 0 0 2px 1px rgba(255, 119, 77, 0.71);
 
     --bg-img-perfil: #ffffff;
     --border-img-perfil: 12px solid #474747;
@@ -118,16 +118,90 @@
     --bg-btn: #292929;
     --border-btn: 1px solid #333333;
 
-    --validation-li-valid: #008000;
-    --validation-li-default: #898989;
-    --validation-li-invalid: #c81414;
-
     --settings-shadow: 0px 0px 3px 1px rgba(20, 20, 20, 0.838);
-    --theme-box-shadow: 0px 0px 3px 1px rgba(255, 149, 42, 0.763);
+    --theme-box-shadow: 0px 0px 3px 1px rgba(255, 113, 70, 0.763);
     --profile-img-shadow: 0px 0px 4px 2px rgba(46, 46, 46, 0.816);
     --bio-descryption-shadow: 3px 3px 9px rgba(89, 89, 89, 0.232);
     --main-container-shadow: 2px 7px 8px 2px rgba(61, 13, 0, 0.166);
 }
+
+[data-theme="nightfall"] {
+    --primary: #00e5ff;
+    --secondary: #3a8dff;
+    --text-color: #EAF7FF;
+    --bg-color: #a03838;
+    --bg-body: #111111;
+    --bg-input: #101219;
+
+    --input-border: 1px solid #222222;
+    --input-focus-border:  rgba(64, 143, 255, 0.918);
+    --input-focus-shadow: 0 0 2px 1px rgba(0, 221, 245, 0.577);
+
+    --bg-img-perfil: #EAF7FF;
+    --border-img-perfil: 12px solid #1F2533;
+
+    --bg-descryption: linear-gradient(180deg, #101219, #151922);
+    --bg-profile-card: #151922;
+    --bg-settings: #1e1e1e;
+    --bg-profile: url('../imgs/profile-cover-themes/nightfall-theme.jpg');
+    
+    --color-p-bio-item: #d7effdcf;
+    --color-profile-info: #EAF7FF;
+    --color-p-bio-item-active: #EAF7FF;
+
+    --bg-theme-box: #333333;
+    --border-theme-box: 3px solid #474747;
+    --border-circle-theme: 3px solid #808080;
+
+    --bg-btn: #151922;
+    --border-btn: 1px solid #272E3F;
+
+    --settings-shadow: 0px 0px 3px 1px rgba(20, 20, 20, 0.838);
+    --bio-descryption-shadow: 3px 3px 9px rgba(13, 13, 13, 0.759);
+    --theme-box-shadow: 0px 0px 3px 1px rgba(71, 148, 255, 0.763);
+    --profile-img-shadow: 0px 0px 4px 2px rgba(62, 72, 101, 0.816);
+    --main-container-shadow: 2px 7px 8px 2px rgba(61, 13, 0, 0.166);
+}
+
+[data-theme="twilight"] {
+    --primary: #00e5ff;
+    --secondary: #3a8dff;
+    --text-color: #EAF7FF;
+    --bg-color: #a03838;
+    --bg-body: #111111;
+    --bg-input: #101219;
+
+    --input-border: 1px solid #222222;
+    --input-focus-border:  rgba(64, 143, 255, 0.918);
+    --input-focus-shadow: 0 0 2px 1px rgba(0, 221, 245, 0.577);
+
+    --bg-img-perfil: #EAF7FF;
+    --border-img-perfil: 12px solid #1F2533;
+
+    --bg-descryption: linear-gradient(180deg, #101219, #151922);
+    --bg-profile-card: #151922;
+    --bg-settings: #1e1e1e;
+    --bg-profile: url('../imgs/profile-cover-themes/twilight-theme.jpg');
+    
+    --color-p-bio-item: #d7effdcf;
+    --color-profile-info: #EAF7FF;
+    --color-p-bio-item-active: #EAF7FF;
+
+    --bg-theme-box: #333333;
+    --border-theme-box: 3px solid #474747;
+    --border-circle-theme: 3px solid #808080;
+
+    --bg-btn: #151922;
+    --border-btn: 1px solid #272E3F;
+
+    --settings-shadow: 0px 0px 3px 1px rgba(20, 20, 20, 0.838);
+    --theme-box-shadow: 0px 0px 3px 1px rgba(71, 148, 255, 0.763);
+    --profile-img-shadow: 0px 0px 4px 2px rgba(62, 72, 101, 0.816);
+    --bio-descryption-shadow: 3px 3px 9px rgba(13, 13, 13, 0.759);
+    --main-container-shadow: 2px 7px 8px 2px rgba(61, 13, 0, 0.166);
+}
+
+*/
 
 /* ------ General Styles ------ */
 body {
@@ -250,7 +324,7 @@ body.shadow-active::after {
 /* ------ Bio Descryption Styles ------ */
 #bio-descryption {
     height: fit-content;
-    background-color: var(--bg-descryption);
+    background: var(--bg-descryption);
     border-left: 4px solid var(--secondary);
     box-shadow: var(--bio-descryption-shadow);
 }

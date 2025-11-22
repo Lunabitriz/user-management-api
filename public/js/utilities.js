@@ -236,19 +236,19 @@ const inputsConfig = {
             showPasswordToggle: true,
         }
     ],
-    // edit: [
-    //     {
-    //         id: 'new-name',
-    //         type: 'text',
-    //         placeholder: 'Confirm password',
-    //         icon: 'imgs/lock.png',
-    //         iconAlt: 'Lock icon',
-    //         autocomplete: 'off',
-    //         errorId: 'confirm-password-message',
-    //         iconId: 'confirm-password-img',
-    //         showPasswordToggle: true,
-    //     }
-    // ]
+    edit: [
+        {
+            id: 'new-name',
+            type: 'text',
+            placeholder: 'Confirm password',
+            icon: 'imgs/lock.png',
+            iconAlt: 'Lock icon',
+            autocomplete: 'off',
+            errorId: 'confirm-password-message',
+            iconId: 'confirm-password-img',
+            showPasswordToggle: true,
+        }
+    ]
 };
 
 function generateInputs(inputType) {

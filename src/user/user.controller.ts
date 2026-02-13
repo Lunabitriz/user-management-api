@@ -87,18 +87,18 @@ export class UserController {
         @Body() data: { id: number }
     ) {
         if(!data.id)
-            throw new Error('O ID do usuário é obrigatório');
+            return { message: 'O ID do usuário é obrigatório' };
 
         data.id = Number(data.id);
 
         // Converte o arquivo para base64
-        const base64     = file.buffer.toString('base64');
-        const mimeType   = file.mimetype;
-        const fotoPerfil = `data:${mimeType};base64,${base64}`;
+        const base64       = file.buffer.toString('base64');
+        const mimeType     = file.mimetype;
+        const profileImage = `data:${mimeType};base64,${base64}`;
         
         return this.userService.updateUser({
             id:         data.id,
-            fotoPerfil: fotoPerfil
+            profileImage: profileImage
         });
     }
 

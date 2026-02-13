@@ -12,36 +12,36 @@ export class AuthService {
     private jwtService:  JwtService,
   ) {}
 
-  async validateUser(email: string, senha: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findUserByEmail(email);
     
     if(!user)
       throw new UnauthorizedException('Email ou senha incorretos.');
     
-    const isMatch = await bcrypt.compare(senha, user.senha);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if(!isMatch)
       throw new UnauthorizedException('Email ou senha incorretos.');
 
-    const { senha: password, ...result } = user;
+    const { password:_, ...result } = user;
     return result;
   }
 
   async login(loginUser: UserLoginDto) {
-    const user = await this.validateUser(loginUser.email, loginUser.senha);
+    const user = await this.validateUser(loginUser.email, loginUser.password);
     
     const payload = { 
       sub:   user.id,
-      nome:  user.nome,
+      name:  user.name,
       email: user.email, 
     };
 
     return {
       user: {
-        id:         user.id,
-        nome:       user.nome,
-        email:      user.email,
-        fotoPerfil: user.fotoPerfil,
+        id:           user.id,
+        name:         user.name,
+        email:        user.email,
+        profileImage: user.profileImage,
       },
       access_token: this.jwtService.sign(payload)
     };
@@ -53,7 +53,7 @@ export class AuthService {
     if(!user)
       throw new UnauthorizedException('Token inválido.');
 
-    const { senha: password, ...result } = user;
+    const { password:_, ...result } = user;
     return result;
   }
 }

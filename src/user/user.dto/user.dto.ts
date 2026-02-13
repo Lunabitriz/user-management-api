@@ -10,7 +10,7 @@ import {
 export class CriarUserDto {
     @IsString()
     @IsNotEmpty()
-    nome: string;
+    name: string;
 
     @IsEmail()
     @IsNotEmpty()
@@ -24,11 +24,11 @@ export class CriarUserDto {
         minLowercase: 0,
         minSymbols:   1
     })
-    senha: string;
+    password: string;
 
     @IsString()
     @IsOptional()
-    fotoPerfil?: string;
+    profileImage?: string;
 
     @IsString()
     @IsOptional()
@@ -41,7 +41,7 @@ export class UserLoginDto {
     email: string;
 
     @IsNotEmpty()
-    senha: string;
+    password: string;
 }
 
 export class UserMailDto {
@@ -61,7 +61,7 @@ export class UserMailDto {
         minLowercase: 0,
         minSymbols:   1
     })
-    senha?: string;
+    password?: string;
 }
 
 export class AtualizarUserDto {
@@ -71,7 +71,7 @@ export class AtualizarUserDto {
 
     @IsString()
     @IsOptional()
-    nome?: string;
+    name?: string;
 
     @IsEmail()
     @IsOptional()
@@ -85,11 +85,11 @@ export class AtualizarUserDto {
         minLowercase: 0,
         minSymbols:   1
     })
-    senha?: string;
+    password?: string;
 
     @IsString()
     @IsOptional()
-    fotoPerfil?: string;
+    profileImage?: string;
 
     @IsString()
     @IsOptional()

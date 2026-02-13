@@ -20,42 +20,42 @@ export class UserService {
 
     private readonly userSelect = {
         id:           true,
-        nome:         true,
+        name:         true,
         email:        true,
-        fotoPerfil:   true,
+        profileImage: true,
         accountTheme: true,
     }
 
     private readonly userInternalSelect = {
         id:           true,
-        nome:         true,
+        name:         true,
         email:        true,
-        senha:        true,
-        fotoPerfil:   true,
+        password:     true,
+        profileImage: true,
         accountTheme: true,
     } 
     
     async createUser(userDto: CriarUserDto) {
         const userExists = await this.findUserByEmail(userDto.email);
         if(userExists) {
-            throw new UnauthorizedException('Usuário já cadastrado no sistema.');
+            throw new UnauthorizedException('User already registered in the system.');
         }
 
-        const password = await bcrypt.hash(userDto.senha, 10);
+        const passwordHashed = await bcrypt.hash(userDto.password, 10);
 
         const newUser = await this.prisma.user.create({
             data: {
-                senha:        password,
-                nome:         userDto.nome,
+                password:     passwordHashed,
+                name:         userDto.name,
                 email:        userDto.email,
-                fotoPerfil:   userDto.fotoPerfil   || null,
+                profileImage: userDto.profileImage || null,
                 accountTheme: userDto.accountTheme || 'sunset',
             },
             select: this.userSelect
         });
 
         return {
-            message: 'Usuário criado com sucesso!', 
+            message: 'User created successfully!', 
             newUser
         };
     }
@@ -78,15 +78,15 @@ export class UserService {
         });
 
         if(!userFind)
-            throw new UnauthorizedException('Email ou senha incorretos.');
+            throw new UnauthorizedException('Incorrect email or password.');
 
-        const isMatch = await bcrypt.compare(loginUser.senha, userFind.senha);
+        const isMatch = await bcrypt.compare(loginUser.password, userFind.password);
         
         if(!isMatch)
-            throw new UnauthorizedException('Senha incorreta.');
+            throw new UnauthorizedException('Incorrect password.');
 
         return {
-            message: 'Usuário acessado com sucesso!',
+            message: 'User logged in successfully!',
             userFind
         }
     }
@@ -97,7 +97,7 @@ export class UserService {
         });
 
         if(!userList || userList.length === 0)
-            throw new NotFoundException('Não há usuários cadastrados no sistema!');
+            throw new NotFoundException('No users registered in the system!');
 
         return userList;
     }
@@ -108,7 +108,7 @@ export class UserService {
         });
 
         if(!userFind)
-            throw new NotFoundException('Usuário não encontrado!');
+            throw new NotFoundException('User not found!');
 
         return await this.prisma.user.findUnique({
             where:  { id: id },
@@ -122,24 +122,24 @@ export class UserService {
         });
 
         if(!currentUser)
-            throw new NotFoundException('Usuário não encontrado!');
+            throw new NotFoundException('User not found!');
 
         const updateUser = await this.prisma.user.update({
             where: {
                 id: userDto.id
             },
             data: {
-                nome:         userDto.nome         ?? currentUser.nome,
+                name:         userDto.name         ?? currentUser.name,
                 email:        userDto.email        ?? currentUser.email,
-                senha:        userDto.senha        ?? currentUser.senha,
-                fotoPerfil:   userDto.fotoPerfil   ?? currentUser.fotoPerfil,
+                password:     userDto.password     ?? currentUser.password,
+                profileImage: userDto.profileImage ?? currentUser.profileImage,
                 accountTheme: userDto.accountTheme ?? currentUser.accountTheme,
             },
             select: this.userSelect
         });
 
         return {
-            message: 'Usuário atualizado com sucesso!',
+            message: 'User updated successfully!',
             updateUser,
         }
     }
@@ -148,7 +148,7 @@ export class UserService {
         const userFind = await this.findUserByEmail(userDto.email.trim());
 
         if(!userFind)
-            throw new NotFoundException('Usuário não encontrado.');
+            throw new NotFoundException('User not found.');
             
         const code = await this.mailerService.generateAndSendCode(userDto.email);
 
@@ -164,7 +164,7 @@ export class UserService {
         })
 
         return { 
-            message: 'E-mail de redefinição enviado com sucesso!'
+            message: 'Password reset email sent successfully!'
         };
     }
 
@@ -174,7 +174,7 @@ export class UserService {
         });
 
         if(!userFind)
-            throw new NotFoundException('Usuário não encontrado.');
+            throw new NotFoundException('User not found.');
 
         const requestFind = await this.prisma.passwordReset.findFirst({
             where: {
@@ -186,33 +186,33 @@ export class UserService {
         });
 
         if(!requestFind)
-            throw new BadRequestException('Código inválido ou expirado!');
+            throw new BadRequestException('Invalid or expired code!');
 
         const isValid = await bcrypt.compare(userMail.code || '', requestFind.codeHash);
 
         if(!isValid || requestFind.expiresAt < new Date())
-            throw new BadRequestException('Código inválido ou expirado!') 
+            throw new BadRequestException('Invalid or expired code!') 
 
-        return { message: 'Código validado com sucesso!' };
+        return { message: 'Code validated successfully!' };
     }
 
     async redefinePassword(userDto: UserMailDto) {
         const userFind = await this.findUserByEmail(userDto.email);
 
         if(!userFind)
-            throw new NotFoundException('Usuário não encontrado!');
+            throw new NotFoundException('User not found!');
 
-        if(!userDto.senha)
-            throw new NotAcceptableException('Informe uma senha válida para atualizar.');
+        if(!userDto.password)
+            throw new NotAcceptableException('Please provide a valid password to update.');
 
-        const password = await bcrypt.hash(userDto.senha, 10);
+        const password = await bcrypt.hash(userDto.password, 10);
 
         await this.prisma.user.update({
             where: { email: userFind.email },
-            data:  { senha: password       }
+            data:  { password: password    }
         });
 
-        return { message: 'Senha redefinida com sucesso!' };
+        return { message: 'Password redefined successfully!' };
     }
 
     async deleteUser(id: number) {
@@ -221,12 +221,12 @@ export class UserService {
         });
 
         if(!userFind)
-            throw new NotFoundException('Usuário não encontrado!');
+            throw new NotFoundException('User not found!');
 
         await this.prisma.user.delete({
             where: { id: id }
         });
 
-        return 'Usuário deletado com sucesso!';
+        return 'User deleted successfully!';
     }
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { MulterModule } from '@nestjs/platform-express';
+import { UserController } from './user.controller';
 import { PrismaModule } from '../prisma/prisma.module';
+import { MulterModule } from '@nestjs/platform-express';
 import { MailerService } from 'src/mailer/mailer.service';
 
 @Module({
@@ -13,16 +13,16 @@ import { MailerService } from 'src/mailer/mailer.service';
         fileSize: 5 * 1024 * 1024,
       },
       fileFilter: (req, file, cb) => {
-        if(file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
+        if(file.mimetype.match(/\/(jpg|jpeg|png)$/))
           cb(null, true);
-        } else {
+        else
           cb(new Error('Apenas arquivos de imagem são permitidos'), false);
-        }
       },
     }),
   ],
   controllers: [UserController],
-  providers: [UserService, MailerService],
-  exports: [UserService]
+  providers:   [UserService, MailerService],
+  exports:     [UserService]
 })
+
 export class UserModule {}

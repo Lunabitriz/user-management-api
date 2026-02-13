@@ -5,9 +5,10 @@ import {
     UnauthorizedException, 
     NotAcceptableException, 
 } from '@nestjs/common';
-import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { MailerService } from 'src/mailer/mailer.service';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
+
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -17,6 +18,23 @@ export class UserService {
         private readonly mailerService: MailerService
     ) {}
 
+    private readonly userSelect = {
+        id:           true,
+        nome:         true,
+        email:        true,
+        fotoPerfil:   true,
+        accountTheme: true,
+    }
+
+    private readonly userInternalSelect = {
+        id:           true,
+        nome:         true,
+        email:        true,
+        senha:        true,
+        fotoPerfil:   true,
+        accountTheme: true,
+    } 
+    
     async createUser(userDto: CriarUserDto) {
         const userExists = await this.findUserByEmail(userDto.email);
         if(userExists) {
@@ -27,19 +45,13 @@ export class UserService {
 
         const newUser = await this.prisma.user.create({
             data: {
-                senha: password,
-                nome: userDto.nome,
-                email: userDto.email,
-                fotoPerfil: userDto.fotoPerfil || null,
+                senha:        password,
+                nome:         userDto.nome,
+                email:        userDto.email,
+                fotoPerfil:   userDto.fotoPerfil   || null,
                 accountTheme: userDto.accountTheme || 'sunset',
             },
-            select: {
-                id: true,
-                nome: true,
-                email: true,
-                fotoPerfil: true,
-                accountTheme: true,
-            }
+            select: this.userSelect
         });
 
         return {
@@ -53,14 +65,7 @@ export class UserService {
             where: {
                 email: email
             },
-            select: {
-                id: true,
-                nome: true,
-                email: true,
-                senha: true,
-                fotoPerfil: true,
-                accountTheme: true,
-            }
+            select: this.userInternalSelect
         });
     }
 
@@ -69,25 +74,16 @@ export class UserService {
             where: {
                 email: loginUser.email
             },
-            select: {
-                id: true,
-                nome: true,
-                email: true,
-                senha: true,
-                fotoPerfil: true,
-                accountTheme: true,
-            }
+            select: this.userInternalSelect
         });
 
-        if(!userFind) {
+        if(!userFind)
             throw new UnauthorizedException('Email ou senha incorretos.');
-        }
 
         const isMatch = await bcrypt.compare(loginUser.senha, userFind.senha);
         
-        if(!isMatch) {
+        if(!isMatch)
             throw new UnauthorizedException('Senha incorreta.');
-        }
 
         return {
             message: 'Usuário acessado com sucesso!',
@@ -97,18 +93,11 @@ export class UserService {
     
     async listUsers() {
         const userList = await this.prisma.user.findMany({
-            select: {
-                id: true,
-                nome: true,
-                email: true,
-                fotoPerfil: true,
-                accountTheme: true,
-            }
+            select: this.userSelect
         });
 
-        if(!userList.length) {
+        if(!userList || userList.length === 0)
             throw new NotFoundException('Não há usuários cadastrados no sistema!');
-        }
 
         return userList;
     }
@@ -118,51 +107,35 @@ export class UserService {
             where: { id: id }
         });
 
-        if(!userFind) {
+        if(!userFind)
             throw new NotFoundException('Usuário não encontrado!');
-        }
 
         return await this.prisma.user.findUnique({
-            where: { id: id },
-            select: {
-                id: true,
-                nome: true,
-                email: true,
-                fotoPerfil: true,
-                accountTheme: true,
-            }
+            where:  { id: id },
+            select: this.userSelect
         });
     }
 
     async updateUser(userDto: AtualizarUserDto) {
         const currentUser = await this.prisma.user.findUnique({
-            where: {
-                id: userDto.id,
-            }
+            where: { id: userDto.id }
         });
 
-        if(!currentUser) {
+        if(!currentUser)
             throw new NotFoundException('Usuário não encontrado!');
-        }
 
         const updateUser = await this.prisma.user.update({
             where: {
                 id: userDto.id
             },
             data: {
-                nome: userDto.nome ?? currentUser.nome,
-                email: userDto.email ?? currentUser.email,
-                senha: userDto.senha ?? currentUser.senha,
-                fotoPerfil: userDto.fotoPerfil ?? currentUser.fotoPerfil,
+                nome:         userDto.nome         ?? currentUser.nome,
+                email:        userDto.email        ?? currentUser.email,
+                senha:        userDto.senha        ?? currentUser.senha,
+                fotoPerfil:   userDto.fotoPerfil   ?? currentUser.fotoPerfil,
                 accountTheme: userDto.accountTheme ?? currentUser.accountTheme,
             },
-            select: {
-                nome: true,
-                email: true,
-                senha: true,
-                fotoPerfil: true,
-                accountTheme: true,
-            }
+            select: this.userSelect
         });
 
         return {
@@ -173,21 +146,19 @@ export class UserService {
 
     async forgotPassword(userDto: UserMailDto) {
         const userFind = await this.findUserByEmail(userDto.email.trim());
-        console.log(userFind);
 
-        if(!userFind) {
+        if(!userFind)
             throw new NotFoundException('Usuário não encontrado.');
-        }
-
+            
         const code = await this.mailerService.generateAndSendCode(userDto.email);
 
-        const codeHash = await bcrypt.hash(code, 10);
+        const codeHash  = await bcrypt.hash(code, 10);
         const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
         await this.prisma.passwordReset.create({
             data: {
-                userId: userFind.id,
-                codeHash: codeHash,
+                userId:    userFind.id,
+                codeHash:  codeHash,
                 expiresAt: expiresAt
             }
         })
@@ -199,14 +170,11 @@ export class UserService {
 
     async validateReceivedCode(userMail: UserMailDto) {
         const userFind = await this.prisma.user.findUnique({
-            where: {
-                email: userMail.email
-            }
+            where: { email: userMail.email }
         });
 
-        if(!userFind) {
+        if(!userFind)
             throw new NotFoundException('Usuário não encontrado.');
-        }
 
         const requestFind = await this.prisma.passwordReset.findFirst({
             where: {
@@ -217,15 +185,13 @@ export class UserService {
             }
         });
 
-        if(!requestFind) {
+        if(!requestFind)
             throw new BadRequestException('Código inválido ou expirado!');
-        }
 
         const isValid = await bcrypt.compare(userMail.code || '', requestFind.codeHash);
 
-        if(!isValid || requestFind.expiresAt < new Date()) {
+        if(!isValid || requestFind.expiresAt < new Date())
             throw new BadRequestException('Código inválido ou expirado!') 
-        }
 
         return { message: 'Código validado com sucesso!' };
     }
@@ -233,19 +199,17 @@ export class UserService {
     async redefinePassword(userDto: UserMailDto) {
         const userFind = await this.findUserByEmail(userDto.email);
 
-        if(!userFind) {
+        if(!userFind)
             throw new NotFoundException('Usuário não encontrado!');
-        }
 
-        if(!userDto.senha) {
+        if(!userDto.senha)
             throw new NotAcceptableException('Informe uma senha válida para atualizar.');
-        }
 
         const password = await bcrypt.hash(userDto.senha, 10);
 
         await this.prisma.user.update({
             where: { email: userFind.email },
-            data:  { senha: password }
+            data:  { senha: password       }
         });
 
         return { message: 'Senha redefinida com sucesso!' };
@@ -253,19 +217,14 @@ export class UserService {
 
     async deleteUser(id: number) {
         const userFind = await this.prisma.user.findUnique({
-            where: {
-                id: id
-            }
+            where: { id: id }
         });
 
-        if(!userFind) {
+        if(!userFind)
             throw new NotFoundException('Usuário não encontrado!');
-        }
 
         await this.prisma.user.delete({
-            where: {
-                id: id
-            }
+            where: { id: id }
         });
 
         return 'Usuário deletado com sucesso!';

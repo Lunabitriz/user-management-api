@@ -1,23 +1,23 @@
 import {
-    Body,
-    Post,
     Get,
     Put,
+    Body,
+    Post,
     Param,
     Delete,
+    UseGuards,
     Controller,
     ParseIntPipe,
-    UseInterceptors,
     UploadedFile,
     ParseFilePipe,
-    MaxFileSizeValidator,
+    UseInterceptors,
     FileTypeValidator,
-    UseGuards,
+    MaxFileSizeValidator,
 } from '@nestjs/common';
-import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserService } from './user.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -67,7 +67,6 @@ export class UserController {
     }
 
     @Put('redefine-password')
-    // @UseGuards(JwtAuthGuard)
     async redefinePassword(@Body() userDto: UserMailDto) {
         return this.userService.redefinePassword(userDto);
     }   
@@ -87,19 +86,18 @@ export class UserController {
         file: Express.Multer.File,
         @Body() data: { id: number }
     ) {
-        if(!data.id) {
+        if(!data.id)
             throw new Error('O ID do usuário é obrigatório');
-        }
 
         data.id = Number(data.id);
 
         // Converte o arquivo para base64
-        const base64 = file.buffer.toString('base64');
-        const mimeType = file.mimetype;
+        const base64     = file.buffer.toString('base64');
+        const mimeType   = file.mimetype;
         const fotoPerfil = `data:${mimeType};base64,${base64}`;
         
         return this.userService.updateUser({
-            id: data.id,
+            id:         data.id,
             fotoPerfil: fotoPerfil
         });
     }

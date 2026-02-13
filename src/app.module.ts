@@ -1,18 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { MailerService } from './mailer/mailer.service';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { AppController } from './app.controller';
 import { MailerModule } from './mailer/mailer.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { MailerService } from './mailer/mailer.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    UserModule, PrismaModule, AuthModule, MailerModule],
+    AuthModule, 
+    UserModule, 
+    MailerModule,
+    PrismaModule, 
+  ],
   controllers: [AppController],
-  providers: [AppService, MailerService],
+  providers:   [AppService, MailerService],
 })
 export class AppModule {}

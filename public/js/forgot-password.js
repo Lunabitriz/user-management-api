@@ -8,7 +8,9 @@ async function confirmMail() {
     try {
         const response = await fetch('http://localhost:3000/user/forgot-password', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
             body: JSON.stringify({ email: emailInput })
         });
 
@@ -38,12 +40,13 @@ function populateCodeInputs() {
     if(!inputsContainer.innerHTML) {
         inputIds.forEach(inputId => {
             const input = document.createElement('input');
-            input.type = 'text';
-            input.inputMode = 'numeric';
-            input.id = inputId;
-            input.className = 'input-forgot';
-            input.pattern = '[0-9]*';
-            input.maxLength = 1;
+
+            input.type         = 'text';
+            input.id           = inputId;
+            input.pattern      = '[0-9]*';
+            input.inputMode    = 'numeric';
+            input.className    = 'input-forgot';
+            input.maxLength    = 1;
             input.autocomplete = 'off';
             input.setAttribute('aria-label', 'Validation code');
     
@@ -82,8 +85,8 @@ inputs.forEach((input, index) => {
 // Function to show code validation time
 function timerToExpires() {
     const expiresText = document.getElementById('expires-in');
-
     const maxMinutes = 10;
+
     let sec = localStorage.getItem('currentSeconds') || 59;
     let min = localStorage.getItem('currentMinutes') || (maxMinutes - 1);
 
@@ -152,7 +155,7 @@ async function confirmSendCode() {
 
 // Function to redefine password
 async function confirmNewPassword() {
-    const newPassword = document.getElementById('new-password-redefine').value;
+    const newPassword        = document.getElementById('new-password-redefine').value;
     const confirmNewPassword = document.getElementById('confirm-password-redefine').value;
 
     if(!newPassword || !confirmNewPassword || newPassword !== confirmNewPassword) {
@@ -216,13 +219,13 @@ function hideValidationsContainers() {
 
 // Function to alternate containers visibility
 function handleContainersVisibility() {
-    const enterCodeExists = localStorage.getItem('enterCode');
-    const recoveryEmailExists = localStorage.getItem('recoveryEmail');
-    const passwordRedefined = localStorage.getItem('passwordRedefined');
+    const enterCodeExists      = localStorage.getItem('enterCode');
+    const recoveryEmailExists  = localStorage.getItem('recoveryEmail');
+    const passwordRedefined    = localStorage.getItem('passwordRedefined');
 
-    const codeContainer = document.getElementById('code-container');
-    const confirmContainer = document.getElementById('confirm-container');
-    const enterEmailContainer = document.getElementById('enter-email-container');
+    const codeContainer        = document.getElementById('code-container');
+    const confirmContainer     = document.getElementById('confirm-container');
+    const enterEmailContainer  = document.getElementById('enter-email-container');
     const newPasswordContainer = document.getElementById('new-password-container');
 
     if(!recoveryEmailExists) {
@@ -272,9 +275,9 @@ const confirmPassowordInput = document.getElementById('confirm-password-redefine
 ['keyup', 'blur', 'focus'].forEach(eventType => {
     confirmPassowordInput.addEventListener(eventType, (event) => {
         const newPassowordInput = document.getElementById('new-password-redefine').value.trim();
-        const message = document.getElementById('confirm-password-message');
+        const message           = document.getElementById('confirm-password-message');
 
-        let inputValue = event.target.value;
+        let inputValue   = event.target.value;
         let errorMessage = (!newPassowordInput) ? 'Please fill in the first field.' : 'Passwords must match.'
         
         const isValidPassword = !newPassowordInput || inputValue !== newPassowordInput;

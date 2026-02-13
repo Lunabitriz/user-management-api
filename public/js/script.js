@@ -574,6 +574,7 @@ function savesUserData(result) {
 async function login() {
     let email = document.getElementById('login-email').value;
     let senha = document.getElementById('login-password').value;
+
     const rememberMe = document.getElementById('remember-me');
 
     try {
@@ -610,13 +611,13 @@ async function login() {
 
 // Register function
 async function register() {
-    const email = document.getElementById('register-email').value;
-    const nome = document.getElementById('register-user-name').value;
-    const senha = document.getElementById('register-password').value;
+    const email           = document.getElementById('register-email').value;
+    const name            = document.getElementById('register-user-name').value;
+    const password        = document.getElementById('register-password').value;
     const confirmPassword = document.getElementById('confirm-register-password').value;
 
-    const isPasswordMismatch = senha !== confirmPassword;
-    const inputsAreNotFilled = !email || !nome || !senha || !confirmPassword;
+    const isPasswordMismatch = password !== confirmPassword;
+    const inputsAreNotFilled = !email || !name || !password || !confirmPassword;
 
     if(inputsAreNotFilled || isPasswordMismatch) {
         showNotification('Error registering! Enter valid data', 'warning');
@@ -628,7 +629,7 @@ async function register() {
         headers: {
             'content-type': 'application/json'
         },
-        body: JSON.stringify({ nome, email, senha })
+        body: JSON.stringify({ name, email, password })
     });
     
     if(response.ok) {
@@ -637,7 +638,6 @@ async function register() {
 
         savesUserData(result);
         clearRegisterForm();
-
         window.location.href = 'user-account.html';
     } else {
         showNotification('Failed to create account.', 'danger');
@@ -662,8 +662,7 @@ function loadUserLoginData() {
 }
 
 // Initializations
-if(window.location.href.endsWith('user-account.html')) {
+if(window.location.href.endsWith('user-account.html'))
     loadUserData();
-} else if(window.location.href.endsWith('index.html')) {
+else if(window.location.href.endsWith('index.html'))
     loadUserLoginData();
-}

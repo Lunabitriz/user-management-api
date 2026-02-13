@@ -9,8 +9,8 @@ export function generateRandomCode(): string {
 
 function createTransporter() {
     return nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: Number(process.env.EMAIL_PORT),
+        host:   process.env.EMAIL_HOST,
+        port:   Number(process.env.EMAIL_PORT),
         secure: true,
         auth: {
             user: process.env.EMAIL_USER,
@@ -20,7 +20,7 @@ function createTransporter() {
 }
 
 export async function sendResetEmail(to: string): Promise<{ code: string }> {
-    const code = generateRandomCode();
+    const code        = generateRandomCode();
     const transporter = createTransporter();
 
     const mailOptions = {

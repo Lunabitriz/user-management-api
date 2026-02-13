@@ -1,4 +1,11 @@
-import { IsString, IsNumber, IsEmail, IsNotEmpty, IsOptional, IsStrongPassword } from "class-validator";
+import { 
+    IsEmail,
+    IsNumber,
+    IsString,
+    IsNotEmpty,
+    IsOptional,
+    IsStrongPassword,
+} from "class-validator";
 
 export class CriarUserDto {
     @IsString()
@@ -11,11 +18,11 @@ export class CriarUserDto {
     
     @IsNotEmpty()
     @IsStrongPassword({
-        minLength: 8,
-        minNumbers: 1,
+        minLength:    8,
+        minNumbers:   1,
         minUppercase: 1,
         minLowercase: 0,
-        minSymbols: 1
+        minSymbols:   1
     })
     senha: string;
 
@@ -48,11 +55,11 @@ export class UserMailDto {
 
     @IsOptional()
     @IsStrongPassword({
-        minLength: 8,
-        minNumbers: 1,
+        minLength:    8,
+        minNumbers:   1,
         minUppercase: 1,
         minLowercase: 0,
-        minSymbols: 1
+        minSymbols:   1
     })
     senha?: string;
 }
@@ -72,11 +79,11 @@ export class AtualizarUserDto {
     
     @IsOptional()
     @IsStrongPassword({
-        minLength: 8,
-        minNumbers: 1,
+        minLength:    8,
+        minNumbers:   1,
         minUppercase: 1,
         minLowercase: 0,
-        minSymbols: 1
+        minSymbols:   1
     })
     senha?: string;
 

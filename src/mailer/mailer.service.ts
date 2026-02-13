@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
+
 import * as dotenv from 'dotenv';
+import * as nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -10,8 +11,8 @@ export class MailerService {
 
     constructor() {
         this.transporter = nodemailer.createTransport({
-            host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-            port: Number(process.env.EMAIL_PORT) || 465,
+            host:   process.env.EMAIL_HOST || 'smtp.gmail.com',
+            port:   Number(process.env.EMAIL_PORT) || 465,
             secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
@@ -42,6 +43,7 @@ export class MailerService {
 
     async generateAndSendCode(email: string): Promise<string> {
         const code = this.generateRandomCode();
+        
         await this.sendPasswordResetEmail(email, code);
         return code;
     }

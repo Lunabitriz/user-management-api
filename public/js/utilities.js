@@ -20,8 +20,8 @@ function showNotification(message, type = 'info') {
 
     // Vou melhorar
     const icons = {
-        info: 'info',
-        danger: 'error',
+        info:    'info',
+        danger:  'error',
         success: 'success',
         warning: 'warning'
     };
@@ -69,19 +69,25 @@ function showMessagePopUp(tipo, titulo, message) {
     let color = getColorByType(tipo);
 
     container.innerHTML = `        
-        <div class="max-w-md mx-auto bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12" style="width: 348px;">
+        <div 
+          class="max-w-md mx-auto bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12" 
+          style="width: 348px;"
+        >
             <div class="email-ilustration w-full flex flex-col items-center justify-center">
                 <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} icon" class="mb-4">
             </div>
 
             <div class="header-form text-center">
                 <h3>${titulo}</h3>
-                <p class="mb-3">
-                    ${message}
-                </p>
+                <p class="mb-3">${message}</p>
             </div>
 
-            <button onclick="hidePopUp()" id="popup-confirm-btn" class="btn text-white w-full" style="background-color: ${color};">
+            <button 
+              onclick="hidePopUp()" 
+              id="popup-confirm-btn" 
+              class="btn text-white w-full" 
+              style="background-color: ${color};"
+            >
                 Confirm
             </button>
         </div>
@@ -90,13 +96,16 @@ function showMessagePopUp(tipo, titulo, message) {
 
 // Show confirm or cancel pop-ups
 function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
-    const container = document.getElementById('pop-up-container');
+    const popUpColor = getColorByType(tipo);
+    const container  = document.getElementById('pop-up-container');
 
     document.getElementById('overflow').classList.add('active');
-    const popUpColor = getColorByType(tipo);
     
     container.innerHTML = `
-        <div class="container bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12" style="width: 420px;">
+        <div 
+          class="container bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12" 
+          style="width: 420px;"
+        >
             <div class="${tipo}-ilustration">
                 <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} image" width="193px">
             </div>
@@ -133,13 +142,9 @@ function handleConfirmationOptions(tipo, btnValue) {
         return;
     }
 
-    if(tipo == 'edit') {
-        saveChanges();
-    } else if(tipo == 'logout') {
-        logout();
-    } else if(tipo == 'delete'){
-        removeAccount();
-    }
+    if(tipo == 'edit')        saveChanges();
+    else if(tipo == 'logout') logout();
+    else if(tipo == 'delete') removeAccount();
 }
 
 // Return a custom error message
@@ -156,16 +161,16 @@ function getErrorMensage(message, inputId) {
 // Function to get color by type defined
 function getColorByType(type) {
     const colorByType = {
-        'error': '#FF5C5C',
+        'error':  '#FF5C5C',
         'danger': '#FF5C5C',
         'delete': '#FF5C5C',
 
-        'info': '#3b97e3',
+        'info':           '#3b97e3',
         'error-database': '#3b97e3',
 
         'warning': '#F37913',
-        'logout': '#F37913',
-        'edit': '#F37913',
+        'logout':  '#F37913',
+        'edit':    '#F37913',
     };
     
     return colorByType[type] || '#5da271';
@@ -248,7 +253,7 @@ const inputsConfig = {
             iconId: 'confirm-password-img',
             showPasswordToggle: true,
         }
-    ]
+    ],
 };
 
 function generateInputs(inputType) {
@@ -258,15 +263,15 @@ function generateInputs(inputType) {
         icon,
         iconAlt,
         placeholder,
-        iconId = '',
-        errorId = '',
-        autocomplete = '',
-        validationsId = '',
+        iconId             = '',
+        errorId            = '',
+        autocomplete       = '',
+        validationsId      = '',
         showPasswordToggle = false,
-        inputClass = 'input-login'
+        inputClass         = 'input-login'
     } = inputType;
 
-    const containerId = showPasswordToggle ? `${id}-container` : '';
+    const containerId    = showPasswordToggle ? `${id}-container` : '';
     const containerClass = showPasswordToggle ? 'input-item relative' : 'input-item';
 
     return `
@@ -274,11 +279,11 @@ function generateInputs(inputType) {
             ${errorId ? `<div id="${errorId}" class="input-error"></div>` : ''}
 
             <input 
-                type="${type}" 
                 id="${id}" 
+                type="${type}" 
                 class="${inputClass}"
-                autocomplete="${autocomplete}"
                 placeholder="${placeholder}"
+                autocomplete="${autocomplete}"
             >
             <img 
                 ${iconId ? `id="${iconId}"` : ''}
@@ -331,25 +336,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Listener to login
     const submitLoginBtn = document.getElementById('submit-login');
-    if(submitLoginBtn) {
+    if(submitLoginBtn)
         submitLoginBtn.addEventListener('click', login);
-    }
 
     // Listener to register
     const submitRegisterButton = document.getElementById('submit-register');
-    if(submitRegisterButton) {
+    if(submitRegisterButton)
         submitRegisterButton.addEventListener('click', register);
-    }
 
     // Listener to accompany password validations
     const confirmRegisterPassword = document.getElementById('confirm-register-password');
     if(confirmRegisterPassword) {
         ['keyup', 'blur', 'focus'].forEach(eventType => {
             confirmRegisterPassword.addEventListener(eventType, (event) => {
+                const message           = document.getElementById('confirm-password-message');
                 const newPassowordInput = document.getElementById('register-password').value.trim();
-                const message = document.getElementById('confirm-password-message');
 
-                let inputValue = event.target.value;
+                let inputValue   = event.target.value;
                 let errorMessage = (!newPassowordInput) ? 'Please fill in the first field.' : 'Passwords must match.'
                 
                 const isValidPassword = !newPassowordInput || inputValue !== newPassowordInput;
@@ -378,8 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Create password register validations
     showValidationsHtml('register-password-validations');
-    activateValidationsListener('register-email', 'register-password', 'register-user-name');
     activateValidationsListener('new-email', 'new-password', 'new-name');
+    activateValidationsListener('register-email', 'register-password', 'register-user-name');
 })
 
 // Function to show the loading spinner
@@ -388,10 +391,11 @@ function showLoadingSpinner(containerId) {
     if(!container) return;
 
     // Create the spinner element
-    const spinner = document.createElement('div');
-    spinner.id = `${containerId}-spinner`;
-    spinner.className = 'loading-container flex-col justify-center items-center gap-2 absolute mb-3';
+    const spinner        = document.createElement('div');
+
     spinner.style.bottom = '4px';
+    spinner.id           = `${containerId}-spinner`;
+    spinner.className    = 'loading-container flex-col justify-center items-center gap-2 absolute mb-3';
 
     spinner.innerHTML = `
         <div class="loading-spinner active rounded-full"></div>
@@ -441,17 +445,17 @@ function hideLoadingSpinner(containerId) {
 
 // Make the password visible
 function passwordVisible(inputId, containerId) {
-    const password = document.getElementById(inputId);
-    const visibleIcon = document.getElementById(`${inputId}-visible-icon`);
+    const password       = document.getElementById(inputId);
+    const visibleIcon    = document.getElementById(`${inputId}-visible-icon`);
     const notVisibleIcon = document.getElementById(`${inputId}-not-visible-icon`);
     
     if(!password || !visibleIcon || !notVisibleIcon) return;
 
     const isPasswordVisible = password.type === 'text';
     
-    password.type = isPasswordVisible ? 'password' : 'text';
-    visibleIcon.style.display = isPasswordVisible ? 'block' : 'none';
-    notVisibleIcon.style.display = isPasswordVisible ? 'none' : 'block';
+    password.type                = isPasswordVisible ? 'password' : 'text';
+    visibleIcon.style.display    = isPasswordVisible ? 'block'    : 'none';
+    notVisibleIcon.style.display = isPasswordVisible ? 'none'     : 'block';
 }
 
 // Show password validations
@@ -509,25 +513,27 @@ function setupPasswordToggleListeners() {
 
 // Password validation
 function validatePassword(event) {
-    const lengthAuth = document.getElementById('lenght');
-    const numberAuth = document.getElementById('number');
-    const symbolAuth = document.getElementById('symbol');
+    const lengthAuth    = document.getElementById('lenght');
+    const numberAuth    = document.getElementById('number');
+    const symbolAuth    = document.getElementById('symbol');
     const upperCaseAuth = document.getElementById('uppercase');
 
     if(!lengthAuth || !numberAuth || !symbolAuth || !upperCaseAuth) return;
     
     const value = event.target.value;
 
-    const numberRegex = /\d/.test(value);
+    const numberRegex    = /\d/.test(value);
     const upperCaseRegex = /[A-Z]/.test(value);
-    const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+    const symbolRegex    = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
 
     numberAuth.classList.toggle('valid', numberRegex);
     symbolAuth.classList.toggle('valid', symbolRegex);
     lengthAuth.classList.toggle('valid', value.length >= 8);
     upperCaseAuth.classList.toggle('valid', upperCaseRegex);
 
-    return !(value.length >= 8) || !numberRegex || !symbolRegex || !upperCaseRegex ? 0 : 1;
+    const isValidPassword = (value.length >= 8) || numberRegex || symbolRegex || upperCaseRegex;
+
+    return !isValidPassword ? 0 : 1;
 }
 
 // Password Confirm Validation
@@ -555,7 +561,7 @@ function validateUserName(event) {
 
 // Validations Listener
 function activateValidationsListener(emailInputId, passwordInputId, userNameInputId) {
-    const emailInput = document.getElementById(emailInputId) || '';
+    const emailInput    = document.getElementById(emailInputId) || '';
     const passwordInput = document.getElementById(passwordInputId);
     const userNameInput = document.getElementById(userNameInputId);
 
@@ -565,15 +571,16 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
 
         passwordInput.addEventListener(eventType, (event) => {
             const validationState = validatePassword(event);
-            const message = document.getElementById('password-message');
-            const validations = document.getElementById('validation');
+            const validations     = document.getElementById('validation');
+            const message         = document.getElementById('password-message');
 
             if(!message) return;
 
             if(validationState) {
-                message.innerHTML = "";
+                message.innerHTML                   = "";
                 passwordInput.style.backgroundColor = '#fff';
-                passwordInput.style.border = '1px solid #85D6A5';
+                passwordInput.style.border          = '1px solid #85D6A5';
+
                 if(validations) {
                     validations.classList.remove('show');
                     validations.style.display = 'none';
@@ -599,8 +606,8 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
             if(!message) return;
 
             if(validationState) {
+                message.innerHTML       = '';
                 emailInput.style.border = '1px solid #85D6A5';
-                message.innerHTML = '';
             } else if(!validationState && eventType === 'blur') {
                 emailInput.style.border = '1px solid #FF7070';
                 message.innerHTML = getErrorMensage('Invalid email address.', emailInput.id);
@@ -619,8 +626,8 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
             if(!message) return;
 
             if(validationState) {
+                message.innerHTML          = '';   
                 userNameInput.style.border = '1px solid #85D6A5';
-                message.innerHTML = '';   
             } else if(!validationState && eventType === 'blur') {
                 userNameInput.style.border = '1px solid #FF7070';
                 message.innerHTML = getErrorMensage('Minimum of 6 characters.', userNameInput.id);
@@ -630,11 +637,11 @@ function activateValidationsListener(emailInputId, passwordInputId, userNameInpu
 }
 
 const functions = [
-    activateValidationsListener, validateEmail, passwordVisible,
-    showValidations, showMessagePopUp, validatePassword,
-    validateUserName, showNotification, hideLoadingSpinner,
-    showLoadingSpinner, showValidationsHtml, showConfirmationPopUP,
-    handleConfirmationOptions, renderInputs, addPasswordToggleIcons,
+    activateValidationsListener, validateEmail,       passwordVisible,
+    showValidations,             showMessagePopUp,    validatePassword,
+    validateUserName,            showNotification,    hideLoadingSpinner,
+    showLoadingSpinner,          showValidationsHtml, showConfirmationPopUP,
+    handleConfirmationOptions,   renderInputs,        addPasswordToggleIcons,
     setupPasswordToggleListeners
 ];
 

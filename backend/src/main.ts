@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
@@ -8,11 +7,6 @@ import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  
-  // Configura arquivos estáticos
-  app.useStaticAssets(join(__dirname, '..', 'assets'), {
-    index: 'index.html',
-  });
 
   // Configura limites de tamanho para uploads e tamanho de requisições.
   app.use(bodyParser.raw({ limit: '50mb' }));

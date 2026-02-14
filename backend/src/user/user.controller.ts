@@ -15,8 +15,9 @@ import {
     MaxFileSizeValidator,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 
 @Controller('user')
@@ -43,14 +44,12 @@ export class UserController {
         return this.userService.validateReceivedCode(userMailDto);
     }
 
-    @Get() 
-    @UseGuards(JwtAuthGuard)
+    @Get()
     async list() {
         return this.userService.listUsers();
     }
 
     @Get(':id')
-    @UseGuards(JwtAuthGuard)
     async getUser(@Param('id') id: number) {
         return this.userService.getUserById(id);
     }
@@ -61,18 +60,17 @@ export class UserController {
     }
 
     @Put()
-    @UseGuards(JwtAuthGuard)
     async update(@Body() userDto: AtualizarUserDto) {
         return this.userService.updateUser(userDto);
     }
 
+    @Public()
     @Put('redefine-password')
     async redefinePassword(@Body() userDto: UserMailDto) {
         return this.userService.redefinePassword(userDto);
     }   
 
     @Post('upload-foto')
-    @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor('foto'))
     async uploadProfilePhoto(
         @UploadedFile(
@@ -103,7 +101,6 @@ export class UserController {
     }
 
     @Delete(':id')
-    @UseGuards(JwtAuthGuard)
     async delete(@Param('id', ParseIntPipe) id: number) {
         return this.userService.deleteUser(id);
     }

@@ -85,7 +85,7 @@ async function renderThemes() {
         return `
             <div class="theme-box ${themeDefined}" data-theme="${themeFormated}-theme">
                 <div class="theme-image">
-                    <img src="imgs/${themeImage}.jpg" alt="Theme Image">
+                    <img src="./assets/imgs/${themeImage}.jpg" alt="Theme Image">
                 </div>
 
                 <div class="theme-header flex items-center">
@@ -466,7 +466,7 @@ async function loadUserData() {
 
             // Load profile photo if is exists            
             document.getElementById('profile-image').src = (userPhoto == null) 
-                                                            ? './imgs/profile-img-default.jpg' 
+                                                            ? './assets/imgs/profile-img-default.jpg' 
                                                             : userPhoto;
                             
             // Show the profile data in placeholders 

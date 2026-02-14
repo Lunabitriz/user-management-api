@@ -31,7 +31,7 @@ function showNotification(message, type = 'info') {
     
     notification.style.borderLeft = `4px solid ${color}`;
     notification.innerHTML = `
-        <img src="imgs/pop-ups-arts/${iconImage}-icon.jpg" alt="${type} icon" style="width: 70px;">
+        <img src="./assets/imgs/pop-ups-arts/${iconImage}-icon.jpg" alt="${type} icon" style="width: 70px;">
 
         <div class="flex items-center justify-between gap-2 w-full">
             <p class="m-0 font-semibold">${message}</p>
@@ -74,7 +74,7 @@ function showMessagePopUp(tipo, titulo, message) {
           style="width: 348px;"
         >
             <div class="email-ilustration w-full flex flex-col items-center justify-center">
-                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} icon" class="mb-4">
+                <img src="./assets/imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} icon" class="mb-4">
             </div>
 
             <div class="header-form text-center">
@@ -107,7 +107,7 @@ function showConfirmationPopUP(tipo, titulo, message, ctaBtn) {
           style="width: 420px;"
         >
             <div class="${tipo}-ilustration">
-                <img src="./imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} image" width="193px">
+                <img src="./assets/imgs/pop-ups-arts/${tipo}-icon.jpg" alt="${tipo} image" width="193px">
             </div>
             <div class="header-form text-center">
                 <h3 class="text-center">${titulo}</h3>
@@ -183,7 +183,7 @@ const inputsConfig = {
             id: 'login-email',
             type: 'text',
             placeholder: 'Your email',
-            icon: 'imgs/user.png',
+            icon: './assets/imgs/user.png',
             iconAlt: 'User icon',
             autocomplete: 'username'
         },
@@ -191,7 +191,7 @@ const inputsConfig = {
             id: 'login-password',
             type: 'password',
             placeholder: 'Your password',
-            icon: 'imgs/lock.png',
+            icon: './assets/imgs/lock.png',
             iconAlt: 'Lock icon',
             autocomplete: 'current-password',
             showPasswordToggle: true
@@ -202,7 +202,7 @@ const inputsConfig = {
             id: 'register-user-name',
             type: 'text',
             placeholder: 'Username',
-            icon: 'imgs/user.png',
+            icon: './assets/imgs/user.png',
             iconAlt: 'User icon',
             errorId: 'user-name-error',
             iconId: 'user-name-img'
@@ -211,7 +211,7 @@ const inputsConfig = {
             id: 'register-email',
             type: 'email',
             placeholder: 'Enter your email',
-            icon: 'imgs/email.png',
+            icon: './assets/imgs/email.png',
             iconAlt: 'Email icon',
             iconClass: 'top-4',
             errorId: 'email-error',
@@ -221,7 +221,7 @@ const inputsConfig = {
             id: 'register-password',
             type: 'password',
             placeholder: 'Create a password',
-            icon: 'imgs/lock.png',
+            icon: './assets/imgs/lock.png',
             iconAlt: 'Lock icon',
             autocomplete: 'off',
             iconId: 'password-img',
@@ -233,7 +233,7 @@ const inputsConfig = {
             id: 'confirm-register-password',
             type: 'password',
             placeholder: 'Confirm password',
-            icon: 'imgs/lock.png',
+            icon: './assets/imgs/lock.png',
             iconAlt: 'Lock icon',
             autocomplete: 'off',
             errorId: 'confirm-password-message',
@@ -246,7 +246,7 @@ const inputsConfig = {
             id: 'new-name',
             type: 'text',
             placeholder: 'Confirm password',
-            icon: 'imgs/lock.png',
+            icon: './assets/imgs/lock.png',
             iconAlt: 'Lock icon',
             autocomplete: 'off',
             errorId: 'confirm-password-message',

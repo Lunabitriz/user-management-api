@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "postcss.config.js",
   "scripts": {
-    "build:css": "tailwindcss -i ./public/css/tailwind.source.css -o ./public/css/tailwind.output.css --minify",
-    "watch:css": "tailwindcss -i ./public/css/tailwind.source.css -o ./public/css/tailwind.output.css --watch",
-    "start": "live-server public --port=8080 --entry-file=index.html",
+    "build:css": "tailwindcss -i ./assets/css/tailwind.source.css -o ./assets/css/tailwind.output.css --minify",
+    "watch:css": "tailwindcss -i ./assets/css/tailwind.source.css -o ./assets/css/tailwind.output.css --watch",
+    "start": "live-server --port=8080 --entry-file=index.html",
     "dev": "npx concurrently \"npm run watch:css\" \"npm run start\""
   },
   "keywords": [],

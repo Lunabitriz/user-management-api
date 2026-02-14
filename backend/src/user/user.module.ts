@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 import { MulterModule } from '@nestjs/platform-express';
-import { MailerService } from 'src/mailer/mailer.service';
+import { MailerService } from '../mailer/mailer.service';
 
 @Module({
   imports: [

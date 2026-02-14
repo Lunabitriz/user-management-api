@@ -5,8 +5,8 @@ import {
     UnauthorizedException, 
     NotAcceptableException, 
 } from '@nestjs/common';
-import { MailerService } from 'src/mailer/mailer.service';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { MailerService } from '../mailer/mailer.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CriarUserDto, AtualizarUserDto, UserLoginDto, UserMailDto } from './user.dto/user.dto';
 
 import * as bcrypt from 'bcrypt';

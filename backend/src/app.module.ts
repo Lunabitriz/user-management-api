@@ -6,8 +6,6 @@ import { UserModule } from './user/user.module';
 import { AppController } from './app.controller';
 import { MailerModule } from './mailer/mailer.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { MailerService } from './mailer/mailer.service';
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -17,6 +15,6 @@ import { MailerService } from './mailer/mailer.service';
     PrismaModule, 
   ],
   controllers: [AppController],
-  providers:   [AppService, MailerService],
+  providers:   [AppService],
 })
 export class AppModule {}

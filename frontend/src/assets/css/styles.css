@@ -20,7 +20,7 @@
     --bg-descryption: #ffffff;
     --bg-profile-card: #ffffff;
     --bg-settings: #fcfcfc;
-    --bg-profile: url('../imgs/profile-cover-themes/sunset-theme.png');
+    --bg-profile: url('/imgs/profile-cover-themes/sunset-theme.png');
     --color-p-bio-item: #787878;
     --color-profile-info: #515151;
     --color-p-bio-item-active: #616161;
@@ -49,7 +49,7 @@
     --bg-color: #F4FBFD;
     --text-color: rgba(29, 42, 54, 0.847);
     --bg-body: linear-gradient(180deg, #F4FBFD, rgba(228, 247, 251, 0.764));
-    --bg-profile: url('../imgs/profile-cover-themes/east-blue-theme.jpg');
+    --bg-profile: url('/imgs/profile-cover-themes/east-blue-theme.jpg');
     --bg-descryption: #ffffff;
     
     --bg-img-perfil: #ffffff;
@@ -70,7 +70,7 @@
     --secondary: #47855F;
     --text-color: rgba(42, 58, 46, 0.877);
     --bg-body: linear-gradient(180deg, #FAF8F3, rgba(243, 239, 226, 0.43));
-    --bg-profile: url('../imgs/profile-cover-themes/kuma-theme.jpg');
+    --bg-profile: url('/imgs/profile-cover-themes/kuma-theme.jpg');
     --bg-descryption: #ffffff;
 
     --bg-img-perfil: #ffffff;
@@ -105,7 +105,7 @@
     --bg-descryption: #333333;
     --bg-profile-card: #1e1e1e;
     --bg-settings: #1e1e1e;
-    --bg-profile: url('../imgs/profile-cover-themes/sunset-theme.png');
+    --bg-profile: url('/imgs/profile-cover-themes/sunset-theme.png');
     
     --color-p-bio-item: #c5cfc5;
     --color-profile-info: #e7f3f3;
@@ -143,7 +143,7 @@
     --bg-descryption: linear-gradient(180deg, #101219, #151922);
     --bg-profile-card: #151922;
     --bg-settings: #1e1e1e;
-    --bg-profile: url('../imgs/profile-cover-themes/nightfall-theme.jpg');
+    --bg-profile: url('/imgs/profile-cover-themes/nightfall-theme.jpg');
     
     --color-p-bio-item: #d7effdcf;
     --color-profile-info: #EAF7FF;
@@ -181,7 +181,7 @@
     --bg-descryption: linear-gradient(180deg, #101219, #151922);
     --bg-profile-card: #151922;
     --bg-settings: #1e1e1e;
-    --bg-profile: url('../imgs/profile-cover-themes/twilight-theme.jpg');
+    --bg-profile: url('/imgs/profile-cover-themes/twilight-theme.jpg');
     
     --color-p-bio-item: #d7effdcf;
     --color-profile-info: #EAF7FF;
@@ -785,7 +785,7 @@ body.shadow-active::after {
         width: 100%;
         display: block;
         min-height: 150px;
-        background: url('../imgs/florest-cover-imgs/florest-cover-mobile.png') no-repeat center center;
+        background: url('/imgs/florest-cover-imgs/florest-cover-mobile.png') no-repeat center center;
     }
 
     #florest-cover-md { display: none; }

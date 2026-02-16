@@ -18,8 +18,8 @@ export class UserService {
         id:           true,
         name:         true,
         email:        true,
-        profileImage: true,
         accountTheme: true,
+        profileImage: true,
     }
 
     private readonly userInternalSelect = {
@@ -27,8 +27,8 @@ export class UserService {
         name:         true,
         email:        true,
         password:     true,
-        profileImage: true,
         accountTheme: true,
+        profileImage: true,
     } 
     
     async createUser(userDto: CriarUserDto) {
@@ -44,8 +44,8 @@ export class UserService {
                 password:     passwordHashed,
                 name:         userDto.name,
                 email:        userDto.email,
+                accountTheme: userDto.accountTheme,
                 profileImage: userDto.profileImage || null,
-                accountTheme: userDto.accountTheme || 'sunset',
             },
             select: this.userSelect
         });

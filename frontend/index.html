@@ -1,99 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Register page</title>
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body class="flex flex-col justify-center items-center min-h-screen">
 
-    <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="./assets/css/tailwind.output.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="./assets/css/styles.css">
-</head>
-<body class="h-screen p-2 flex justify-center items-center">
-    <div id="main-container" class="flex justify-between items-center relative w-full rounded-3xl overflow-hidden bg-white m-0">
-        <div id="auth-forms" class="w-full p-3">
-            <!-- Starts: Login Form -->
-            <div id="login-container" class="active">
-                <div class="header-form text-center">
-                    <h2 class="font-bold mb-3" style="font-size: 2.5rem;">Login</h2>
-                    <p class="mb-0">
-                        Please enter your login details in log in.
-                    </p>
-                </div>
-            
-                <div class="flex flex-col gap-6">
-                    <!-- Form inputs will appear here -->
-                    <div id="login-inputs-container" class="flex flex-col gap-6 w-full"></div>
-                    
-                    <div class="more-actions flex justify-between">
-                        <div class="remember-me-container flex" style="gap: 5px;">
-                            <input id="remember-me" type="checkbox">
-                            <label for="remember-me" id="remember-me-label">Remember-me</label>
-                        </div>
-                        <button id="forgot-password">
-                            Forgot password?
-                        </button>
-                    </div>
-                </div>
-
-                <button id="submit-login" class="mb-2">
-                    Login
-                </button>
-
-                <div class="toggle-form-text flex justify-center gap-2">
-                    <p class="mb-0">
-                        Don’t have an account?
-                    </p>
-                    <button id="register-toggle-btn" class="btn-auth-form">
-                        Sign up
-                    </button>
-                </div>
-            </div> <!-- Ends: Login Form -->
-            
-            <!-- Registration Form -->
-            <div id="register-container" class="hidden">
-                <div class="header-form text-center">
-                    <h2 class="font-bold mb-3" style="font-size: 2.5rem;">Register</h2>
-                    <p class="mb-0">
-                        Create your account to get started!
-                    </p>
-                </div>
-                
-                <div id="register-inputs-container" class="flex flex-col gap-6"></div>
-
-                <button id="submit-register" class="m-0">
-                    Create Account
-                </button>
-
-                <div class="toggle-form-text flex justify-center gap-1">
-                    <p class="mb-0">Already have an account?</p>
-
-                    <button id="login-toggle-btn" class="btn-auth-form">
-                        Log in
-                    </button>
-                </div>
-            </div>
-        </div> <!-- Ends: Registration Form -->
-
-        <!-- Cover Images -->
-        <img id="cover-img">
-            <img id="florest-cover-lg" src="./assets/imgs/florest-cover-imgs/florest-cover-5.png" alt="florest">
-            <img id="florest-cover-md" src="./assets/imgs/florest-cover-imgs/florest-cover-md.png" alt="florest">
-            <img id="florest-cover-mobile" src="./assets/imgs/florest-cover-imgs/florest-cover-mobile.png" alt="florest">
-        </img>
-    </div>
-
-    <!-- Pop-up container -->
-    <div id="overflow" class="overflow hidden">
-        <div id="pop-up-container"></div>
-    </div>
-
-    <script src="./assets/js/utilities.js"></script>
-    <script src="./assets/js/script.js"></script>
-</body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
 </html>

@@ -1,10 +1,12 @@
-import type { 
+import type {
   ReactNode,
-  FocusEvent, 
-  ChangeEvent, 
-  KeyboardEvent, 
+  FocusEvent,
+  ChangeEvent,
+  KeyboardEvent,
 } from 'react';
+
 import FieldError from './FieldError';
+import { AUTH_INPUT, INPUT_ICON } from '../../styles/classNames';
 
 interface AuthFormFieldProps {
   id:           string
@@ -27,12 +29,12 @@ interface AuthFormFieldProps {
 const AuthFormField = ({
   id,
   type = 'text',
-  value,
-  placeholder,
   icon,
   error,
+  value,
   iconAlt,
-  inputClass = 'input-login',
+  placeholder,
+  inputClass = '',
   autoComplete,
   onBlur,
   onFocus,
@@ -41,14 +43,17 @@ const AuthFormField = ({
   children,
   containerId,
 }: AuthFormFieldProps) => (
-
-  <div id={containerId} className="input-item relative">
+  <div
+    id={containerId}
+    className="w-full flex flex-col relative"
+  >
     <FieldError message={error} inputId={id} />
+
     <input
       id={id}
       type={type}
       value={value}
-      className={inputClass}
+      className={`${AUTH_INPUT} ${inputClass}`.trim()}
       placeholder={placeholder}
       autoComplete={autoComplete}
       onBlur={onBlur}
@@ -57,7 +62,7 @@ const AuthFormField = ({
       onKeyDown={onKeyDown}
     />
 
-    <img className="input-icon" src={icon} alt={iconAlt} />
+    <img className={INPUT_ICON} src={icon} alt={iconAlt} />
     {children}
   </div>
 );

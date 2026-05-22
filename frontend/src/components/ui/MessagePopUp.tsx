@@ -6,6 +6,7 @@ import logoutIcon  from '../../assets/imgs/pop-ups-arts/logout-icon.jpg';
 import successIcon from '../../assets/imgs/pop-ups-arts/success-icon.jpg';
 import warningIcon from '../../assets/imgs/pop-ups-arts/warning-icon.jpg';
 
+import Button from './Button';
 import { getColorByType } from '../../utils/colors';
 
 const POPUP_ICONS: Record<string, string> = {
@@ -25,36 +26,31 @@ interface MessagePopUpProps {
   onClose: () => void
 }
 
-const MessagePopUp = (
-  { type, title, message, onClose }: MessagePopUpProps
-) => {
-
+const MessagePopUp = ({ type, title, message, onClose }: MessagePopUpProps) => {
   const color = getColorByType(type);
   const icon  = POPUP_ICONS[type] ?? successIcon;
 
   return (
-    <div
-      className="max-w-md mx-auto bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12"
-      style={{ width: 348 }}
-    >
-      <div className="email-ilustration w-full flex flex-col items-center justify-center">
+    <div className="w-[348px] max-w-md mx-auto bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12">
+      <div className="w-full flex flex-col items-center justify-center">
         <img src={icon} alt={`${type} icon`} className="mb-4" />
       </div>
-      
-      <div className="header-form text-center">
+
+      <div className="text-center">
         <h3>{title}</h3>
         <p className="mb-3">{message}</p>
       </div>
 
-      <button
+      <Button
         type="button"
         id="popup-confirm-btn"
-        className="btn text-white w-full"
+        variant="primary"
+        className="text-white"
         style={{ backgroundColor: color }}
         onClick={onClose}
       >
         Confirm
-      </button>
+      </Button>
     </div>
   );
 };

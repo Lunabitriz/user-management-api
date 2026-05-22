@@ -24,14 +24,11 @@ const LoadingOverlay = ({ active }: LoadingOverlayProps) => {
   if(!active) return null;
 
   return (
-    <div
-      className="loading-container flex-col justify-center items-center gap-2 absolute mb-3 active"
-      style={{ bottom: 4 }}
-    >
-      <div className="loading-spinner active rounded-full" />
-      <div className="flex" style={{ gap: 2 }}>
-        <p className="loading-text m-0">Processing</p>
-        <span>{dots}</span>
+    <div className="flex flex-col justify-center items-center gap-2 absolute bottom-1 mb-3">
+      <div className="h-10 w-10 rounded-full border-4 border-gray-300 border-t-[rgba(213,102,11,0.92)] animate-spin" />
+      <div className="flex gap-0.5">
+        <p className="m-0 tracking-[2px]">Processing</p>
+        <span className="tracking-[2px]">{dots}</span>
       </div>
     </div>
   );

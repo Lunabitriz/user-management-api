@@ -1,7 +1,7 @@
-import { 
-  useState, 
-  type FocusEvent, 
-  type ChangeEvent, 
+import {
+  useState,
+  type FocusEvent,
+  type ChangeEvent,
   type KeyboardEvent,
 } from 'react';
 import {
@@ -29,22 +29,21 @@ interface PasswordFieldProps {
 
 const PasswordField = ({
   id,
-  value,
-  placeholder,
   icon,
   error,
-  inputClass = 'input-login',
+  value,
+  placeholder,
+  inputClass = '',
   showRequirements = false,
   onChange,
   onKeyDown,
   onBlurValidate,
 }: PasswordFieldProps) => {
-
   const [visible, setVisible] = useState(false);
   const [focused, setFocused] = useState(false);
 
-  const validationState       = getPasswordValidationState(value);
-  const requirementsVisible   = showRequirements && focused;
+  const validationState     = getPasswordValidationState(value);
+  const requirementsVisible = showRequirements && focused;
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     setFocused(false);
@@ -68,24 +67,18 @@ const PasswordField = ({
       onFocus={() => setFocused(true)}
       onChange={(event: ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
     >
-      <label
-        id={`${id}-label`}
-        className="password-label"
+      <button
+        type="button"
+        aria-label={visible ? 'Hide password' : 'Show password'}
+        className="absolute top-[14px] right-2.5 z-[5] p-0 border-0 bg-transparent cursor-pointer"
         onClick={() => setVisible(prev => !prev)}
       >
         <img
-          src={eyeFillIcon}
-          alt="Show password"
-          className="visible-icon"
-          style={{ display: visible ? 'block' : 'none', width: 18 }}
+          src={visible ? eyeFillIcon : eyeSlashFillIcon}
+          alt=""
+          className="w-[18px] h-[18px]"
         />
-        <img
-          alt="Hide password"
-          src={eyeSlashFillIcon}
-          className="not-visible-icon"
-          style={{ display: visible ? 'none' : 'block', width: 18 }}
-        />
-      </label>
+      </button>
 
       {showRequirements && (
         <PasswordRequirements state={validationState} visible={requirementsVisible} />

@@ -9,8 +9,8 @@ const PopUpOverlay = ({ active, children }: PopUpOverlayProps) => {
   if(!active) return null;
 
   return (
-    <div id="overflow" className="overflow active">
-      <div id="pop-up-container">{children}</div>
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[rgba(28,28,28,0.24)]">
+      <div className="relative z-[1000]">{children}</div>
     </div>
   );
 };

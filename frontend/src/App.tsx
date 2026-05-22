@@ -1,11 +1,9 @@
-import './App.css';
-
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import UserAccount from './pages/UserAccount';
+import AppProviders from './layouts/AppProviders';
 import ForgotPassword from './pages/ForgotPassword';
 import ProtectedRoute from './routes/ProtectedRoute';
-import AppProviders from './layouts/AppProviders';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -13,13 +11,13 @@ const router = createBrowserRouter(
   [{
     element: <AppProviders />,
     children: [
-      { 
+      {
         path: '/',
-        element: <LoginPage /> 
+        element: <LoginPage />,
       },
-      { 
-        path: '/forgot-password', 
-        element: <ForgotPassword /> 
+      {
+        path: '/forgot-password',
+        element: <ForgotPassword />,
       },
       {
         element: <ProtectedRoute />,

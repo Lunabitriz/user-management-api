@@ -33,16 +33,16 @@ const Notification = () => {
 
   return (
     <div
-      className="fixed shadow font-semibold bg-white gap-2 p-2 flex items-center justify-between alert-notification fade show"
-      style={{ top: 20, right: 20, borderLeft: `4px solid ${color}` }}
+      className="fixed top-5 right-5 z-[9999] w-[490px] max-w-[calc(100vw-2rem)] shadow-bio font-semibold bg-white gap-2 p-2 flex items-center justify-between animate-fade-in"
+      style={{ borderLeft: `4px solid ${color}` }}
     >
-      <img src={icon} alt={`${notification.type} icon`} style={{ width: 70 }} />
-      
+      <img src={icon} alt={`${notification.type} icon`} className="w-[70px] shrink-0" />
+
       <div className="flex items-center justify-between gap-2 w-full">
         <p className="m-0 font-semibold">{notification.message}</p>
         <button
           type="button"
-          className="btn-close-notification mr-2 text-black py-2 px-4 rounded-md shadow-sm"
+          className="mr-2 text-black py-2 px-4 rounded-md shadow-sm scale-x-[1.4] origin-right bg-[var(--bg-profile-card)] border-0 cursor-pointer"
           aria-label="Close"
           onClick={dismiss}
         >

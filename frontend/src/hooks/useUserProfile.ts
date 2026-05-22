@@ -5,13 +5,14 @@ import { userApi } from '../api/user';
 import { storage } from '../utils/storage';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import {
+  applyDocumentTheme,
+  PAGE_THEMES,
+} from '../constants/themes';
 
 import type { UserProfile } from '../types/api';
 
 import profileImgDefault from '../assets/imgs/profile-img-default.jpg';
-import kumaCover from '../assets/imgs/profile-cover-themes/kuma-cover.jpg';
-import sunsetCover from '../assets/imgs/profile-cover-themes/sunset-cover.jpg';
-import eastBlueCover from '../assets/imgs/profile-cover-themes/east-blue-cover.jpg';
 
 import {
   isValidEmail,
@@ -19,20 +20,16 @@ import {
   isValidUserName,
 } from '../utils/validation';
 
-export const PAGE_THEMES = [
-  { label: 'Sunset',    slug: 'sunset',    cover: sunsetCover   },
-  { label: 'East Blue', slug: 'east-blue', cover: eastBlueCover },
-  { label: 'Kuma',      slug: 'kuma',      cover: kumaCover     },
-] as const;
+export { PAGE_THEMES };
 
 type PopUpState =
   | { kind: 'message'; type: string; title: string; message: string }
   | { kind: 'confirm'; type: string; title: string; message: string; ctaLabel: string; action: 'edit' | 'logout' | 'delete' }
-  | null
+  | null;
 
 export const useUserProfile = () => {
   const navigate = useNavigate();
-  
+
   const { logout } = useAuth();
   const { notify } = useNotification();
 
@@ -44,7 +41,7 @@ export const useUserProfile = () => {
   const [newName,     setNewName]         = useState('');
   const [newEmail,    setNewEmail]        = useState('');
   const [newPassword, setNewPassword]     = useState('');
-  
+
   const [nameError,     setNameError]     = useState('');
   const [emailError,    setEmailError]    = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -54,14 +51,6 @@ export const useUserProfile = () => {
   const [profile,       setProfile]       = useState<UserProfile | null>(null);
 
   const userId = Number(storage.getUserId());
-
-  const applyTheme = useCallback((theme: string | null | undefined) => {
-    const themeSlug = theme ?? 'sunset';
-
-    localStorage.setItem('theme', themeSlug);
-    localStorage.setItem('userTheme', themeSlug);
-    document.documentElement.setAttribute('data-theme', themeSlug);
-  }, []);
 
   const loadProfile = useCallback(async () => {
     if(!storage.isAuthenticated()) {
@@ -84,7 +73,7 @@ export const useUserProfile = () => {
       const user = response.data;
 
       setProfile(user);
-      applyTheme(user.accountTheme);
+      applyDocumentTheme(user.accountTheme);
       setSelectedTheme(user.accountTheme ?? 'sunset');
       setProfileImage(user.profileImage ?? profileImgDefault);
 
@@ -102,7 +91,7 @@ export const useUserProfile = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [applyTheme, navigate, notify, userId]);
+  }, [navigate, notify, userId]);
 
   useEffect(() => {
     void loadProfile();
@@ -138,7 +127,7 @@ export const useUserProfile = () => {
     });
 
     if(response.data) {
-      applyTheme(selectedTheme);
+      applyDocumentTheme(selectedTheme);
       setProfile(response.data);
 
       setPopUp({
@@ -157,7 +146,7 @@ export const useUserProfile = () => {
         message: 'Failed to upload theme to the database.',
       });
     }
-  }, [applyTheme, closeSettings, selectedTheme, userId]);
+  }, [closeSettings, selectedTheme, userId]);
 
   const saveChanges = useCallback(async () => {
     if(!newName.trim() && !newEmail.trim() && !newPassword.trim()) {
@@ -189,7 +178,7 @@ export const useUserProfile = () => {
 
     if(response.data) {
       setProfile(response.data);
-      
+
       setPopUp({
         kind:    'message',
         type:    'success',
@@ -287,14 +276,11 @@ export const useUserProfile = () => {
   return {
     profile,
     profileImage,
-    
     isLoading,
     isEditing,
-    
     settingsOpen,
     selectedTheme,
     setSelectedTheme,
-
     popUp,
     setPopUp,
     newName,
@@ -309,7 +295,6 @@ export const useUserProfile = () => {
     setEmailError,
     passwordError,
     setPasswordError,
-    
     saveTheme,
     toggleEdit,
     closePopUp,

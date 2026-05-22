@@ -2,6 +2,7 @@ import editIcon   from '../../assets/imgs/pop-ups-arts/edit-icon.jpg';
 import deleteIcon from '../../assets/imgs/pop-ups-arts/delete-icon.jpg';
 import logoutIcon from '../../assets/imgs/pop-ups-arts/logout-icon.jpg';
 
+import Button from './Button';
 import { getColorByType } from '../../utils/colors';
 
 const CONFIRM_ICONS: Record<string, string> = {
@@ -27,20 +28,16 @@ const ConfirmDialog = ({
   onCancel,
   onConfirm,
 }: ConfirmDialogProps) => {
-
   const color = getColorByType(type);
   const icon  = CONFIRM_ICONS[type] ?? editIcon;
 
   return (
-    <div
-      className="container bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12"
-      style={{ width: 420 }}
-    >
-      <div className={`${type}-ilustration`}>
+    <div className="w-[420px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12">
+      <div>
         <img src={icon} alt={`${type} image`} width={193} />
       </div>
 
-      <div className="header-form text-center">
+      <div className="text-center">
         <h3 className="text-center">{title}</h3>
         <p
           className="mb-0 text-center"
@@ -49,22 +46,18 @@ const ConfirmDialog = ({
       </div>
 
       <div className="flex justify-between w-full gap-2 mt-2">
-        <button
-          type="button"
-          id="popup-cancel-btn"
-          className="btn btn-popup-confirm w-full"
-          onClick={onCancel}
-        >
+        <Button type="button" id="popup-cancel-btn" variant="popup-cancel" onClick={onCancel}>
           Cancelar
-        </button>        
-        <button
+        </Button>
+        <Button
           type="button"
-          className="btn btn-popup-confirm text-white w-full"
+          variant="primary"
+          className="text-white"
           style={{ backgroundColor: color }}
           onClick={onConfirm}
         >
           {ctaLabel}
-        </button>
+        </Button>
       </div>
     </div>
   );

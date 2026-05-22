@@ -1,0 +1,90 @@
+/* Design Variables - sunset (default), east-blue and kuma */
+
+:root,
+[data-theme='sunset'] {
+  --primary:    #f37913;
+  --secondary:  #E67137;
+  --text-color: #484848;
+
+  --bg-color: #f7f7ff;
+  --bg-input: #ffffff;
+  --bg-body:  linear-gradient(180deg, #F7F7FF, rgba(240, 240, 255, 0.681));
+
+  --bg-btn:          #f8f9fa;
+  --bg-settings:     #fcfcfc;
+  --bg-theme-box:    #FFFFFF;
+  --bg-img-perfil:   #ffffff;
+  --bg-descryption:  #ffffff;
+  --bg-profile-card: #ffffff;
+  
+  --bg-profile: url('/imgs/profile-cover-themes/sunset-theme.png');
+  
+  --input-border:       #d4d4d4;
+  --border-img-perfil:  12px solid #ffffff;
+  --input-focus-border: rgba(251, 153, 55, 0.853);
+  
+  --color-p-bio-item:        #787878;
+  --color-profile-info:      #515151;
+  --color-p-bio-item-active: #616161;
+  
+  --border-btn:          1px solid #f8f9fa;
+  --border-theme-box:    3px solid #D9D9D9;
+  --border-circle-theme: 3px solid #d5d5d5;
+  
+  
+  --validation-li-valid:   #008000;
+  --validation-li-default: #898989;
+  --validation-li-invalid: #c81414;
+  
+  --main-container-shadow:  2px 7px 8px 2px rgba(61, 13, 0, 0.166);
+  --bio-descryption-shadow: 3px 3px 9px     rgba(89, 89, 89, 0.232);
+  --settings-shadow:        0px 3px 12px    rgba(72, 72, 72, 0.126);
+  --profile-img-shadow:     0px 0px 4px 2px rgba(46, 46, 46, 0.567);
+  --input-focus-shadow:     0 0 2px 1px     rgba(220, 112, 4, 0.325);
+  --theme-box-shadow:       0px 0px 3px 1px rgba(255, 149, 42, 0.763);
+}
+
+[data-theme='east-blue'] {
+  --primary:    #009FDB;
+  --secondary:  #00A5E0;
+  --text-color: rgba(29, 42, 54, 0.847);
+
+  --bg-color:       #F4FBFD;
+  --bg-img-perfil:  #ffffff;
+  --bg-descryption: #ffffff;
+
+  --bg-profile: url('/imgs/profile-cover-themes/east-blue-theme.jpg');
+  --bg-body: linear-gradient(180deg, #F4FBFD, rgba(228, 247, 251, 0.764));
+
+  --border-img-perfil:  12px solid #ffffff;
+  --color-profile-info: rgba(29, 42, 54, 0.756);
+
+  --input-focus-border:   rgba(10, 190, 255, 0.853);
+  --profile-img-shadow:     0px 0px 4px 2px rgba(0, 23, 32, 0.567);
+  --bio-descryption-shadow: 3px 3px 9px     rgba(89, 89, 89, 0.232);
+  --input-focus-shadow:     0 0 2px 1px     rgba(0, 180, 245, 0.325);
+  --theme-box-shadow:       0px 0px 3px 1px rgba(10, 190, 255, 0.763);
+}
+
+[data-theme='kuma'] {
+  --primary:   #4C8C64;
+  --secondary: #47855F;
+ 
+  --text-color:         rgba(42, 58, 46, 0.877);
+  --color-profile-info: rgba(42, 58, 46, 0.756);
+
+  --bg-descryption: #ffffff;
+  --bg-img-perfil:  #ffffff;
+
+  --bg-profile: url('/imgs/profile-cover-themes/kuma-theme.jpg');
+  --bg-body: linear-gradient(180deg, #FAF8F3, rgba(243, 239, 226, 0.43));
+ 
+  --border-img-perfil: 12px solid #ffffff;
+ 
+  --input-focus-border: rgba(86, 159, 114, 0.903);
+  --input-focus-shadow:  0 0 2px 1px rgba(210, 183, 116, 0.566);
+ 
+  --profile-img-shadow:     0px 0px 4px 2px rgba(31, 41, 33, 0.703);
+  --bio-descryption-shadow: 3px 3px 9px     rgba(89, 89, 89, 0.232);
+  --theme-box-shadow:       0px 0px 3px 1px rgba(86, 159, 114, 0.904);
+}

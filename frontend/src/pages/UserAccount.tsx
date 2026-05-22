@@ -1,4 +1,6 @@
 import lockIcon from '../assets/imgs/lock.png';
+import userIcon from '../assets/imgs/user.png';
+import emailIcon from '../assets/imgs/email.png';
 
 import Button from '../components/ui/Button';
 import FieldError from '../components/auth/FieldError';
@@ -7,7 +9,7 @@ import PopUpOverlay from '../components/ui/PopUpOverlay';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import PasswordField from '../components/auth/PasswordField';
 
-import { AUTH_INPUT } from '../styles/classNames';
+import { AUTH_INPUT, INPUT_ICON } from '../styles/classNames';
 import { getThemeProfileBackground } from '../constants/themes';
 
 import { isValidEmail, isValidUserName } from '../utils/validation';
@@ -46,7 +48,7 @@ const UserAccount = () => {
   } = useUserProfile();
 
   const profileCoverBg = getThemeProfileBackground(
-    selectedTheme ?? profile?.accountTheme ?? 'sunset',
+    profile?.accountTheme ?? 'sunset',
   );
 
   if(isLoading && !profile)
@@ -103,7 +105,7 @@ const UserAccount = () => {
               </div>
 
               <div
-                className={`flex flex-col gap-4 w-full p-4 rounded-md animate-fade-in bg-[var(--bg-descryption)] border-l-4 border-secondary shadow-bio${isEditing ? ' max-[480px]:p-5' : ''}`}
+                className={`flex flex-col gap-4 w-full p-4 rounded-md animate-fade-in bg-[var(--bg-descryption)] border-l-4 border-[var(--primary)] shadow-bio${isEditing ? ' max-[480px]:p-5' : ''}`}
               >
                 <div>
                   <p className="text-[var(--color-p-bio-item)] mb-0.5">Username:</p>
@@ -116,20 +118,23 @@ const UserAccount = () => {
                   {isEditing && (
                     <div className="relative w-full">
                       <FieldError message={nameError} inputId="new-name" edit />
+
                       <input
                         type="text"
                         id="new-name"
                         autoComplete="off"
-                        className={AUTH_INPUT}
                         value={newName}
+                        className={AUTH_INPUT}
                         placeholder={profile?.name ?? 'New Username'}
                         onChange={event => setNewName(event.target.value)}
                         onBlur={() => {
                           newName && !isValidUserName(newName)
-                            ? setNameError('Minimum of 6 characters.')
-                            : setNameError('');
+                          ? setNameError('Minimum of 6 characters.')
+                          : setNameError('');
                         }}
                       />
+
+                      <img className={INPUT_ICON} src={userIcon} alt="User icon" />
                     </div>
                   )}
                 </div>
@@ -160,6 +165,8 @@ const UserAccount = () => {
                             : setEmailError('');
                         }}
                       />
+
+                      <img className={INPUT_ICON} src={emailIcon} alt="Email icon" />
                     </div>
                   )}
                 </div>

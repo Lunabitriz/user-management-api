@@ -9,8 +9,8 @@ type ButtonVariant =
   | 'popup-cancel';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:   ButtonVariant
   children:   ReactNode
+  variant?:   ButtonVariant
   className?: string
 }
 
@@ -23,7 +23,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     'hover:text-primary-hover hover:scale-[1.01] transition-all duration-200',
   surface:
     'w-full px-4 py-2 rounded-lg border text-[var(--text-color)] bg-[var(--bg-btn)] ' +
-    'border-[var(--border-btn)] hover:bg-transparent transition-all duration-300',
+    'hover:bg-transparent transition-all duration-300',
   settings:
     'px-4 py-2 rounded-lg border border-[#cdcdcd] bg-[#eee] text-[var(--text-color)] ' +
     'hover:bg-transparent transition-all duration-300',

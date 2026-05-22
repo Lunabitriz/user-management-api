@@ -18,8 +18,8 @@ export const storage = {
   getAccessToken: () => localStorage.getItem(KEYS.accessToken),
 
   isAuthenticated: () => {
-    const token  = localStorage.getItem(KEYS.accessToken);
     const userId = localStorage.getItem(KEYS.userId);
+    const token  = localStorage.getItem(KEYS.accessToken);
 
     return Boolean(token && userId);
   },

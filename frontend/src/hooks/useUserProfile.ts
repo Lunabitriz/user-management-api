@@ -106,21 +106,22 @@ export const useUserProfile = () => {
     setNewPassword('');
     setPasswordError('');
   }, []);
-
+  
   const openSettings = useCallback(() => {
     setSettingsOpen(true);
     setSelectedTheme(profile?.accountTheme ?? storage.getUserTheme() ?? 'sunset');
   }, [profile?.accountTheme]);
-
+  
   const closeSettings = useCallback(() => {
     setSettingsOpen(false);
+    setSelectedTheme('');
   }, []);
-
+  
   const closePopUp = useCallback(() => setPopUp(null), []);
-
+  
   const saveTheme = useCallback(async () => {
     if(!selectedTheme) return;
-
+    
     const response = await userApi.update({
       id: userId,
       accountTheme: selectedTheme,

@@ -45,7 +45,6 @@ export const getThemeProfileBackground = (slug: string | null | undefined): stri
 export const applyDocumentTheme = (theme: string | null | undefined): void => {
   const themeSlug = theme ?? 'sunset';
 
-  localStorage.setItem('theme', themeSlug);
   localStorage.setItem('userTheme', themeSlug);
 
   themeSlug === 'sunset'

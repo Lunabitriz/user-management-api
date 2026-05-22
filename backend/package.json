@@ -6,9 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build && npm run build:css",
-    "build:css": "tailwindcss -i ./public/css/tailwind.source.css -o ./public/css/tailwind.output.css --minify",
-    "watch:css": "tailwindcss -i ./public/css/tailwind.source.css -o ./public/css/tailwind.output.css --watch",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

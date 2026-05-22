@@ -1,43 +1,47 @@
-import './App.css'
+import './App.css';
 
-import LoginPage from './pages/LoginPage'
-import UserAccount from './pages/UserAccount'
-import ForgotPassword from './pages/ForgotPassword'
+import NotFound from './pages/NotFound';
+import LoginPage from './pages/LoginPage';
+import UserAccount from './pages/UserAccount';
+import ForgotPassword from './pages/ForgotPassword';
+import ProtectedRoute from './routes/ProtectedRoute';
+import AppProviders from './layouts/AppProviders';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter(
   [{
-      path: '/',
-      element: <LoginPage />
-    },
-    {
-      path: '/account',
-      element: <UserAccount />
-    },
-    {
-      path: '/forgot-password',
-      element: <ForgotPassword />
-    },
-    // { Implementarei futuramente!
-    //   path: '*',
-    //   element: <NotFound />
-    // },
-  ],
+    element: <AppProviders />,
+    children: [
+      { 
+        path: '/',
+        element: <LoginPage /> 
+      },
+      { 
+        path: '/forgot-password', 
+        element: <ForgotPassword /> 
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: '/account', element: <UserAccount /> },
+        ],
+      },
+      { path: '*', element: <NotFound /> },
+    ],
+  }],
   {
     future: {
-      v7_fetcherPersist:              true,
-      v7_startTransition:             true,
-      v7_partialHydration:            true,
-      v7_relativeSplatPath:           true,
-      v7_normalizeFormMethod:         true,
+      v7_fetcherPersist: true,
+      v7_startTransition: true,
+      v7_partialHydration: true,
+      v7_relativeSplatPath: true,
+      v7_normalizeFormMethod: true,
       v7_skipActionErrorRevalidation: true,
     },
-  }
-)
-
-const App = () => (
-  <RouterProvider router={router} />
+  },
 );
-  
-export default App
+
+const App = () => <RouterProvider router={router} />;
+
+export default App;

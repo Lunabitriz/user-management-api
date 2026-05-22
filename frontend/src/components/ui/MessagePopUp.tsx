@@ -32,6 +32,15 @@ const MessagePopUp = ({ type, title, message, onClose }: MessagePopUpProps) => {
 
   return (
     <div className="w-[348px] max-w-md mx-auto bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12">
+      <button
+        type="button"
+        id="close-popup-btn"
+        className="absolute top-12 right-12 text-xl p-0 text-[#979797] border-0 bg-transparent cursor-pointer"
+        onClick={onClose}
+      >
+        <i className="fa-solid fa-xmark" />
+      </button>
+
       <div className="w-full flex flex-col items-center justify-center">
         <img src={icon} alt={`${type} icon`} className="mb-4" />
       </div>

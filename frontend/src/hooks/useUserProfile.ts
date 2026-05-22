@@ -114,7 +114,7 @@ export const useUserProfile = () => {
   
   const closeSettings = useCallback(() => {
     setSettingsOpen(false);
-    setSelectedTheme('');
+    setSelectedTheme(profile?.accountTheme ?? storage.getUserTheme());
   }, []);
   
   const closePopUp = useCallback(() => setPopUp(null), []);

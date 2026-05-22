@@ -1,6 +1,8 @@
 import lockIcon from '../assets/imgs/lock.png';
 import userIcon from '../assets/imgs/user.png';
 import emailIcon from '../assets/imgs/email.png';
+import saveIcon from '../assets/imgs/icons/save.svg';
+import trashIcon from '../assets/imgs/icons/trash.svg';
 
 import Button from '../components/ui/Button';
 import FieldError from '../components/auth/FieldError';
@@ -57,7 +59,7 @@ const UserAccount = () => {
   return (
     <div>
       {settingsOpen && (
-        <div className="fixed inset-0 bg-[rgba(28,28,28,0.24)] z-0" aria-hidden />
+        <div className="fixed inset-0 bg-[rgba(28,28,28,0.24)] z-0" onClick={closeSettings} aria-hidden />
       )}
 
       {!settingsOpen && (
@@ -281,7 +283,7 @@ const UserAccount = () => {
       )}
 
       {settingsOpen && (
-        <div className="w-full max-w-[890px] mx-auto p-12 rounded-2xl relative z-[4] bg-[var(--bg-settings)] shadow-settings">
+        <div className="w-full max-w-[890px] mx-auto p-12 rounded-2xl relative z-[4] bg-[var(--bg-settings)] shadow-settings animate-fade-in">
           <button
             type="button"
             id="close-settings"
@@ -293,19 +295,20 @@ const UserAccount = () => {
 
           <div>
             <div>
-              <h3>Select Theme</h3>
-              <p className="mb-4 text-[1.012rem]">
+              <h3 className='text-[1.5rem]'>Select Theme</h3>
+              <p className="mb-6 text-[1.012rem]">
                 🌿 Personalize your workspace to make it more comfortable!
               </p>
             </div>
-            <div className="flex justify-between flex-wrap gap-6">
+
+            <div className="flex justify-between flex-wrap gap-8">
               {PAGE_THEMES.map(theme => (
                 <div
                   key={theme.slug}
                   role="button"
                   tabIndex={0}
                   data-selected={selectedTheme === theme.slug}
-                  className="p-0 w-full cursor-pointer overflow-hidden max-w-60 h-fit rounded-xl border-[3px] border-[#D9D9D9] bg-[var(--bg-theme-box)] transition-all duration-200 hover:scale-[1.002] hover:-translate-y-px hover:shadow-theme-box data-[selected=true]:border-[var(--input-focus-border)] data-[selected=true]:shadow-[var(--input-focus-shadow)]"
+                  className="p-0 w-full cursor-pointer overflow-hidden max-w-60 h-fit rounded-xl border-[2px] border-[#e7e7e7] bg-[var(--bg-theme-box)] transition-all duration-200 hover:shadow-theme-box data-[selected=true]:border-[var(--input-focus-border)] data-[selected=true]:shadow-[var(--input-focus-shadow)]"
                   onClick={() => setSelectedTheme(theme.slug)}
                   onKeyDown={event => {
                     if(event.key === 'Enter' || event.key === ' ')
@@ -327,7 +330,8 @@ const UserAccount = () => {
 
               <Button
                 type="button"
-                variant="settings"
+                icon={saveIcon}
+                variant="settings-dark"
                 id="save-selected-theme"
                 className="animate-fade-in"
                 onClick={() => void saveTheme()}
@@ -339,17 +343,20 @@ const UserAccount = () => {
 
           <div className="mt-12">
             <div>
-              <h3 className="font-medium leading-tight mt-0 mb-2 text-[clamp(1.3rem,1.3rem+0.6vw,2rem)]">
+              <h3 className="font-medium text-[1.5rem] leading-tight mt-0 mb-2">
                 Account
               </h3>
-              <p className="mb-4">
+              <p className="mb-6">
                 Deleting your account will erase all your data permanently. Are you sure about this?
               </p>
             </div>
+
             <Button
               type="button"
+              variant="settings-delete"
+              icon={trashIcon}
+              iconClassName="[mask-image:url('../../assets/imgs/icons/trash.svg')] [mask-size:contain] [mask-repeat:no-repeat] bg-red-500"
               id="remove-account-btn"
-              variant="settings"
               className="animate-fade-in"
               onClick={() => setPopUp({
                 kind:     'confirm',

@@ -33,6 +33,15 @@ const ConfirmDialog = ({
 
   return (
     <div className="w-[420px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl flex flex-col items-center justify-center gap-2 px-12 py-12">
+      <button
+        type="button"
+        id="close-popup-btn"
+        className="absolute top-12 right-12 text-xl p-0 text-[#979797] border-0 bg-transparent cursor-pointer"
+        onClick={onCancel}
+      >
+        <i className="fa-solid fa-xmark" />
+      </button>
+
       <div>
         <img src={icon} alt={`${type} image`} width={193} />
       </div>
